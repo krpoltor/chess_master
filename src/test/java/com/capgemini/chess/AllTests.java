@@ -1,4 +1,4 @@
-/*package com.capgemini.chess;
+package com.capgemini.chess;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -11,4 +11,3 @@ import com.capgemini.chess.service.ServiceTestSuite;
 public class AllTests {
 	
 }
-*/

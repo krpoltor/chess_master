@@ -1,23 +1,24 @@
-/*package com.capgemini.chess.service;
+package com.capgemini.chess.service;
 
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
+
 import org.junit.Assert;
-import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.SpringApplicationConfiguration;
 import org.springframework.test.context.junit4.SpringJUnit4ClassRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.capgemini.chess.ChessApplication;
-import com.capgemini.chess.dao.ChallengeDao;
 import com.capgemini.chess.dataaccess.enums.ChallengeStatus;
 import com.capgemini.chess.service.to.ChallengeTo;
+import com.capgemini.chess.service.to.PlayerTo;
 
-*//**
+/**
  * Test class for testing {@link UserChallengeService}<br>
  * 
  * Checklist:<br>
@@ -34,138 +35,136 @@ import com.capgemini.chess.service.to.ChallengeTo;
  * 
  * @author KRPOLTOR
  *
- *//*
+ */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ChessApplication.class)
+@Transactional
 public class UserChallengeServiceTest {
 
-	*//**
+	/**
 	 * Two second in milliseconds.
-	 *//*
+	 */
 	private static int TWO_SECONDS = 20000;
 
 	@Autowired
 	private UserChallengeService userChallengeService;
-
+	
 	@Autowired
-	private ChallengeDao challengeDao;
+	private UserService userService;
+	
+	@Autowired
+	protected EntityManager entityManager;
 
-	@Before@Ignore
-	public void setUp() {
-		challengeDao.getMockingChallengeTableList().clear();
-		challengeDao.createListOfChallengeTo();
-	}
-
-	*//**
+	/**
 	 * Test for invoking accepting a challenge.
-	 *//*
-	@Test@Ignore
+	 */
+	@Test 
 	public void shouldAcceptChallenge() {
 		// given
+		ChallengeTo challenge = userChallengeService.findChallengeById(1L);
 		// when
-		userChallengeService.acceptChallenge(0);
+		userChallengeService.acceptChallenge(challenge);
 		// then
-		Assert.assertEquals(ChallengeStatus.ACCEPTED, challengeDao.getChallengeById(0).getStatus());
+		Assert.assertEquals(ChallengeStatus.ACCEPTED, userChallengeService.findChallengeById(1L).getStatus());
 	}
 
-	*//**
+	/**
 	 * Test for invoking declining a challenge.
-	 *//*
-	@Test@Ignore
+	 */
+	@Test 
 	public void shouldDeclineChallenge() {
 		// given
+		ChallengeTo challenge = userChallengeService.findChallengeById(1L);
 		// when
-		userChallengeService.declineChallenge(1);
+		userChallengeService.declineChallenge(challenge);
 		// then
-		Assert.assertEquals(ChallengeStatus.DECLINED, challengeDao.getChallengeById(1).getStatus());
+		Assert.assertEquals(ChallengeStatus.DECLINED, userChallengeService.findChallengeById(1L).getStatus());
 	}
 
-	*//**
+	/**
 	 * Test for invoking creating new challenge.
-	 *//*
-	@Test@Ignore
+	 */
+	@Test 
 	public void shouldCreateChallenge() {
 		// given
+		PlayerTo whitePlayer = userService.findUserById(1L);
+		PlayerTo blackPlayer = userService.findUserById(2L);
 		// when
-		userChallengeService.createChallenge(50, 60);
+		ChallengeTo challenge = userChallengeService.createChallenge(whitePlayer, blackPlayer);
 		// then
-		Assert.assertEquals(3, challengeDao.getMockingChallengeTableList().size());
-		Assert.assertEquals(50, challengeDao.getChallengeById(2).getWhitePlayerId());
-		Assert.assertEquals(60, challengeDao.getChallengeById(2).getBlackPlayerId());
+		Assert.assertEquals(whitePlayer, userChallengeService.findChallengeById(4L).getWhitePlayer());
+		Assert.assertEquals(blackPlayer, userChallengeService.findChallengeById(4L).getBlackPlayer());
 	}
 
-	*//**
+	/**
 	 * Test for finding every challenge in database.
-	 *//*
-	@Test@Ignore
+	 */
+	@Test 
 	public void shouldGetEveryChallengeFromDatabase() {
 		// given
 		// when
-		List<ChallengeTo> testList = userChallengeService.findAllChallenges();
+		List<ChallengeTo> resultList = userChallengeService.findAllChallenges();
 		// then
-		Assert.assertEquals(2, testList.size());
+		Assert.assertEquals(1, resultList.size());
 	}
 
-	*//**
+	/**
 	 * Test for getting every challenge by userID.
-	 *//*
-	@Test@Ignore
+	 */
+	@Test 
 	public void shouldGetEveryChallengeOfAUserFromDatabase() {
 		// given
 		// when
-		List<ChallengeTo> testList = userChallengeService.findAllChallengesByUser(1);
+		List<ChallengeTo> resultList = userChallengeService.findAllChallengesByUserId(1L);
 		// then
-		Assert.assertEquals(1, testList.size());
+		Assert.assertEquals(1, resultList.size());
 	}
 
-	*//**
+	/**
 	 * Test for getting challenge by its ID.
-	 *//*
-	@Test@Ignore
+	 */
+	@Test 
 	public void shouldGetChallengeById() {
 		// given
-		ChallengeTo testChallenge = new ChallengeTo();
-		Date startDate = new Date();
-		Date endDate = new Date(startDate.getTime() + TWO_SECONDS);
 		// when
-		testChallenge = userChallengeService.findChallengeById(0);
+		ChallengeTo testChallenge = userChallengeService.findChallengeById(1L);
 		// then
-		Assert.assertEquals(testChallenge.getId(), 0);
-		Assert.assertEquals(testChallenge.getWhitePlayerId(), 1);
-		Assert.assertEquals(testChallenge.getBlackPlayerId(), 2);
-		Assert.assertEquals(testChallenge.getStartDate(), startDate);
-		Assert.assertEquals(testChallenge.getEndDate(), endDate);
-		Assert.assertEquals(testChallenge.getStatus(), ChallengeStatus.WAITING_FOR_REPLY);
+		Assert.assertEquals(testChallenge.getId(), new Long(1L));
+		Assert.assertEquals(testChallenge.getWhitePlayer(), userService.findUserById(1L));
+		Assert.assertEquals(testChallenge.getBlackPlayer(), userService.findUserById(2L));
+		Assert.assertEquals(testChallenge.getStatus(), ChallengeStatus.AWAITING_REPLY);
 	}
 
-	*//**
+	/**
 	 * Test for adding new challenge to database.
-	 *//*
-	@Test@Ignore
+	 */
+	@Test 
 	public void shouldSaveChallengeIntoDatabase() {
 		// given
-		Date startDate = new Date();
-		Date endDate = new Date(startDate.getTime() + TWO_SECONDS);
 		ChallengeTo challengeToSave = new ChallengeTo();
+		Date startDate = new Date();
 		challengeToSave.setStartDate(startDate);
+		Date endDate = new Date(startDate.getTime() + TWO_SECONDS);
 		challengeToSave.setEndDate(endDate);
-		challengeToSave.setWhitePlayerId(23);
-		challengeToSave.setBlackPlayerId(123);
-		challengeToSave.setStatus(ChallengeStatus.WAITING_FOR_REPLY);
+		PlayerTo whitePlayer = userService.findUserById(1L);
+		challengeToSave.setWhitePlayer(whitePlayer);
+		PlayerTo blackPlayer = userService.findUserById(2L);
+		challengeToSave.setBlackPlayer(blackPlayer);
+		challengeToSave.setStatus(ChallengeStatus.AWAITING_REPLY);
 		// when
 		userChallengeService.saveChallenge(challengeToSave);
-		ChallengeTo challengeFromDatabase = userChallengeService.findChallengeById(2);
+		ChallengeTo challengeFromDatabase = userChallengeService.findChallengeById(7L);
 		// then
 		Assert.assertEquals(challengeToSave, challengeFromDatabase);
 	}
 
-	*//**
+	/**
 	 * Test for deleting challenge by its ID.
-	 *//*
-	@Test@Ignore
+	 */
+	@Test 
 	public void shouldDeleteChallengeById() {
 		// given
-		int challengeId = 0;
+		Long challengeId = 1L;
 		ChallengeTo challengeBeforeRemoval = userChallengeService.findChallengeById(challengeId);
 		// when
 		userChallengeService.deleteChallengeById(challengeId);
@@ -173,10 +172,10 @@ public class UserChallengeServiceTest {
 		Assert.assertFalse(userChallengeService.findAllChallenges().contains(challengeBeforeRemoval));
 	}
 
-	*//**
+	/**
 	 * Test for deleting every challenge in database.
-	 *//*
-	@Test@Ignore
+	 */
+	@Test 
 	public void shouldDeleteEveryChallenge() {
 		// given
 		// when
@@ -186,4 +185,3 @@ public class UserChallengeServiceTest {
 	}
 
 }
-*/
