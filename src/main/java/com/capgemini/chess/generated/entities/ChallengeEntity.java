@@ -2,8 +2,6 @@ package com.capgemini.chess.generated.entities;
 // Generated Aug 24, 2016 8:42:47 AM by Hibernate Tools 4.3.1.Final
 
 import java.util.Date;
-import java.util.HashSet;
-import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -12,7 +10,7 @@ import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
@@ -30,46 +28,44 @@ public class ChallengeEntity extends BasicEntity implements java.io.Serializable
 
 	private static final long serialVersionUID = 1L;
 
-	private UserEntity sender;
-	private UserEntity receiver;
+	private PlayerEntity sender;
+	private PlayerEntity receiver;
 	private Date startDate;
 	private Date endDate;
 	private ChallengeStatus status;
-	private Set<GameEntity> games = new HashSet<GameEntity>(0);
+	private GameEntity game = new GameEntity();
 
 	public ChallengeEntity() {
 	}
 
-	public ChallengeEntity(UserEntity sender, UserEntity receiver, Date startDate, Date endDate, ChallengeStatus status,
-			Set<GameEntity> games) {
+	public ChallengeEntity(PlayerEntity sender, PlayerEntity receiver, Date startDate, Date endDate, ChallengeStatus status,
+			GameEntity game) {
 		super();
 		this.sender = sender;
 		this.receiver = receiver;
 		this.startDate = startDate;
 		this.endDate = endDate;
 		this.status = status;
-		this.games = games;
+		this.game = game;
 	}
-
-
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "sender_id", unique = true, nullable = false)
-	public UserEntity getSender() {
+	public PlayerEntity getSender() {
 		return this.sender;
 	}
 
-	public void setSender(UserEntity userBySenderId) {
+	public void setSender(PlayerEntity userBySenderId) {
 		this.sender = userBySenderId;
 	}
 
 	@ManyToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "receiver_id", unique = true, nullable = false)
-	public UserEntity getReceiver() {
+	public PlayerEntity getReceiver() {
 		return this.receiver;
 	}
 
-	public void setReceiver(UserEntity userByReceiverId) {
+	public void setReceiver(PlayerEntity userByReceiverId) {
 		this.receiver = userByReceiverId;
 	}
 
@@ -103,13 +99,13 @@ public class ChallengeEntity extends BasicEntity implements java.io.Serializable
 		this.status = status;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "challenge")
-	public Set<GameEntity> getGames() {
-		return this.games;
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "challenge")
+	public GameEntity getGame() {
+		return this.game;
 	}
 
-	public void setGames(Set<GameEntity> games) {
-		this.games = games;
+	public void setGame(GameEntity game) {
+		this.game = game;
 	}
 
 }

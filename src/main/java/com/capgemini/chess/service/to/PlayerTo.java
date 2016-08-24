@@ -3,7 +3,7 @@ package com.capgemini.chess.service.to;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-public class UserProfileTo {
+public class PlayerTo {
 	
 	private Long id;
 	private String login;
@@ -17,7 +17,7 @@ public class UserProfileTo {
 	/**
 	 * UserProfileTO default constructor.
 	 */
-	public UserProfileTo(){
+	public PlayerTo(){
 		
 	}
 	
@@ -33,7 +33,7 @@ public class UserProfileTo {
 	 * @param aboutMe  - User's aboutMe field.
 	 * @param lifeMotto - User's life motto.
 	 */
-	public UserProfileTo(Long id, String login, String password, String name, String surname, String email,
+	public PlayerTo(Long id, String login, String password, String name, String surname, String email,
 			String aboutMe, String lifeMotto) {
 		this.id = id;
 		this.login = login;

@@ -7,8 +7,8 @@ import com.capgemini.chess.dataaccess.enums.ChallengeStatus;
 public class ChallengeTo {
 	
 	private Long id;
-	private UserProfileTo whitePlayer;
-	private UserProfileTo blackPlayer;
+	private PlayerTo whitePlayer;
+	private PlayerTo blackPlayer;
 	private Date startDate;
 	private Date endDate;
 	private ChallengeStatus status;
@@ -35,7 +35,7 @@ public class ChallengeTo {
 	 * @param status
 	 *            - Status of a challenge from {@link ChallengeStatus}
 	 */
-	public ChallengeTo(Long id, UserProfileTo whitePlayer, UserProfileTo blackPlayer, Date startDate, Date endDate,
+	public ChallengeTo(Long id, PlayerTo whitePlayer, PlayerTo blackPlayer, Date startDate, Date endDate,
 			ChallengeStatus status) {
 		this.id = id;
 		this.whitePlayer = whitePlayer;
@@ -106,19 +106,19 @@ public class ChallengeTo {
 		this.id = long1;
 	}
 
-	public UserProfileTo getWhitePlayer() {
+	public PlayerTo getWhitePlayer() {
 		return whitePlayer;
 	}
 
-	public void setWhitePlayer(UserProfileTo user) {
+	public void setWhitePlayer(PlayerTo user) {
 		this.whitePlayer = user;
 	}
 
-	public UserProfileTo getBlackPlayer() {
+	public PlayerTo getBlackPlayer() {
 		return blackPlayer;
 	}
 
-	public void setBlackPlayer(UserProfileTo blackPlayer) {
+	public void setBlackPlayer(PlayerTo blackPlayer) {
 		this.blackPlayer = blackPlayer;
 	}
 

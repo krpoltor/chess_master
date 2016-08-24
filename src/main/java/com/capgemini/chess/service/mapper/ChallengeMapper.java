@@ -12,8 +12,8 @@ public class ChallengeMapper {
 		if (challengeEntity != null) {
 			ChallengeTo challengeTO = new ChallengeTo();
 			challengeTO.setId(challengeEntity.getId());
-			challengeTO.setWhitePlayer(UserProfileMapper.map(challengeEntity.getSender()));
-			challengeTO.setBlackPlayer(UserProfileMapper.map(challengeEntity.getReceiver()));
+			challengeTO.setWhitePlayer(PlayerMapper.map(challengeEntity.getSender()));
+			challengeTO.setBlackPlayer(PlayerMapper.map(challengeEntity.getReceiver()));
 			challengeTO.setStartDate(challengeEntity.getStartDate());
 			challengeTO.setEndDate(challengeEntity.getEndDate());
 			challengeTO.setStatus(challengeEntity.getStatus());
@@ -26,8 +26,8 @@ public class ChallengeMapper {
 		if (challengeTO != null) {
 			ChallengeEntity challengeEntity = new ChallengeEntity();
 			challengeEntity.setId(challengeTO.getId());
-			challengeEntity.setReceiver(UserProfileMapper.map(challengeTO.getWhitePlayer()));
-			challengeEntity.setSender(UserProfileMapper.map(challengeTO.getBlackPlayer()));
+			challengeEntity.setReceiver(PlayerMapper.map(challengeTO.getWhitePlayer()));
+			challengeEntity.setSender(PlayerMapper.map(challengeTO.getBlackPlayer()));
 			challengeEntity.setStartDate(challengeTO.getStartDate());
 			challengeEntity.setEndDate(challengeTO.getEndDate());
 			challengeEntity.setStatus(challengeTO.getStatus());
@@ -39,8 +39,8 @@ public class ChallengeMapper {
 	public static ChallengeEntity update(ChallengeEntity challengeEntity, ChallengeTo challengeTO) {
 		if (challengeTO != null && challengeEntity != null) {
 			challengeEntity.setId(challengeTO.getId());
-			challengeEntity.setReceiver(UserProfileMapper.map(challengeTO.getWhitePlayer()));
-			challengeEntity.setSender(UserProfileMapper.map(challengeTO.getBlackPlayer()));
+			challengeEntity.setReceiver(PlayerMapper.map(challengeTO.getWhitePlayer()));
+			challengeEntity.setSender(PlayerMapper.map(challengeTO.getBlackPlayer()));
 			challengeEntity.setStartDate(challengeTO.getStartDate());
 			challengeEntity.setEndDate(challengeTO.getEndDate());
 			challengeEntity.setStatus(challengeTO.getStatus());

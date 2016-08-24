@@ -4,7 +4,7 @@ package com.capgemini.chess.generated.entities;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -26,7 +26,7 @@ public class GameEntity extends BasicEntity implements java.io.Serializable {
 		this.challenge = challenge;
 	}
 
-	@ManyToOne(fetch = FetchType.LAZY)
+	@OneToOne(fetch = FetchType.LAZY)
 	@JoinColumn(name = "challenge_id", nullable = false)
 	public ChallengeEntity getChallenge() {
 		return this.challenge;

@@ -1,7 +1,7 @@
 package com.capgemini.chess.dao;
 
-import com.capgemini.chess.generated.entities.UserEntity;
+import com.capgemini.chess.generated.entities.PlayerEntity;
 
-public interface UserProfileDao extends Dao<UserEntity, Long>{
+public interface UserProfileDao extends Dao<PlayerEntity, Long>{
 
 }

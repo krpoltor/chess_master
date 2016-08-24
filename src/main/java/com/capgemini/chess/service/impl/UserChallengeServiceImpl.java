@@ -16,7 +16,7 @@ import com.capgemini.chess.generated.entities.ChallengeEntity;
 import com.capgemini.chess.service.UserChallengeService;
 import com.capgemini.chess.service.mapper.ChallengeMapper;
 import com.capgemini.chess.service.to.ChallengeTo;
-import com.capgemini.chess.service.to.UserProfileTo;
+import com.capgemini.chess.service.to.PlayerTo;
 
 @Service
 @Transactional
@@ -45,7 +45,7 @@ public class UserChallengeServiceImpl implements UserChallengeService {
 	}
 
 	@Override
-	public ChallengeTo createChallenge(UserProfileTo whitePlayer, UserProfileTo blackPlayer) {
+	public ChallengeTo createChallenge(PlayerTo whitePlayer, PlayerTo blackPlayer) {
 		Date startDate = new Date();
 		Date endDate = addDaysToGivenDate(startDate, FOURTEEN_DAYS);
 
@@ -87,7 +87,7 @@ public class UserChallengeServiceImpl implements UserChallengeService {
 	}
 
 	@Override
-	public List<ChallengeTo> findAllChallengesByUser(UserProfileTo user) {
+	public List<ChallengeTo> findAllChallengesByUser(PlayerTo user) {
 		 List<ChallengeTo> toResultList = ChallengeMapper.map2TOs(challengeDao.findAllChallengesByUser(user));
 		return toResultList;
 	}

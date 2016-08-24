@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 
 import com.capgemini.chess.generated.entities.ChallengeEntity;
 import com.capgemini.chess.service.to.ChallengeTo;
-import com.capgemini.chess.service.to.UserProfileTo;
+import com.capgemini.chess.service.to.PlayerTo;
 
 /**
  * @author KRPOLTOR
@@ -40,7 +40,7 @@ public interface UserChallengeService {
 	 * @param blackPlayerId
 	 *            - TO of a player playing with black chess-set.
 	 */
-	ChallengeTo createChallenge(UserProfileTo whitePlayer, UserProfileTo blackPlayer);
+	ChallengeTo createChallenge(PlayerTo whitePlayer, PlayerTo blackPlayer);
 
 	// zwracanie challeneTO ktory zapisuje w bazie danych
 	// komentarz do klasy
@@ -59,7 +59,7 @@ public interface UserChallengeService {
 	 *            - User.
 	 * @return List<ChallengeTo> with every challenge of the user.
 	 */
-	List<ChallengeTo> findAllChallengesByUser(UserProfileTo user);
+	List<ChallengeTo> findAllChallengesByUser(PlayerTo user);
 
 	/**
 	 * Finds challenge by its ID.

@@ -3,14 +3,14 @@ package com.capgemini.chess.service.mapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.capgemini.chess.generated.entities.UserEntity;
-import com.capgemini.chess.service.to.UserProfileTo;
+import com.capgemini.chess.generated.entities.PlayerEntity;
+import com.capgemini.chess.service.to.PlayerTo;
 
-public class UserProfileMapper {
+public class PlayerMapper {
 	
-	public static UserProfileTo map(UserEntity userEntity) {
+	public static PlayerTo map(PlayerEntity userEntity) {
 		if (userEntity != null) {
-			UserProfileTo userTO = new UserProfileTo();
+			PlayerTo userTO = new PlayerTo();
 			userTO.setAboutMe(userEntity.getAboutMe());
 			userTO.setEmail(userEntity.getEmail());
 			userTO.setId(userEntity.getId());
@@ -24,9 +24,9 @@ public class UserProfileMapper {
 		return null;
 	}
 
-	public static UserEntity map(UserProfileTo userTO) {
+	public static PlayerEntity map(PlayerTo userTO) {
 		if (userTO != null) {
-			UserEntity userEntity = new UserEntity();
+			PlayerEntity userEntity = new PlayerEntity();
 			userEntity.setAboutMe(userTO.getAboutMe());
 			userEntity.setEmail(userTO.getEmail());
 			userEntity.setId(userTO.getId());
@@ -40,7 +40,7 @@ public class UserProfileMapper {
 		return null;
 	}
 	
-	public static UserEntity update(UserEntity userEntity, UserProfileTo userTO) {
+	public static PlayerEntity update(PlayerEntity userEntity, PlayerTo userTO) {
 		if (userTO != null && userEntity != null) {
 			userEntity.setAboutMe(userTO.getAboutMe());
 			userEntity.setEmail(userTO.getEmail());
@@ -53,11 +53,11 @@ public class UserProfileMapper {
 		return userEntity;
 	}
 	
-	public static List<UserProfileTo> map2TOs(List<UserEntity> userEntities) {
-		return userEntities.stream().map(UserProfileMapper::map).collect(Collectors.toList());
+	public static List<PlayerTo> map2TOs(List<PlayerEntity> userEntities) {
+		return userEntities.stream().map(PlayerMapper::map).collect(Collectors.toList());
 	}
 
-	public static List<UserEntity> map2Entities(List<UserProfileTo> userTOs) {
-		return userTOs.stream().map(UserProfileMapper::map).collect(Collectors.toList());
+	public static List<PlayerEntity> map2Entities(List<PlayerTo> userTOs) {
+		return userTOs.stream().map(PlayerMapper::map).collect(Collectors.toList());
 	}
 }

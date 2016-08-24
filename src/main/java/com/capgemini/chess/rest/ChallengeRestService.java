@@ -18,8 +18,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
+
 import com.capgemini.chess.service.UserChallengeService;
+import com.capgemini.chess.service.UserService;
 import com.capgemini.chess.service.to.ChallengeTo;
+import com.capgemini.chess.service.to.PlayerTo;
 
 @Controller
 @ResponseBody
@@ -30,6 +33,9 @@ public class ChallengeRestService {
 
 	@Autowired
 	private UserChallengeService userChallengeService;
+	
+	@Autowired
+	private UserService userService;
 
 	@Autowired
 	protected EntityManager entityManager;
@@ -109,9 +115,14 @@ public class ChallengeRestService {
 			LOGGER.info("Challenge: " + challenge.toString() + " already exists!");
 			return new ResponseEntity<ChallengeTo>(HttpStatus.CONFLICT);
 		}
+		PlayerTo sender = userService.findUserById(challenge.getWhitePlayer().getId());
+		PlayerTo receiver = userService.findUserById(challenge.getBlackPlayer().getId());
+		
+		challenge.setWhitePlayer(sender);
+		challenge.setBlackPlayer(receiver);
+		
 		LOGGER.info("Creating challenge: " + challenge.toString());
 		userChallengeService.saveChallenge(challenge);
-		entityManager.flush();
 		LOGGER.info("Challenge created");
 
 		HttpHeaders headers = new HttpHeaders();

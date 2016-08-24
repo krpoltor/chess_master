@@ -1,2 +1,2 @@
-insert into statistics (lost_games, number_of_matches, player_level, player_points, tied_games, win_lose_ratio, won_games) 
-values(0,0,'NEWBIE',0,0,0,0);
+insert into statistics (lost_games, number_of_matches, player_level, player_points, tied_games, win_lose_ratio, won_games, created_at,modified_at,version) 
+values(0,0,'NEWBIE',0,0,0,0,'2016-08-24 13:20:00','2016-08-24 13:20:00',1);

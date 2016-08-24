@@ -27,13 +27,13 @@ public class StatisticsEntity extends BasicEntity implements java.io.Serializabl
 	private int tiedGames;
 	private float winLoseRatio;
 	private Level playerLevel;
-	private UserEntity user = new UserEntity();
+	private PlayerEntity user = new PlayerEntity();
 
 	public StatisticsEntity() {
 	}
 	
 	public StatisticsEntity(int playerPoints, int numberOfMatches, int wonGames, int lostGames, int tiedGames,
-			float winLoseRatio, Level playerLevel, UserEntity user) {
+			float winLoseRatio, Level playerLevel, PlayerEntity user) {
 		super();
 		this.playerPoints = playerPoints;
 		this.numberOfMatches = numberOfMatches;
@@ -110,11 +110,11 @@ public class StatisticsEntity extends BasicEntity implements java.io.Serializabl
 	}
 
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "statistics")
-	public UserEntity getUser() {
+	public PlayerEntity getUser() {
 		return this.user;
 	}
 
-	public void setUser(UserEntity user) {
+	public void setUser(PlayerEntity user) {
 		this.user = user;
 	}
 }
