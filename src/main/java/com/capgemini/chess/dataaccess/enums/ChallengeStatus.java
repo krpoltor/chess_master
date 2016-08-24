@@ -1,7 +1,9 @@
 package com.capgemini.chess.dataaccess.enums;
 
 public enum ChallengeStatus {
-	WAITING_FOR_REPLY,
+	INIT,
+	OVERDUE,
+	AWAITING_REPLY,
 	ACCEPTED,
 	DECLINED;
 }

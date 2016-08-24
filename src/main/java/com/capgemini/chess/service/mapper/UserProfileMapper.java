@@ -3,7 +3,7 @@ package com.capgemini.chess.service.mapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.capgemini.chess.dataaccess.entities.UserEntity;
+import com.capgemini.chess.generated.entities.UserEntity;
 import com.capgemini.chess.service.to.UserProfileTo;
 
 public class UserProfileMapper {

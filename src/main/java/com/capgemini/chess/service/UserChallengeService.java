@@ -1,8 +1,12 @@
 package com.capgemini.chess.service;
 
 import java.util.List;
+
 import org.springframework.stereotype.Service;
+
+import com.capgemini.chess.generated.entities.ChallengeEntity;
 import com.capgemini.chess.service.to.ChallengeTo;
+import com.capgemini.chess.service.to.UserProfileTo;
 
 /**
  * @author KRPOLTOR
@@ -14,29 +18,29 @@ public interface UserChallengeService {
 	/**
 	 * Change status of given challenge to ACCEPTED.
 	 * 
-	 * @param challengeId
-	 *            - Challenge ID.
+	 * @param challenge
+	 *            - ChallengeTo.
 	 */
-	void acceptChallenge(int challengeId);
+	void acceptChallenge(ChallengeTo challenge);
 
 	/**
 	 * Declining a challenge invokes removing it from DB.
 	 * 
 	 * @param challengeId
-	 *            - Challenge ID.
+	 *            - ChallengeTo.
 	 */
-	void declineChallenge(int challengeId);
+	void declineChallenge(ChallengeTo challenge);
 
 	/**
 	 * Create a new challenge between two players and set it's status to
-	 * WAITING_FOR_REPLY.
+	 * AWAITING_REPLY.
 	 * 
 	 * @param whitePlayerId
-	 *            - ID of a player playing with white chess-set.
+	 *            - TO of a player playing with white chess-set.
 	 * @param blackPlayerId
-	 *            - ID of a player playing with black chess-set.
+	 *            - TO of a player playing with black chess-set.
 	 */
-	void createChallenge(int whitePlayerId, int blackPlayerId);
+	ChallengeTo createChallenge(UserProfileTo whitePlayer, UserProfileTo blackPlayer);
 
 	// zwracanie challeneTO ktory zapisuje w bazie danych
 	// komentarz do klasy
@@ -51,11 +55,11 @@ public interface UserChallengeService {
 	/**
 	 * Finds all challenges of the user.
 	 * 
-	 * @param userId
-	 *            - ID of user.
+	 * @param user
+	 *            - User.
 	 * @return List<ChallengeTo> with every challenge of the user.
 	 */
-	List<ChallengeTo> findAllChallengesByUser(int userId);
+	List<ChallengeTo> findAllChallengesByUser(UserProfileTo user);
 
 	/**
 	 * Finds challenge by its ID.
@@ -64,15 +68,16 @@ public interface UserChallengeService {
 	 *            - ID of a challenge.
 	 * @return
 	 */
-	ChallengeTo findChallengeById(int id);
+	ChallengeTo findChallengeById(Long id);
 
 	/**
 	 * Saves ChallengeTo in database.
 	 * 
 	 * @param challenge
 	 *            - challenge to save.
+	 * @return 
 	 */
-	void saveChallenge(ChallengeTo challenge);
+	ChallengeEntity saveChallenge(ChallengeTo challenge);
 
 	/**
 	 * Deletes challenge with given ID.
@@ -80,11 +85,18 @@ public interface UserChallengeService {
 	 * @param id
 	 *            - ID of a challenge to remove.
 	 */
-	void deleteChallengeById(int id);
+	void deleteChallengeById(Long id);
 
 	/**
 	 * Deletes every challenge in database.
 	 */
 	void deleteAllChallenges();
+
+	/**
+	 * Finds all user challenges.
+	 * @param userId - Id of a user
+	 * @return - list of ChallengeTo
+	 */
+	List<ChallengeTo> findAllChallengesByUserId(Long userId);
 
 }

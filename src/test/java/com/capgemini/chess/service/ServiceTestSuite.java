@@ -1,4 +1,4 @@
-package com.capgemini.chess.service;
+/*package com.capgemini.chess.service;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
@@ -8,7 +8,8 @@ import com.capgemini.rest.ChallengeRestServiceTest;
 
 @RunWith(Suite.class)
 // dodac klasy do testow
-@SuiteClasses({ UserServiceTest.class , UserChallengeServiceTest.class, ChallengeRestServiceTest.class})
+@SuiteClasses({ UserServiceTest.class, UserChallengeServiceTest.class, ChallengeRestServiceTest.class })
 public class ServiceTestSuite {
 
 }
+*/

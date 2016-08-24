@@ -3,7 +3,7 @@ package com.capgemini.chess.service.mapper;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.capgemini.chess.dataaccess.entities.ChallengeEntity;
+import com.capgemini.chess.generated.entities.ChallengeEntity;
 import com.capgemini.chess.service.to.ChallengeTo;
 
 public class ChallengeMapper {
@@ -12,8 +12,8 @@ public class ChallengeMapper {
 		if (challengeEntity != null) {
 			ChallengeTo challengeTO = new ChallengeTo();
 			challengeTO.setId(challengeEntity.getId());
-			challengeTO.setWhitePlayerId(challengeEntity.getWhitePlayerId());
-			challengeTO.setBlackPlayerId(challengeEntity.getBlackPlayerId());
+			challengeTO.setWhitePlayer(UserProfileMapper.map(challengeEntity.getSender()));
+			challengeTO.setBlackPlayer(UserProfileMapper.map(challengeEntity.getReceiver()));
 			challengeTO.setStartDate(challengeEntity.getStartDate());
 			challengeTO.setEndDate(challengeEntity.getEndDate());
 			challengeTO.setStatus(challengeEntity.getStatus());
@@ -26,8 +26,8 @@ public class ChallengeMapper {
 		if (challengeTO != null) {
 			ChallengeEntity challengeEntity = new ChallengeEntity();
 			challengeEntity.setId(challengeTO.getId());
-			challengeEntity.setWhitePlayerId(challengeTO.getWhitePlayerId());
-			challengeEntity.setBlackPlayerId(challengeTO.getBlackPlayerId());
+			challengeEntity.setReceiver(UserProfileMapper.map(challengeTO.getWhitePlayer()));
+			challengeEntity.setSender(UserProfileMapper.map(challengeTO.getBlackPlayer()));
 			challengeEntity.setStartDate(challengeTO.getStartDate());
 			challengeEntity.setEndDate(challengeTO.getEndDate());
 			challengeEntity.setStatus(challengeTO.getStatus());
@@ -39,8 +39,8 @@ public class ChallengeMapper {
 	public static ChallengeEntity update(ChallengeEntity challengeEntity, ChallengeTo challengeTO) {
 		if (challengeTO != null && challengeEntity != null) {
 			challengeEntity.setId(challengeTO.getId());
-			challengeEntity.setWhitePlayerId(challengeTO.getWhitePlayerId());
-			challengeEntity.setBlackPlayerId(challengeTO.getBlackPlayerId());
+			challengeEntity.setReceiver(UserProfileMapper.map(challengeTO.getWhitePlayer()));
+			challengeEntity.setSender(UserProfileMapper.map(challengeTO.getBlackPlayer()));
 			challengeEntity.setStartDate(challengeTO.getStartDate());
 			challengeEntity.setEndDate(challengeTO.getEndDate());
 			challengeEntity.setStatus(challengeTO.getStatus());

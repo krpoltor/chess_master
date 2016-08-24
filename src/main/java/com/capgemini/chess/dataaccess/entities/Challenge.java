@@ -1,4 +1,4 @@
-package com.capgemini.chess.dataaccess.entities;
+/*package com.capgemini.chess.dataaccess.entities;
 
 import java.util.Date;
 
@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import com.capgemini.chess.dataaccess.enums.ChallengeStatus;
 
 @Entity
-public class ChallengeEntity {
+public class Challenge {
 	@Id
 	@GeneratedValue
 	private int id;
@@ -73,4 +73,4 @@ public class ChallengeEntity {
 		this.endDate = endDate;
 	}
 
-}
+}*/

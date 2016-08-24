@@ -4,50 +4,61 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
+import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.capgemini.chess.dao.ChallengeDao;
 import com.capgemini.chess.dataaccess.enums.ChallengeStatus;
+import com.capgemini.chess.generated.entities.ChallengeEntity;
 import com.capgemini.chess.service.UserChallengeService;
+import com.capgemini.chess.service.mapper.ChallengeMapper;
 import com.capgemini.chess.service.to.ChallengeTo;
+import com.capgemini.chess.service.to.UserProfileTo;
 
 @Service
+@Transactional
 public class UserChallengeServiceImpl implements UserChallengeService {
 
 	private static int FOURTEEN_DAYS = 14;
 
 	@Autowired
 	private ChallengeDao challengeDao;
-
+	
+	@Autowired
+	protected EntityManager entityManager;
+	
 	@Override
-	public final void acceptChallenge(final int challengeId) {
-		challengeDao.changeChallengeStatus(challengeId, ChallengeStatus.ACCEPTED);
-		// message.show("Opponent accepted.")
-		// game.start()
+	public final void acceptChallenge(ChallengeTo challenge) {
+		challenge.setStatus(ChallengeStatus.ACCEPTED);
+		ChallengeEntity entity = ChallengeMapper.map(challenge);
+		challengeDao.update(entity);
 	}
 
 	@Override
-	public final void declineChallenge(final int challengeId) {
-		// Keep challenge for statistics
-		challengeDao.changeChallengeStatus(challengeId, ChallengeStatus.DECLINED);
-		// or remove it from DB
-		// challengeDao.removeChallengeById(challengeId);
-		// message.show("Opponent declined.")
+	public final void declineChallenge(ChallengeTo challenge) {
+		challenge.setStatus(ChallengeStatus.DECLINED);
+		ChallengeEntity entity = ChallengeMapper.map(challenge);
+		challengeDao.update(entity);
 	}
 
 	@Override
-	public void createChallenge(@NotNull final int whitePlayerId, @NotNull final int blackPlayerId) {
-		int currentSize = challengeDao.getMockingChallengeTableList().size();
-		int id = currentSize++;
+	public ChallengeTo createChallenge(UserProfileTo whitePlayer, UserProfileTo blackPlayer) {
 		Date startDate = new Date();
 		Date endDate = addDaysToGivenDate(startDate, FOURTEEN_DAYS);
 
-		ChallengeTo newChallenge = new ChallengeTo(id, whitePlayerId, blackPlayerId, startDate, endDate,
-				ChallengeStatus.WAITING_FOR_REPLY);
-		challengeDao.addNewChallenge(newChallenge);
+		ChallengeTo newChallenge = new ChallengeTo();
+		newChallenge.setWhitePlayer(whitePlayer);
+		newChallenge.setBlackPlayer(blackPlayer);
+		newChallenge.setStartDate(startDate);
+		newChallenge.setEndDate(endDate);
+		newChallenge.setStatus(ChallengeStatus.AWAITING_REPLY);
+		
+		ChallengeEntity newChallengeEntity = ChallengeMapper.map(newChallenge);
+		challengeDao.save(newChallengeEntity);
+		return newChallenge;
 	}
 
 	private Date addDaysToGivenDate(final Date startDate, final int numberOfDaysToAdd) {
@@ -60,31 +71,42 @@ public class UserChallengeServiceImpl implements UserChallengeService {
 
 	@Override
 	public List<ChallengeTo> findAllChallenges() {
-		return challengeDao.getMockingChallengeTableList();
+		List<ChallengeTo> toResultList = ChallengeMapper.map2TOs(challengeDao.findAll());
+		return toResultList;
 	}
 
 	@Override
-	public void saveChallenge(ChallengeTo challenge) {
-		challengeDao.addNewChallenge(challenge);
-	}
-	
-	@Override
-	public ChallengeTo findChallengeById(int id) {
-		return challengeDao.getChallengeById(id);
+	public ChallengeTo findChallengeById(Long id) {
+		ChallengeTo resultTo = ChallengeMapper.map(challengeDao.findOne(id));
+		return resultTo;
 	}
 
 	@Override
-	public void deleteChallengeById(int id) {
-		challengeDao.deleteChallengeById(id);
+	public void deleteChallengeById(Long id) {
+		challengeDao.delete(id);
 	}
 
 	@Override
-	public List<ChallengeTo> findAllChallengesByUser(int userId) {
-		return challengeDao.findAllChallengesByUser(userId);
+	public List<ChallengeTo> findAllChallengesByUser(UserProfileTo user) {
+		 List<ChallengeTo> toResultList = ChallengeMapper.map2TOs(challengeDao.findAllChallengesByUser(user));
+		return toResultList;
 	}
 
 	@Override
 	public void deleteAllChallenges() {
-		challengeDao.deleteListOfChallengeTo();
+		challengeDao.deleteAll();
+	}
+
+	@Override
+	public ChallengeEntity saveChallenge(ChallengeTo challenge) {
+		ChallengeEntity challengeEntity = ChallengeMapper.map(challenge);
+		challengeDao.save(challengeEntity);
+		return challengeEntity;
+	}
+
+	@Override
+	public List<ChallengeTo> findAllChallengesByUserId(Long userId) {
+		List<ChallengeTo> toResultList = ChallengeMapper.map2TOs(challengeDao.findAllChallengesByUserId(userId));
+		return toResultList;
 	}
 }

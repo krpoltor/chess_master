@@ -1,4 +1,4 @@
-package com.capgemini.chess.dataaccess.entities;
+/*package com.capgemini.chess.dataaccess.entities;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -92,3 +92,4 @@ public class UserEntity {
 	}
 
 }
+*/
