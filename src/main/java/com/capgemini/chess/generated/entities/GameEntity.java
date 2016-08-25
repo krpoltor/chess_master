@@ -1,9 +1,8 @@
 package com.capgemini.chess.generated.entities;
-// Generated Aug 25, 2016 8:34:00 AM by Hibernate Tools 4.3.1.Final
+// Generated Aug 25, 2016 9:00:51 AM by Hibernate Tools 4.3.1.Final
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -16,18 +15,17 @@ public class GameEntity extends BasicEntity implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
 
-	private ChallengeEntity challenge;
+	private ChallengeEntity challenge = new ChallengeEntity();
 
 	public GameEntity() {
 	}
-	
+
 	public GameEntity(ChallengeEntity challenge) {
 		super();
 		this.challenge = challenge;
 	}
 
-	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "challenge_id", nullable = false)
+	@OneToOne(fetch = FetchType.LAZY, mappedBy = "game")
 	public ChallengeEntity getChallenge() {
 		return this.challenge;
 	}

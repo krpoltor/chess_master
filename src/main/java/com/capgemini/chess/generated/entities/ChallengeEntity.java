@@ -1,5 +1,5 @@
 package com.capgemini.chess.generated.entities;
-// Generated Aug 25, 2016 8:34:00 AM by Hibernate Tools 4.3.1.Final
+// Generated Aug 25, 2016 9:00:51 AM by Hibernate Tools 4.3.1.Final
 
 import java.util.Date;
 
@@ -28,24 +28,33 @@ public class ChallengeEntity extends BasicEntity implements java.io.Serializable
 
 	private static final long serialVersionUID = 1L;
 
+	private GameEntity game;
 	private PlayerEntity receiver;
 	private PlayerEntity sender;
 	private Date endDate;
 	private Date startDate;
 	private ChallengeStatus status;
-	private GameEntity game = new GameEntity();
 
 	public ChallengeEntity() {
 	}
 
-	public ChallengeEntity(PlayerEntity receiver, PlayerEntity sender, Date endDate, Date startDate,
-			ChallengeStatus status, GameEntity game) {
+	public ChallengeEntity(GameEntity game, PlayerEntity receiver, PlayerEntity sender, Date endDate, Date startDate, ChallengeStatus status) {
 		super();
+		this.game = game;
 		this.receiver = receiver;
 		this.sender = sender;
 		this.endDate = endDate;
 		this.startDate = startDate;
 		this.status = status;
+	}
+
+	@OneToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "game_id", nullable = false)
+	public GameEntity getGame() {
+		return this.game;
+	}
+
+	public void setGame(GameEntity game) {
 		this.game = game;
 	}
 
@@ -97,15 +106,6 @@ public class ChallengeEntity extends BasicEntity implements java.io.Serializable
 
 	public void setStatus(ChallengeStatus status) {
 		this.status = status;
-	}
-
-	@OneToOne(fetch = FetchType.LAZY, mappedBy = "challenge")
-	public GameEntity getGame() {
-		return this.game;
-	}
-
-	public void setGame(GameEntity game) {
-		this.game = game;
 	}
 
 }

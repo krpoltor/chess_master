@@ -1,8 +1,10 @@
 package com.capgemini.chess.generated.entities;
-// Generated Aug 25, 2016 8:34:00 AM by Hibernate Tools 4.3.1.Final
+// Generated Aug 25, 2016 9:00:51 AM by Hibernate Tools 4.3.1.Final
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.FetchType;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
@@ -62,6 +64,7 @@ public class StatisticsEntity extends BasicEntity implements java.io.Serializabl
 	}
 
 	@Column(name = "player_level", nullable = false, length = 22)
+	@Enumerated(EnumType.STRING)
 	public Level getPlayerLevel() {
 		return this.playerLevel;
 	}
@@ -109,10 +112,6 @@ public class StatisticsEntity extends BasicEntity implements java.io.Serializabl
 	@OneToOne(fetch = FetchType.LAZY, mappedBy = "statistics")
 	public PlayerEntity getPlayer() {
 		return this.player;
-	}
-
-	public void setPlayers(PlayerEntity player) {
-		this.player = player;
 	}
 
 	public void setPlayer(PlayerEntity player) {

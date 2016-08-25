@@ -14,7 +14,8 @@ insert into player (statistics_id,login,password,name,surname,email,about_me,lif
 insert into player (statistics_id,login,password,name,surname,email,about_me,life_motto,version,created_at,modified_at) values (6,'player6','pass6','name6','surname6','email6','aboutMe6','lifeMotto6',1,'2016-08-24 13:20:00','2016-08-24 13:20:00');
 
 
+insert into game (version, created_at, modified_at) values (1,'2016-08-24 13:20:00','2016-08-24 13:20:00')
+
+
 insert into challenge (sender_id, receiver_id, start_date, end_date, status, game_id, version, created_at, modified_at) values (1,2,'2016-08-24 13:20:00','2016-09-03 13:20:00','INIT',1,1,'2016-08-24 13:20:00','2016-08-24 13:20:00');
 
-
-insert into game (version, created_at, modified_at) values (1,'2016-08-24 13:20:00','2016-08-24 13:20:00')
