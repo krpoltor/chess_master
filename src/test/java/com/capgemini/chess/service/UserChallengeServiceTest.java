@@ -151,8 +151,11 @@ public class UserChallengeServiceTest {
 		PlayerTo blackPlayer = userService.findUserById(2L);
 		challengeToSave.setBlackPlayer(blackPlayer);
 		challengeToSave.setStatus(ChallengeStatus.AWAITING_REPLY);
+		
 		// when
 		userChallengeService.saveChallenge(challengeToSave);
+		entityManager.flush();
+		entityManager.detach(challengeToSave);
 		ChallengeTo challengeFromDatabase = userChallengeService.findChallengeById(7L);
 		// then
 		Assert.assertEquals(challengeToSave, challengeFromDatabase);

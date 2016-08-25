@@ -1,5 +1,5 @@
 package com.capgemini.chess.generated.entities;
-// Generated Aug 24, 2016 8:42:47 AM by Hibernate Tools 4.3.1.Final
+// Generated Aug 25, 2016 8:09:37 AM by Hibernate Tools 4.3.1.Final
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -15,7 +15,7 @@ import javax.persistence.Table;
 public class GameEntity extends BasicEntity implements java.io.Serializable {
 
 	private static final long serialVersionUID = 1L;
-	
+
 	private ChallengeEntity challenge;
 
 	public GameEntity() {
