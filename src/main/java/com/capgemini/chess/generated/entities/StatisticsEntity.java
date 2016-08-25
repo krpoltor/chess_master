@@ -115,4 +115,8 @@ public class StatisticsEntity extends BasicEntity implements java.io.Serializabl
 		this.player = player;
 	}
 
+	public void setPlayer(PlayerEntity player) {
+		this.player = player;
+	}
+
 }
