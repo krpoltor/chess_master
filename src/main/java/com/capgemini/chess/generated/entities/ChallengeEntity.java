@@ -1,5 +1,5 @@
 package com.capgemini.chess.generated.entities;
-// Generated Aug 25, 2016 8:09:37 AM by Hibernate Tools 4.3.1.Final
+// Generated Aug 25, 2016 8:34:00 AM by Hibernate Tools 4.3.1.Final
 
 import java.util.Date;
 
@@ -104,7 +104,7 @@ public class ChallengeEntity extends BasicEntity implements java.io.Serializable
 		return this.game;
 	}
 
-	public void setGames(GameEntity game) {
+	public void setGame(GameEntity game) {
 		this.game = game;
 	}
 
