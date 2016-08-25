@@ -6,7 +6,6 @@ import java.util.logging.Logger;
 import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -19,7 +18,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import com.capgemini.chess.service.UserChallengeService;
+import com.capgemini.chess.service.ChallengeService;
 import com.capgemini.chess.service.UserService;
 import com.capgemini.chess.service.to.ChallengeTo;
 import com.capgemini.chess.service.to.PlayerTo;
@@ -32,7 +31,7 @@ public class ChallengeRestService {
 	private static Logger LOGGER = Logger.getLogger(ChallengeRestService.class.getName());
 
 	@Autowired
-	private UserChallengeService userChallengeService;
+	private ChallengeService challengeService;
 	
 	@Autowired
 	private UserService userService;
@@ -50,7 +49,7 @@ public class ChallengeRestService {
 	 */
 	@RequestMapping(value = "/rest/challenges", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ChallengeTo>> getChallenge() {
-		List<ChallengeTo> allChallenges = userChallengeService.findAllChallenges();
+		List<ChallengeTo> allChallenges = challengeService.findAllChallenges();
 		if (allChallenges.isEmpty()) {
 			return new ResponseEntity<List<ChallengeTo>>(HttpStatus.NOT_FOUND);
 		}
@@ -71,7 +70,7 @@ public class ChallengeRestService {
 	 */
 	@RequestMapping(value = "/rest/challenges/byUser/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ChallengeTo>> getUserChallenges(@PathVariable("userId") Long userId) {
-		List<ChallengeTo> allUserChallenges = userChallengeService.findAllChallengesByUserId(userId);
+		List<ChallengeTo> allUserChallenges = challengeService.findAllChallengesByUserId(userId);
 		if (allUserChallenges.isEmpty()) {
 			return new ResponseEntity<List<ChallengeTo>>(HttpStatus.NOT_FOUND);
 		}
@@ -90,7 +89,7 @@ public class ChallengeRestService {
 	 */
 	@RequestMapping(value = "/rest/challenges/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ChallengeTo> getChallenge(@PathVariable("id") Long id) {
-		ChallengeTo challenge = userChallengeService.findChallengeById(id);
+		ChallengeTo challenge = challengeService.findChallengeById(id);
 		if (challenge.equals(null)) {
 			LOGGER.info("Challenge with id " + id + " not found");
 			return new ResponseEntity<ChallengeTo>(HttpStatus.NOT_FOUND);
@@ -111,7 +110,7 @@ public class ChallengeRestService {
 	public ResponseEntity<ChallengeTo> addChallenge(@RequestBody ChallengeTo challenge,
 			UriComponentsBuilder ucBuilder) {
 
-		if (userChallengeService.findAllChallenges().contains(challenge)) {
+		if (challengeService.findAllChallenges().contains(challenge)) {
 			LOGGER.info("Challenge: " + challenge.toString() + " already exists!");
 			return new ResponseEntity<ChallengeTo>(HttpStatus.CONFLICT);
 		}
@@ -122,12 +121,10 @@ public class ChallengeRestService {
 		challenge.setBlackPlayer(receiver);
 		
 		LOGGER.info("Creating challenge: " + challenge.toString());
-		userChallengeService.saveChallenge(challenge);
+		challengeService.saveChallenge(challenge);
 		LOGGER.info("Challenge created");
-
-		HttpHeaders headers = new HttpHeaders();
-		headers.setLocation(ucBuilder.path("/rest/challenges/{id}").buildAndExpand(challenge.getId()).toUri());
-		return new ResponseEntity<ChallengeTo>(headers, HttpStatus.CREATED);
+		entityManager.flush();
+		return new ResponseEntity<ChallengeTo>(challenge, HttpStatus.CREATED);
 	}
 
 	/**
@@ -147,21 +144,25 @@ public class ChallengeRestService {
 	@RequestMapping(value = "/rest/challenges/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<ChallengeTo> updateChallenge(@PathVariable("id") Long id,
 			@RequestBody ChallengeTo challenge) {
-		ChallengeTo currentChallenge = userChallengeService.findChallengeById(id);
+		ChallengeTo currentChallenge = challengeService.findChallengeById(id);
 
-		if (currentChallenge == null) {
+		if (currentChallenge.equals(null)) {
 			LOGGER.info("Challenge with id " + id + " not found");
 			return new ResponseEntity<ChallengeTo>(HttpStatus.NOT_FOUND);
 		}
+		
+		PlayerTo sender = userService.findUserById(challenge.getWhitePlayer().getId());
+		challenge.setWhitePlayer(sender);
+		PlayerTo receiver = userService.findUserById(challenge.getBlackPlayer().getId());
+		challenge.setBlackPlayer(receiver);
 
-		currentChallenge.setWhitePlayer(challenge.getWhitePlayer());
-		currentChallenge.setBlackPlayer(challenge.getBlackPlayer());
 		currentChallenge.setStatus(challenge.getStatus());
 		currentChallenge.setStartDate(challenge.getStartDate());
 		currentChallenge.setEndDate(challenge.getEndDate());
 
-		userChallengeService.deleteChallengeById(id);
-		userChallengeService.saveChallenge(currentChallenge);
+		//challengeService.deleteChallengeById(id);
+		challengeService.updateChallenge(currentChallenge);
+		entityManager.flush();
 		return new ResponseEntity<ChallengeTo>(currentChallenge, HttpStatus.OK);
 	}
 
@@ -179,12 +180,12 @@ public class ChallengeRestService {
 	@RequestMapping(value = "/rest/challenges/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<ChallengeTo> deleteChallenge(@PathVariable("id") Long id) {
 		LOGGER.info("Fetching & Deleting User with id " + id);
-		ChallengeTo challenge = userChallengeService.findChallengeById(id);
+		ChallengeTo challenge = challengeService.findChallengeById(id);
 		if (challenge.equals(null)) {
 			LOGGER.info("Unable to delete. challenge with id " + id + " not found");
 			return new ResponseEntity<ChallengeTo>(HttpStatus.NOT_FOUND);
 		}
-		userChallengeService.deleteChallengeById(id);
+		challengeService.deleteChallengeById(id);
 		return new ResponseEntity<ChallengeTo>(HttpStatus.NO_CONTENT);
 	}
 
@@ -203,7 +204,7 @@ public class ChallengeRestService {
 	public ResponseEntity<ChallengeTo> deleteAllChallenges() {
 		LOGGER.info("Deleting every challenge.");
 
-		userChallengeService.deleteAllChallenges();
+		challengeService.deleteAllChallenges();
 		return new ResponseEntity<ChallengeTo>(HttpStatus.NO_CONTENT);
 	}
 

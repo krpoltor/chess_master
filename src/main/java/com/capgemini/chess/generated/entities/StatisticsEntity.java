@@ -118,4 +118,57 @@ public class StatisticsEntity extends BasicEntity implements java.io.Serializabl
 		this.player = player;
 	}
 
+	@Override
+	public String toString() {
+		return "StatisticsEntity [lostGames=" + lostGames + ", numberOfMatches=" + numberOfMatches + ", playerLevel="
+				+ playerLevel + ", playerPoints=" + playerPoints + ", tiedGames=" + tiedGames + ", winLoseRatio="
+				+ winLoseRatio + ", wonGames=" + wonGames + ", player=" + player + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + lostGames;
+		result = prime * result + numberOfMatches;
+		result = prime * result + ((player == null) ? 0 : player.hashCode());
+		result = prime * result + ((playerLevel == null) ? 0 : playerLevel.hashCode());
+		result = prime * result + playerPoints;
+		result = prime * result + tiedGames;
+		result = prime * result + Float.floatToIntBits(winLoseRatio);
+		result = prime * result + wonGames;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		StatisticsEntity other = (StatisticsEntity) obj;
+		if (lostGames != other.lostGames)
+			return false;
+		if (numberOfMatches != other.numberOfMatches)
+			return false;
+		if (player == null) {
+			if (other.player != null)
+				return false;
+		} else if (!player.equals(other.player))
+			return false;
+		if (playerLevel != other.playerLevel)
+			return false;
+		if (playerPoints != other.playerPoints)
+			return false;
+		if (tiedGames != other.tiedGames)
+			return false;
+		if (Float.floatToIntBits(winLoseRatio) != Float.floatToIntBits(other.winLoseRatio))
+			return false;
+		if (wonGames != other.wonGames)
+			return false;
+		return true;
+	}
+
 }

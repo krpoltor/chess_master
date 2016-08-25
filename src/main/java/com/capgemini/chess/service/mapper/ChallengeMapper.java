@@ -26,8 +26,8 @@ public class ChallengeMapper {
 		if (challengeTO != null) {
 			ChallengeEntity challengeEntity = new ChallengeEntity();
 			challengeEntity.setId(challengeTO.getId());
-			challengeEntity.setReceiver(PlayerMapper.map(challengeTO.getWhitePlayer()));
-			challengeEntity.setSender(PlayerMapper.map(challengeTO.getBlackPlayer()));
+			challengeEntity.setSender(PlayerMapper.map(challengeTO.getWhitePlayer()));
+			challengeEntity.setReceiver(PlayerMapper.map(challengeTO.getBlackPlayer()));
 			challengeEntity.setStartDate(challengeTO.getStartDate());
 			challengeEntity.setEndDate(challengeTO.getEndDate());
 			challengeEntity.setStatus(challengeTO.getStatus());
@@ -39,8 +39,8 @@ public class ChallengeMapper {
 	public static ChallengeEntity update(ChallengeEntity challengeEntity, ChallengeTo challengeTO) {
 		if (challengeTO != null && challengeEntity != null) {
 			challengeEntity.setId(challengeTO.getId());
-			challengeEntity.setReceiver(PlayerMapper.map(challengeTO.getWhitePlayer()));
-			challengeEntity.setSender(PlayerMapper.map(challengeTO.getBlackPlayer()));
+			challengeEntity.setSender(PlayerMapper.map(challengeTO.getWhitePlayer()));
+			challengeEntity.setReceiver(PlayerMapper.map(challengeTO.getBlackPlayer()));
 			challengeEntity.setStartDate(challengeTO.getStartDate());
 			challengeEntity.setEndDate(challengeTO.getEndDate());
 			challengeEntity.setStatus(challengeTO.getStatus());

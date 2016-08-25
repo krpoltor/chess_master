@@ -8,56 +8,56 @@ import com.capgemini.chess.service.to.PlayerTo;
 
 public class PlayerMapper {
 	
-	public static PlayerTo map(PlayerEntity userEntity) {
-		if (userEntity != null) {
-			PlayerTo userTO = new PlayerTo();
-			userTO.setAboutMe(userEntity.getAboutMe());
-			userTO.setEmail(userEntity.getEmail());
-			userTO.setId(userEntity.getId());
-			userTO.setLifeMotto(userEntity.getLifeMotto());
-			userTO.setLogin(userEntity.getLogin());
-			userTO.setName(userEntity.getName());
-			userTO.setPassword(userEntity.getPassword());
-			userTO.setSurname(userEntity.getSurname());
-			return userTO;
+	public static PlayerTo map(PlayerEntity playerEntity) {
+		if (playerEntity != null) {
+			PlayerTo playerTO = new PlayerTo();
+			playerTO.setAboutMe(playerEntity.getAboutMe());
+			playerTO.setEmail(playerEntity.getEmail());
+			playerTO.setId(playerEntity.getId());
+			playerTO.setLifeMotto(playerEntity.getLifeMotto());
+			playerTO.setLogin(playerEntity.getLogin());
+			playerTO.setName(playerEntity.getName());
+			playerTO.setPassword(playerEntity.getPassword());
+			playerTO.setSurname(playerEntity.getSurname());
+			return playerTO;
 		}
 		return null;
 	}
 
-	public static PlayerEntity map(PlayerTo userTO) {
-		if (userTO != null) {
-			PlayerEntity userEntity = new PlayerEntity();
-			userEntity.setAboutMe(userTO.getAboutMe());
-			userEntity.setEmail(userTO.getEmail());
-			userEntity.setId(userTO.getId());
-			userEntity.setLifeMotto(userTO.getLifeMotto());
-			userEntity.setLogin(userTO.getLogin());
-			userEntity.setName(userTO.getName());
-			userEntity.setPassword(userTO.getPassword());
-			userEntity.setSurname(userTO.getSurname());
-			return userEntity;
+	public static PlayerEntity map(PlayerTo playerTO) {
+		if (playerTO != null) {
+			PlayerEntity playerEntity = new PlayerEntity();
+			playerEntity.setAboutMe(playerTO.getAboutMe());
+			playerEntity.setEmail(playerTO.getEmail());
+			playerEntity.setId(playerTO.getId());
+			playerEntity.setLifeMotto(playerTO.getLifeMotto());
+			playerEntity.setLogin(playerTO.getLogin());
+			playerEntity.setName(playerTO.getName());
+			playerEntity.setPassword(playerTO.getPassword());
+			playerEntity.setSurname(playerTO.getSurname());
+			return playerEntity;
 		}
 		return null;
 	}
 	
-	public static PlayerEntity update(PlayerEntity userEntity, PlayerTo userTO) {
-		if (userTO != null && userEntity != null) {
-			userEntity.setAboutMe(userTO.getAboutMe());
-			userEntity.setEmail(userTO.getEmail());
-			userEntity.setId(userTO.getId());
-			userEntity.setLifeMotto(userTO.getLifeMotto());
-			userEntity.setName(userTO.getName());
-			userEntity.setPassword(userTO.getPassword());
-			userEntity.setSurname(userTO.getSurname());
+	public static PlayerEntity update(PlayerEntity playerEntity, PlayerTo playerTO) {
+		if (playerTO != null && playerEntity != null) {
+			playerEntity.setAboutMe(playerTO.getAboutMe());
+			playerEntity.setEmail(playerTO.getEmail());
+			playerEntity.setId(playerTO.getId());
+			playerEntity.setLifeMotto(playerTO.getLifeMotto());
+			playerEntity.setName(playerTO.getName());
+			playerEntity.setPassword(playerTO.getPassword());
+			playerEntity.setSurname(playerTO.getSurname());
 		}
-		return userEntity;
+		return playerEntity;
 	}
 	
-	public static List<PlayerTo> map2TOs(List<PlayerEntity> userEntities) {
-		return userEntities.stream().map(PlayerMapper::map).collect(Collectors.toList());
+	public static List<PlayerTo> map2TOs(List<PlayerEntity> playerEntities) {
+		return playerEntities.stream().map(PlayerMapper::map).collect(Collectors.toList());
 	}
 
-	public static List<PlayerEntity> map2Entities(List<PlayerTo> userTOs) {
-		return userTOs.stream().map(PlayerMapper::map).collect(Collectors.toList());
+	public static List<PlayerEntity> map2Entities(List<PlayerTo> playerTOs) {
+		return playerTOs.stream().map(PlayerMapper::map).collect(Collectors.toList());
 	}
 }

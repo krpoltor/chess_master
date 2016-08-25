@@ -2,6 +2,7 @@ package com.capgemini.chess.service;
 
 import java.util.Date;
 import java.util.List;
+import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
 
@@ -19,7 +20,7 @@ import com.capgemini.chess.service.to.ChallengeTo;
 import com.capgemini.chess.service.to.PlayerTo;
 
 /**
- * Test class for testing {@link UserChallengeService}<br>
+ * Test class for testing {@link ChallengeService}<br>
  * 
  * Checklist:<br>
  * 1. Test accepting challenge.<br>
@@ -38,8 +39,7 @@ import com.capgemini.chess.service.to.PlayerTo;
  */
 @RunWith(SpringJUnit4ClassRunner.class)
 @SpringApplicationConfiguration(classes = ChessApplication.class)
-@Transactional
-public class UserChallengeServiceTest {
+public class ChallengeServiceTest {
 
 	/**
 	 * Two second in milliseconds.
@@ -47,18 +47,21 @@ public class UserChallengeServiceTest {
 	private static int TWO_SECONDS = 20000;
 
 	@Autowired
-	private UserChallengeService userChallengeService;
-	
+	private ChallengeService userChallengeService;
+
 	@Autowired
 	private UserService userService;
-	
+
 	@Autowired
 	protected EntityManager entityManager;
+	
+	private static Logger LOGGER = Logger.getLogger(ChallengeServiceTest.class.getName());
 
 	/**
 	 * Test for invoking accepting a challenge.
 	 */
-	@Test 
+	@Test
+	@Transactional
 	public void shouldAcceptChallenge() {
 		// given
 		ChallengeTo challenge = userChallengeService.findChallengeById(1L);
@@ -71,7 +74,8 @@ public class UserChallengeServiceTest {
 	/**
 	 * Test for invoking declining a challenge.
 	 */
-	@Test 
+	@Test
+	@Transactional
 	public void shouldDeclineChallenge() {
 		// given
 		ChallengeTo challenge = userChallengeService.findChallengeById(1L);
@@ -84,22 +88,26 @@ public class UserChallengeServiceTest {
 	/**
 	 * Test for invoking creating new challenge.
 	 */
-	@Test 
+	@Test
+	//@Transactional
 	public void shouldCreateChallenge() {
 		// given
-		PlayerTo whitePlayer = userService.findUserById(1L);
-		PlayerTo blackPlayer = userService.findUserById(2L);
+		PlayerTo expectedWhitePlayer = userService.findUserById(4L);
+		PlayerTo expectedBlackPlayer = userService.findUserById(5L);
 		// when
-		ChallengeTo challenge = userChallengeService.createChallenge(whitePlayer, blackPlayer);
+		ChallengeTo createdChallenge = userChallengeService.createChallenge(expectedWhitePlayer, expectedBlackPlayer);
+		entityManager.flush();
+		ChallengeTo actualChallenge = userChallengeService.findChallengeById(2L);
 		// then
-		Assert.assertEquals(whitePlayer, userChallengeService.findChallengeById(4L).getWhitePlayer());
-		Assert.assertEquals(blackPlayer, userChallengeService.findChallengeById(4L).getBlackPlayer());
+		Assert.assertEquals(expectedWhitePlayer, actualChallenge.getWhitePlayer());
+		Assert.assertEquals(expectedBlackPlayer, actualChallenge.getBlackPlayer());
 	}
 
 	/**
 	 * Test for finding every challenge in database.
 	 */
-	@Test 
+	@Test
+	@Transactional
 	public void shouldGetEveryChallengeFromDatabase() {
 		// given
 		// when
@@ -111,7 +119,8 @@ public class UserChallengeServiceTest {
 	/**
 	 * Test for getting every challenge by userID.
 	 */
-	@Test 
+	@Test
+	@Transactional
 	public void shouldGetEveryChallengeOfAUserFromDatabase() {
 		// given
 		// when
@@ -123,48 +132,56 @@ public class UserChallengeServiceTest {
 	/**
 	 * Test for getting challenge by its ID.
 	 */
-	@Test 
+	@Test
+	@Transactional
 	public void shouldGetChallengeById() {
 		// given
+		LOGGER.info("Get challenge by id test.");
+		PlayerTo expectedWhitePlayer = userService.findUserById(1L);
+		LOGGER.info("Expected white player: " + expectedWhitePlayer);
+		PlayerTo expectedBlackPlayer = userService.findUserById(2L);
+		LOGGER.info("Expected black player: " + expectedBlackPlayer);
 		// when
-		ChallengeTo testChallenge = userChallengeService.findChallengeById(1L);
+		ChallengeTo actualChallenge = userChallengeService.findChallengeById(1L);
+		LOGGER.info("Challenge from databse: " + actualChallenge.toString());
 		// then
-		Assert.assertEquals(testChallenge.getId(), new Long(1L));
-		Assert.assertEquals(testChallenge.getWhitePlayer(), userService.findUserById(1L));
-		Assert.assertEquals(testChallenge.getBlackPlayer(), userService.findUserById(2L));
-		Assert.assertEquals(testChallenge.getStatus(), ChallengeStatus.AWAITING_REPLY);
+		Assert.assertEquals(new Long(1L), actualChallenge.getId());
+		Assert.assertEquals(expectedWhitePlayer, actualChallenge.getWhitePlayer());
+		Assert.assertEquals(expectedBlackPlayer, actualChallenge.getBlackPlayer());
+		Assert.assertEquals(ChallengeStatus.INIT, actualChallenge.getStatus());
 	}
 
 	/**
 	 * Test for adding new challenge to database.
 	 */
-	@Test 
+	@Test
+	@Transactional
 	public void shouldSaveChallengeIntoDatabase() {
 		// given
-		ChallengeTo challengeToSave = new ChallengeTo();
+		ChallengeTo challengeToToSave = new ChallengeTo();
 		Date startDate = new Date();
-		challengeToSave.setStartDate(startDate);
+		challengeToToSave.setStartDate(startDate);
 		Date endDate = new Date(startDate.getTime() + TWO_SECONDS);
-		challengeToSave.setEndDate(endDate);
-		PlayerTo whitePlayer = userService.findUserById(1L);
-		challengeToSave.setWhitePlayer(whitePlayer);
-		PlayerTo blackPlayer = userService.findUserById(2L);
-		challengeToSave.setBlackPlayer(blackPlayer);
-		challengeToSave.setStatus(ChallengeStatus.AWAITING_REPLY);
-		
+		challengeToToSave.setEndDate(endDate);
+		PlayerTo whitePlayer = userService.findUserById(2L);
+		challengeToToSave.setWhitePlayer(whitePlayer);
+		PlayerTo blackPlayer = userService.findUserById(3L);
+		challengeToToSave.setBlackPlayer(blackPlayer);
+		challengeToToSave.setStatus(ChallengeStatus.AWAITING_REPLY);
 		// when
-		userChallengeService.saveChallenge(challengeToSave);
+		userChallengeService.saveChallenge(challengeToToSave);
 		entityManager.flush();
-		entityManager.detach(challengeToSave);
-		ChallengeTo challengeFromDatabase = userChallengeService.findChallengeById(7L);
+		ChallengeTo challengeFromDatabase = userChallengeService.findChallengeById(2L);
+		challengeToToSave.setId(2L);
 		// then
-		Assert.assertEquals(challengeToSave, challengeFromDatabase);
+		Assert.assertTrue(challengeToToSave.equals(challengeFromDatabase));
 	}
 
 	/**
 	 * Test for deleting challenge by its ID.
 	 */
-	@Test 
+	@Test
+	@Transactional
 	public void shouldDeleteChallengeById() {
 		// given
 		Long challengeId = 1L;
@@ -178,7 +195,8 @@ public class UserChallengeServiceTest {
 	/**
 	 * Test for deleting every challenge in database.
 	 */
-	@Test 
+	@Test
+	@Transactional
 	public void shouldDeleteEveryChallenge() {
 		// given
 		// when

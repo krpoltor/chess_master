@@ -13,14 +13,14 @@ import org.springframework.transaction.annotation.Transactional;
 import com.capgemini.chess.dao.ChallengeDao;
 import com.capgemini.chess.dataaccess.enums.ChallengeStatus;
 import com.capgemini.chess.generated.entities.ChallengeEntity;
-import com.capgemini.chess.service.UserChallengeService;
+import com.capgemini.chess.service.ChallengeService;
 import com.capgemini.chess.service.mapper.ChallengeMapper;
 import com.capgemini.chess.service.to.ChallengeTo;
 import com.capgemini.chess.service.to.PlayerTo;
 
 @Service
 @Transactional
-public class UserChallengeServiceImpl implements UserChallengeService {
+public class ChallengeServiceImpl implements ChallengeService {
 
 	private static int FOURTEEN_DAYS = 14;
 
@@ -108,5 +108,12 @@ public class UserChallengeServiceImpl implements UserChallengeService {
 	public List<ChallengeTo> findAllChallengesByUserId(Long userId) {
 		List<ChallengeTo> toResultList = ChallengeMapper.map2TOs(challengeDao.findAllChallengesByUserId(userId));
 		return toResultList;
+	}
+
+	@Override
+	public ChallengeEntity updateChallenge(ChallengeTo challenge) {
+		ChallengeEntity challengeEntity = ChallengeMapper.map(challenge);
+		challengeDao.update(challengeEntity);
+		return challengeEntity;
 	}
 }

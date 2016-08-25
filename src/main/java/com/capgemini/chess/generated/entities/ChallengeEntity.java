@@ -49,7 +49,7 @@ public class ChallengeEntity extends BasicEntity implements java.io.Serializable
 	}
 
 	@OneToOne(fetch = FetchType.LAZY)
-	@JoinColumn(name = "game_id", nullable = false)
+	@JoinColumn(name = "game_id", nullable = true)
 	public GameEntity getGame() {
 		return this.game;
 	}
@@ -106,6 +106,64 @@ public class ChallengeEntity extends BasicEntity implements java.io.Serializable
 
 	public void setStatus(ChallengeStatus status) {
 		this.status = status;
+	}
+
+	@Override
+	public String toString() {
+		return "ChallengeEntity [game=" + game + ", receiver=" + receiver + ", sender=" + sender + ", endDate="
+				+ endDate + ", startDate=" + startDate + ", status=" + status + "]";
+	}
+
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
+		result = prime * result + ((game == null) ? 0 : game.hashCode());
+		result = prime * result + ((receiver == null) ? 0 : receiver.hashCode());
+		result = prime * result + ((sender == null) ? 0 : sender.hashCode());
+		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
+		result = prime * result + ((status == null) ? 0 : status.hashCode());
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		ChallengeEntity other = (ChallengeEntity) obj;
+		if (endDate == null) {
+			if (other.endDate != null)
+				return false;
+		} else if (!endDate.equals(other.endDate))
+			return false;
+		if (game == null) {
+			if (other.game != null)
+				return false;
+		} else if (!game.equals(other.game))
+			return false;
+		if (receiver == null) {
+			if (other.receiver != null)
+				return false;
+		} else if (!receiver.equals(other.receiver))
+			return false;
+		if (sender == null) {
+			if (other.sender != null)
+				return false;
+		} else if (!sender.equals(other.sender))
+			return false;
+		if (startDate == null) {
+			if (other.startDate != null)
+				return false;
+		} else if (!startDate.equals(other.startDate))
+			return false;
+		if (status != other.status)
+			return false;
+		return true;
 	}
 
 }

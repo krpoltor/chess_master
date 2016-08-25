@@ -13,7 +13,7 @@ import com.capgemini.chess.service.to.PlayerTo;
  *
  */
 @Service
-public interface UserChallengeService {
+public interface ChallengeService {
 
 	/**
 	 * Change status of given challenge to ACCEPTED.
@@ -26,7 +26,7 @@ public interface UserChallengeService {
 	/**
 	 * Declining a challenge invokes removing it from DB.
 	 * 
-	 * @param challengeId
+	 * @param challenge
 	 *            - ChallengeTo.
 	 */
 	void declineChallenge(ChallengeTo challenge);
@@ -35,9 +35,9 @@ public interface UserChallengeService {
 	 * Create a new challenge between two players and set it's status to
 	 * AWAITING_REPLY.
 	 * 
-	 * @param whitePlayerId
+	 * @param whitePlayer
 	 *            - TO of a player playing with white chess-set.
-	 * @param blackPlayerId
+	 * @param blackPlayer
 	 *            - TO of a player playing with black chess-set.
 	 */
 	ChallengeTo createChallenge(PlayerTo whitePlayer, PlayerTo blackPlayer);
@@ -75,7 +75,7 @@ public interface UserChallengeService {
 	 * 
 	 * @param challenge
 	 *            - challenge to save.
-	 * @return 
+	 * @return ChallengeEntity
 	 */
 	ChallengeEntity saveChallenge(ChallengeTo challenge);
 
@@ -98,5 +98,14 @@ public interface UserChallengeService {
 	 * @return - list of ChallengeTo
 	 */
 	List<ChallengeTo> findAllChallengesByUserId(Long userId);
+	
+	/**
+	 * Change values of challenge.
+	 * 
+	 * @param challenge
+	 *            - challenge to update.
+	 * @return ChallengeEntity
+	 */
+	ChallengeEntity updateChallenge(ChallengeTo challenge);
 
 }

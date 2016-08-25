@@ -45,6 +45,57 @@ public class ChallengeTo {
 		this.status = status;
 	}
 
+	// CHECKSTYLE:OFF
+	public Long getId() {
+		return id;
+	}
+
+	public void setId(Long long1) {
+		this.id = long1;
+	}
+
+	public PlayerTo getWhitePlayer() {
+		return whitePlayer;
+	}
+
+	public void setWhitePlayer(PlayerTo user) {
+		this.whitePlayer = user;
+	}
+
+	public PlayerTo getBlackPlayer() {
+		return blackPlayer;
+	}
+
+	public void setBlackPlayer(PlayerTo blackPlayer) {
+		this.blackPlayer = blackPlayer;
+	}
+
+	public Date getStartDate() {
+		return startDate;
+	}
+
+	public void setStartDate(Date startDate) {
+		this.startDate = startDate;
+	}
+
+	public ChallengeStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ChallengeStatus status) {
+		this.status = status;
+	}
+
+	public Date getEndDate() {
+		return endDate;
+	}
+
+	public void setEndDate(Date endDate) {
+		this.endDate = endDate;
+	}
+
+	// CHECKSTYLE:ON
+
 	@Override
 	public int hashCode() {
 		final int prime = 31;
@@ -97,53 +148,9 @@ public class ChallengeTo {
 		return true;
 	}
 
-	// CHECKSTYLE:OFF
-	public Long getId() {
-		return id;
+	@Override
+	public String toString() {
+		return "ChallengeTo [id=" + id + ", whitePlayer=" + whitePlayer + ", blackPlayer=" + blackPlayer
+				+ ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + "]";
 	}
-
-	public void setId(Long long1) {
-		this.id = long1;
-	}
-
-	public PlayerTo getWhitePlayer() {
-		return whitePlayer;
-	}
-
-	public void setWhitePlayer(PlayerTo user) {
-		this.whitePlayer = user;
-	}
-
-	public PlayerTo getBlackPlayer() {
-		return blackPlayer;
-	}
-
-	public void setBlackPlayer(PlayerTo blackPlayer) {
-		this.blackPlayer = blackPlayer;
-	}
-
-	public Date getStartDate() {
-		return startDate;
-	}
-
-	public void setStartDate(Date startDate) {
-		this.startDate = startDate;
-	}
-
-	public ChallengeStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(ChallengeStatus status) {
-		this.status = status;
-	}
-
-	public Date getEndDate() {
-		return endDate;
-	}
-
-	public void setEndDate(Date endDate) {
-		this.endDate = endDate;
-	}
-	// CHECKSTYLE:ON
 }

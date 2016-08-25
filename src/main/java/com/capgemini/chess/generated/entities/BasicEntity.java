@@ -80,4 +80,50 @@ public class BasicEntity implements Serializable {
 		this.modifiedAt = modifiedAt;
 	}
 
+	@Override
+	public int hashCode() {
+		final int prime = 31;
+		int result = 1;
+		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
+		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((modifiedAt == null) ? 0 : modifiedAt.hashCode());
+		result = prime * result + version;
+		return result;
+	}
+
+	@Override
+	public boolean equals(Object obj) {
+		if (this == obj)
+			return true;
+		if (obj == null)
+			return false;
+		if (getClass() != obj.getClass())
+			return false;
+		BasicEntity other = (BasicEntity) obj;
+		if (createdAt == null) {
+			if (other.createdAt != null)
+				return false;
+		} else if (!createdAt.equals(other.createdAt))
+			return false;
+		if (id == null) {
+			if (other.id != null)
+				return false;
+		} else if (!id.equals(other.id))
+			return false;
+		if (modifiedAt == null) {
+			if (other.modifiedAt != null)
+				return false;
+		} else if (!modifiedAt.equals(other.modifiedAt))
+			return false;
+		if (version != other.version)
+			return false;
+		return true;
+	}
+
+	@Override
+	public String toString() {
+		return "BasicEntity [id=" + id + ", version=" + version + ", createdAt=" + createdAt + ", modifiedAt="
+				+ modifiedAt + "]";
+	}
+
 }
