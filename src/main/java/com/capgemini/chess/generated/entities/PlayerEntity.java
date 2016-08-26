@@ -31,6 +31,7 @@ public class PlayerEntity extends BasicEntity implements java.io.Serializable {
 	private String name;
 	private String password;
 	private String surname;
+	
 	private Set<ChallengeEntity> receiverChallenges = new HashSet<ChallengeEntity>(0);
 	private Set<ChallengeEntity> senderChallenges = new HashSet<ChallengeEntity>(0);
 

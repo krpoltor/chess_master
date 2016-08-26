@@ -4,9 +4,9 @@ import java.util.Date;
 
 import com.capgemini.chess.dataaccess.enums.ChallengeStatus;
 
-public class ChallengeTo {
-	
-	private Long id;
+public class ChallengeTo extends BasicTo {
+
+	private GameTo game;
 	private PlayerTo whitePlayer;
 	private PlayerTo blackPlayer;
 	private Date startDate;
@@ -19,25 +19,10 @@ public class ChallengeTo {
 	public ChallengeTo() {
 	}
 
-	/**
-	 * ChallengeTO parameterized constructor.
-	 * 
-	 * @param id
-	 *            - Challenge's ID.
-	 * @param whitePlayer
-	 *            - Black set player.
-	 * @param blackPlayer
-	 *            - White set player.
-	 * @param startDate
-	 *            - Date of creating a challenge.
-	 * @param endDate
-	 *            - Date of expiring a challenge.
-	 * @param status
-	 *            - Status of a challenge from {@link ChallengeStatus}
-	 */
-	public ChallengeTo(Long id, PlayerTo whitePlayer, PlayerTo blackPlayer, Date startDate, Date endDate,
+	public ChallengeTo(GameTo game, PlayerTo whitePlayer, PlayerTo blackPlayer, Date startDate, Date endDate,
 			ChallengeStatus status) {
-		this.id = id;
+		super();
+		this.game = game;
 		this.whitePlayer = whitePlayer;
 		this.blackPlayer = blackPlayer;
 		this.startDate = startDate;
@@ -45,21 +30,20 @@ public class ChallengeTo {
 		this.status = status;
 	}
 
-	// CHECKSTYLE:OFF
-	public Long getId() {
-		return id;
+	public GameTo getGame() {
+		return game;
 	}
 
-	public void setId(Long long1) {
-		this.id = long1;
+	public void setGame(GameTo game) {
+		this.game = game;
 	}
 
 	public PlayerTo getWhitePlayer() {
 		return whitePlayer;
 	}
 
-	public void setWhitePlayer(PlayerTo user) {
-		this.whitePlayer = user;
+	public void setWhitePlayer(PlayerTo whitePlayer) {
+		this.whitePlayer = whitePlayer;
 	}
 
 	public PlayerTo getBlackPlayer() {
@@ -78,14 +62,6 @@ public class ChallengeTo {
 		this.startDate = startDate;
 	}
 
-	public ChallengeStatus getStatus() {
-		return status;
-	}
-
-	public void setStatus(ChallengeStatus status) {
-		this.status = status;
-	}
-
 	public Date getEndDate() {
 		return endDate;
 	}
@@ -94,15 +70,21 @@ public class ChallengeTo {
 		this.endDate = endDate;
 	}
 
-	// CHECKSTYLE:ON
+	public ChallengeStatus getStatus() {
+		return status;
+	}
+
+	public void setStatus(ChallengeStatus status) {
+		this.status = status;
+	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((blackPlayer == null) ? 0 : blackPlayer.hashCode());
 		result = prime * result + ((endDate == null) ? 0 : endDate.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
+		result = prime * result + ((game == null) ? 0 : game.hashCode());
 		result = prime * result + ((startDate == null) ? 0 : startDate.hashCode());
 		result = prime * result + ((status == null) ? 0 : status.hashCode());
 		result = prime * result + ((whitePlayer == null) ? 0 : whitePlayer.hashCode());
@@ -113,7 +95,7 @@ public class ChallengeTo {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -128,10 +110,10 @@ public class ChallengeTo {
 				return false;
 		} else if (!endDate.equals(other.endDate))
 			return false;
-		if (id == null) {
-			if (other.id != null)
+		if (game == null) {
+			if (other.game != null)
 				return false;
-		} else if (!id.equals(other.id))
+		} else if (!game.equals(other.game))
 			return false;
 		if (startDate == null) {
 			if (other.startDate != null)
@@ -150,7 +132,8 @@ public class ChallengeTo {
 
 	@Override
 	public String toString() {
-		return "ChallengeTo [id=" + id + ", whitePlayer=" + whitePlayer + ", blackPlayer=" + blackPlayer
+		return "ChallengeTo [game=" + game + ", whitePlayer=" + whitePlayer + ", blackPlayer=" + blackPlayer
 				+ ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + "]";
 	}
+
 }

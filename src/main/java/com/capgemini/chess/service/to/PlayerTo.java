@@ -1,11 +1,10 @@
 package com.capgemini.chess.service.to;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonProperty;
+import java.util.HashSet;
+import java.util.Set;
 
-public class PlayerTo {
+public class PlayerTo extends BasicTo{
 	
-	private Long id;
 	private String login;
 	private String password;
 	private String name;
@@ -14,121 +13,39 @@ public class PlayerTo {
 	private String aboutMe;
 	private String lifeMotto;
 	
+	private StaticticsTo statistics;
+	
+	private Set<ChallengeTo> receiverChallenges = new HashSet<ChallengeTo>(0);
+	private Set<ChallengeTo> senderChallenges = new HashSet<ChallengeTo>(0);
+	
 	/**
 	 * UserProfileTO default constructor.
 	 */
 	public PlayerTo(){
 		
 	}
-	
-	/**
-	 * UserProfileTO parameterized constructor.
-	 * 
-	 * @param id - User's ID.
-	 * @param login - User's login. 
-	 * @param password - User's password.
-	 * @param name - User's name.
-	 * @param surname - User's surname.
-	 * @param email - User's email.
-	 * @param aboutMe  - User's aboutMe field.
-	 * @param lifeMotto - User's life motto.
-	 */
-	public PlayerTo(Long id, String login, String password, String name, String surname, String email,
-			String aboutMe, String lifeMotto) {
-		this.id = id;
-		this.login = login;
-		this.password = password;
-		this.name = name;
-		this.surname = surname;
-		this.email = email;
-		this.aboutMe = aboutMe;
-		this.lifeMotto = lifeMotto;
-	}
-	
-	//CHECKSTYLE:OFF
-	public Long getId() {
-		return id;
-	}
-	
-	public void setId(Long id) {
-		this.id = id;
-	}
-	
-	public String getLogin() {
-		return login;
-	}
-	
-	public void setLogin(String login) {
-		this.login = login;
-	}
-	
-	@JsonIgnore
-	public String getPassword() {
-		return password;
-	}
-	
-	@JsonProperty
-	public void setPassword(String password) {
-		this.password = password;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public void setName(String name) {
-		this.name = name;
-	}
-	
-	public String getSurname() {
-		return surname;
-	}
-	
-	public void setSurname(String surname) {
-		this.surname = surname;
-	}
-	
-	public String getEmail() {
-		return email;
-	}
-	
-	public void setEmail(String email) {
-		this.email = email;
-	}
-	
-	public String getAboutMe() {
-		return aboutMe;
-	}
-	
-	public void setAboutMe(String aboutMe) {
-		this.aboutMe = aboutMe;
-	}
-	
-	public String getLifeMotto() {
-		return lifeMotto;
-	}
-	
-	public void setLifeMotto(String lifeMotto) {
-		this.lifeMotto = lifeMotto;
-	}
 
 	@Override
 	public String toString() {
-		return "PlayerTo [id=" + id + ", login=" + login + ", name=" + name + ", surname=" + surname + ", email="
-				+ email + ", aboutMe=" + aboutMe + ", lifeMotto=" + lifeMotto + "]";
+		return "PlayerTo [login=" + login + ", password=" + password + ", name=" + name + ", surname=" + surname
+				+ ", email=" + email + ", aboutMe=" + aboutMe + ", lifeMotto=" + lifeMotto + ", statisticks="
+				+ statistics + ", receiverChallenges=" + receiverChallenges + ", senderChallenges=" + senderChallenges
+				+ "]";
 	}
 
 	@Override
 	public int hashCode() {
 		final int prime = 31;
-		int result = 1;
+		int result = super.hashCode();
 		result = prime * result + ((aboutMe == null) ? 0 : aboutMe.hashCode());
 		result = prime * result + ((email == null) ? 0 : email.hashCode());
-		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((lifeMotto == null) ? 0 : lifeMotto.hashCode());
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
+		result = prime * result + ((receiverChallenges == null) ? 0 : receiverChallenges.hashCode());
+		result = prime * result + ((senderChallenges == null) ? 0 : senderChallenges.hashCode());
+		result = prime * result + ((statistics == null) ? 0 : statistics.hashCode());
 		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
 		return result;
 	}
@@ -137,7 +54,7 @@ public class PlayerTo {
 	public boolean equals(Object obj) {
 		if (this == obj)
 			return true;
-		if (obj == null)
+		if (!super.equals(obj))
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
@@ -151,11 +68,6 @@ public class PlayerTo {
 			if (other.email != null)
 				return false;
 		} else if (!email.equals(other.email))
-			return false;
-		if (id == null) {
-			if (other.id != null)
-				return false;
-		} else if (!id.equals(other.id))
 			return false;
 		if (lifeMotto == null) {
 			if (other.lifeMotto != null)
@@ -177,6 +89,21 @@ public class PlayerTo {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
+		if (receiverChallenges == null) {
+			if (other.receiverChallenges != null)
+				return false;
+		} else if (!receiverChallenges.equals(other.receiverChallenges))
+			return false;
+		if (senderChallenges == null) {
+			if (other.senderChallenges != null)
+				return false;
+		} else if (!senderChallenges.equals(other.senderChallenges))
+			return false;
+		if (statistics == null) {
+			if (other.statistics != null)
+				return false;
+		} else if (!statistics.equals(other.statistics))
+			return false;
 		if (surname == null) {
 			if (other.surname != null)
 				return false;
@@ -185,5 +112,102 @@ public class PlayerTo {
 		return true;
 	}
 
-	//CHECKSTYLE:ON
+	public String getLogin() {
+		return login;
+	}
+
+	public void setLogin(String login) {
+		this.login = login;
+	}
+
+	public String getPassword() {
+		return password;
+	}
+
+	public void setPassword(String password) {
+		this.password = password;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public void setName(String name) {
+		this.name = name;
+	}
+
+	public String getSurname() {
+		return surname;
+	}
+
+	public void setSurname(String surname) {
+		this.surname = surname;
+	}
+
+	public String getEmail() {
+		return email;
+	}
+
+	public void setEmail(String email) {
+		this.email = email;
+	}
+
+	public String getAboutMe() {
+		return aboutMe;
+	}
+
+	public void setAboutMe(String aboutMe) {
+		this.aboutMe = aboutMe;
+	}
+
+	public String getLifeMotto() {
+		return lifeMotto;
+	}
+
+	public void setLifeMotto(String lifeMotto) {
+		this.lifeMotto = lifeMotto;
+	}
+
+	public StaticticsTo getStatistics() {
+		return statistics;
+	}
+
+	public void setStatistics(StaticticsTo statistics) {
+		this.statistics = statistics;
+	}
+
+	public Set<ChallengeTo> getReceiverChallenges() {
+		return receiverChallenges;
+	}
+
+	public void setReceiverChallenges(Set<ChallengeTo> receiverChallenges) {
+		this.receiverChallenges = receiverChallenges;
+	}
+
+	public Set<ChallengeTo> getSenderChallenges() {
+		return senderChallenges;
+	}
+
+	public void setSenderChallenges(Set<ChallengeTo> senderChallenges) {
+		this.senderChallenges = senderChallenges;
+	}
+
+	public PlayerTo(String login, String password, String name, String surname, String email, String aboutMe,
+			String lifeMotto, StaticticsTo statisticks, Set<ChallengeTo> receiverChallenges,
+			Set<ChallengeTo> senderChallenges) {
+		super();
+		this.login = login;
+		this.password = password;
+		this.name = name;
+		this.surname = surname;
+		this.email = email;
+		this.aboutMe = aboutMe;
+		this.lifeMotto = lifeMotto;
+		this.statistics = statisticks;
+		this.receiverChallenges = receiverChallenges;
+		this.senderChallenges = senderChallenges;
+	}
+	
+	
+	
 }

@@ -186,7 +186,7 @@ public class ChallengeRestService {
 			return new ResponseEntity<ChallengeTo>(HttpStatus.NOT_FOUND);
 		}
 		challengeService.deleteChallengeById(id);
-		return new ResponseEntity<ChallengeTo>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<ChallengeTo>(HttpStatus.OK);
 	}
 
 	/**
@@ -205,7 +205,7 @@ public class ChallengeRestService {
 		LOGGER.info("Deleting every challenge.");
 
 		challengeService.deleteAllChallenges();
-		return new ResponseEntity<ChallengeTo>(HttpStatus.NO_CONTENT);
+		return new ResponseEntity<ChallengeTo>(HttpStatus.OK);
 	}
 
 }
