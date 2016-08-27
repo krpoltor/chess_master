@@ -18,10 +18,10 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.util.UriComponentsBuilder;
 
+import com.capgemini.chess.exceptions.ChallengeNotFoundException;
+import com.capgemini.chess.exceptions.UserNotFoundException;
 import com.capgemini.chess.service.ChallengeService;
-import com.capgemini.chess.service.UserService;
 import com.capgemini.chess.service.to.ChallengeTo;
-import com.capgemini.chess.service.to.PlayerTo;
 
 @Controller
 @ResponseBody
@@ -32,9 +32,6 @@ public class ChallengeRestService {
 
 	@Autowired
 	private ChallengeService challengeService;
-
-	@Autowired
-	private UserService userService;
 
 	@Autowired
 	protected EntityManager entityManager;
@@ -128,8 +125,8 @@ public class ChallengeRestService {
 	 * @return headers and HttpStatus.<b>CREATED</b>.
 	 */
 	@RequestMapping(value = "/rest/challenges", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ChallengeTo> addChallenge(@RequestBody ChallengeTo challenge,
-			UriComponentsBuilder ucBuilder) {
+	public ResponseEntity<ChallengeTo> addChallenge(@RequestBody ChallengeTo challenge, UriComponentsBuilder ucBuilder)
+			throws UserNotFoundException {
 
 		if (challengeService.doesThisChallengeExist(challenge)) {
 			LOGGER.warning("Challenge already exists!");
@@ -140,12 +137,6 @@ public class ChallengeRestService {
 			LOGGER.warning("Cannot challenge yourself! (White and black players id's are the same!)");
 			return new ResponseEntity<ChallengeTo>(HttpStatus.FORBIDDEN);
 		}
-
-		PlayerTo sender = userService.findUserById(challenge.getWhitePlayer().getId());
-		PlayerTo receiver = userService.findUserById(challenge.getBlackPlayer().getId());
-
-		challenge.setWhitePlayer(sender);
-		challenge.setBlackPlayer(receiver);
 
 		LOGGER.info("Creating challenge: " + challenge.toString());
 		challengeService.saveChallenge(challenge);
@@ -169,8 +160,8 @@ public class ChallengeRestService {
 	 *         updated ChallengeTo with HttpStatus.<b>OK</b>.
 	 */
 	@RequestMapping(value = "/rest/challenges/{id}", method = RequestMethod.PUT)
-	public ResponseEntity<ChallengeTo> updateChallenge(@PathVariable("id") Long id,
-			@RequestBody ChallengeTo challenge) {
+	public ResponseEntity<ChallengeTo> updateChallenge(@PathVariable("id") Long id, @RequestBody ChallengeTo challenge)
+			throws UserNotFoundException, ChallengeNotFoundException {
 
 		// TODO: Why generated equals isn't called?
 
@@ -179,14 +170,17 @@ public class ChallengeRestService {
 
 			LOGGER.info("Challenge with id " + id + " not found");
 
-			return new ResponseEntity<ChallengeTo>(HttpStatus.NOT_FOUND);
+			throw new ChallengeNotFoundException();
+			
+			// TODO: Which version is better?
+			// return new ResponseEntity<ChallengeTo>(HttpStatus.NOT_FOUND);
 		}
 
 		if (challenge.getWhitePlayer().getId().equals(challenge.getBlackPlayer().getId())) {
 
 			LOGGER.warning("Cannot challenge yourself! (White and black players id's are the same!)");
 
-			return new ResponseEntity<ChallengeTo>(HttpStatus.FORBIDDEN);
+			return new ResponseEntity<ChallengeTo>(HttpStatus.CONFLICT);
 		}
 
 		challengeService.updateChallenge(challenge);
@@ -214,7 +208,7 @@ public class ChallengeRestService {
 		// TODO: Why generated equals isn't called?
 		// if (challenge.equals(null)) {
 		if (challenge == null) {
-			LOGGER.info("Unable to delete. challenge with id " + id + " not found");
+			LOGGER.info("Unable to delete. Challenge with id " + id + " not found");
 			return new ResponseEntity<ChallengeTo>(HttpStatus.NOT_FOUND);
 		}
 

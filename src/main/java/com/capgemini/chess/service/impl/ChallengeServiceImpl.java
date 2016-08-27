@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
+import javax.persistence.PersistenceException;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -13,6 +14,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.capgemini.chess.dao.ChallengeDao;
 import com.capgemini.chess.dataaccess.enums.ChallengeStatus;
+import com.capgemini.chess.exceptions.ChallengeNotFoundException;
+import com.capgemini.chess.exceptions.UserNotFoundException;
 import com.capgemini.chess.generated.entities.ChallengeEntity;
 import com.capgemini.chess.service.ChallengeService;
 import com.capgemini.chess.service.UserService;
@@ -40,7 +43,14 @@ public class ChallengeServiceImpl implements ChallengeService {
 	@Override
 	public final void acceptChallenge(ChallengeTo challengeTo) {
 
-		ChallengeEntity challengeFromDatabase = challengeDao.getOne(challengeTo.getId());
+		ChallengeEntity challengeFromDatabase = null;
+
+		try {
+			challengeFromDatabase = challengeDao.getOne(challengeTo.getId());
+		} catch (PersistenceException e1) {
+			LOGGER.severe("Error in getting challenge from database!");
+			e1.printStackTrace();
+		}
 
 		challengeTo.setStatus(ChallengeStatus.ACCEPTED);
 
@@ -50,8 +60,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 
 		try {
 			challengeDao.update(entityToSave);
-		} catch (NullPointerException e) {
-			LOGGER.warning("Error in updating challenge!");
+		} catch (PersistenceException e) {
+			LOGGER.severe("Error in updating challenge!");
 			e.printStackTrace();
 		}
 	}
@@ -59,7 +69,14 @@ public class ChallengeServiceImpl implements ChallengeService {
 	@Override
 	public final void declineChallenge(ChallengeTo challengeTo) {
 
-		ChallengeEntity challengeFromDatabase = challengeDao.getOne(challengeTo.getId());
+		ChallengeEntity challengeFromDatabase = null;
+
+		try {
+			challengeFromDatabase = challengeDao.getOne(challengeTo.getId());
+		} catch (PersistenceException e1) {
+			LOGGER.severe("Error in getting challenge from database!");
+			e1.printStackTrace();
+		}
 
 		challengeTo.setStatus(ChallengeStatus.DECLINED);
 
@@ -69,8 +86,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 
 		try {
 			challengeDao.update(entityToSave);
-		} catch (NullPointerException e) {
-			LOGGER.warning("Error in updating challenge!");
+		} catch (PersistenceException e) {
+			LOGGER.severe("Error in updating challenge!");
 			e.printStackTrace();
 		}
 	}
@@ -97,7 +114,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 
 		try {
 			challengeDao.save(newChallengeEntity);
-		} catch (NullPointerException e) {
+		} catch (PersistenceException e) {
 			LOGGER.severe("Error in inserting challenge into database!");
 			e.printStackTrace();
 		}
@@ -119,19 +136,33 @@ public class ChallengeServiceImpl implements ChallengeService {
 	@Override
 	public List<ChallengeTo> findAllChallenges() {
 
-		LOGGER.info("Finding challenges.");
-		List<ChallengeTo> toResultList = ChallengeMapper.map2TOs(challengeDao.findAll());
-		LOGGER.info("Listing challenges.");
-		return toResultList;
+		List<ChallengeTo> toResultList = null;
 
+		try {
+			LOGGER.info("Finding challenges.");
+			toResultList = ChallengeMapper.map2TOs(challengeDao.findAll());
+			LOGGER.info("Listing challenges.");
+		} catch (Exception e) {
+			LOGGER.severe("Error in getting every challenge from database!");
+			e.printStackTrace();
+		}
+
+		return toResultList;
 	}
 
 	@Override
 	public ChallengeTo findChallengeById(Long id) {
 
-		LOGGER.info("Finding challenge by id.");
-		ChallengeTo resultTo = ChallengeMapper.map(challengeDao.findOne(id));
-		LOGGER.info("Listing challenge.");
+		ChallengeTo resultTo = null;
+
+		try {
+			LOGGER.info("Finding challenge by id.");
+			resultTo = ChallengeMapper.map(challengeDao.findOne(id));
+			LOGGER.info("Listing challenge.");
+		} catch (PersistenceException e) {
+			LOGGER.severe("Error in finding challenge by id!");
+			e.printStackTrace();
+		}
 
 		return resultTo;
 	}
@@ -142,12 +173,19 @@ public class ChallengeServiceImpl implements ChallengeService {
 		LOGGER.info("Deleting challenge by id.");
 		challengeDao.delete(id);
 		LOGGER.info("Challenge deleted.");
+
 	}
 
 	@Override
 	public List<ChallengeTo> findAllChallengesByUser(PlayerTo user) {
 
-		List<ChallengeTo> toResultList = ChallengeMapper.map2TOs(challengeDao.findAllChallengesByUser(user));
+		List<ChallengeTo> toResultList = null;
+		try {
+			toResultList = ChallengeMapper.map2TOs(challengeDao.findAllChallengesByUser(user));
+		} catch (PersistenceException e) {
+			LOGGER.severe("Error in finding user's challenges!");
+			e.printStackTrace();
+		}
 
 		return toResultList;
 	}
@@ -160,6 +198,8 @@ public class ChallengeServiceImpl implements ChallengeService {
 
 	@Override
 	public ChallengeEntity saveChallenge(ChallengeTo challenge) {
+
+		challenge = setPlayers(challenge);
 
 		ChallengeEntity challengeEntity = ChallengeMapper.map(challenge);
 
@@ -179,17 +219,15 @@ public class ChallengeServiceImpl implements ChallengeService {
 	@Override
 	public ChallengeEntity updateChallenge(ChallengeTo challenge) {
 
-		PlayerTo sender = userService.findUserById(challenge.getWhitePlayer().getId());
-		if (!sender.equals(null)) {
-			challenge.setWhitePlayer(sender);
-		}
+		challenge = setPlayers(challenge);
 
-		PlayerTo receiver = userService.findUserById(challenge.getBlackPlayer().getId());
-		if (!receiver.equals(null)) {
-			challenge.setBlackPlayer(receiver);
+		ChallengeEntity challengeEntityFromDatabase;
+		
+		try {
+			challengeEntityFromDatabase = challengeDao.getOne(challenge.getId());
+		} catch (NullPointerException e) {
+			throw new ChallengeNotFoundException();
 		}
-
-		ChallengeEntity challengeEntityFromDatabase = challengeDao.getOne(challenge.getId());
 
 		ChallengeEntity challengeEntity = ChallengeMapper.update(challengeEntityFromDatabase, challenge);
 
@@ -198,9 +236,28 @@ public class ChallengeServiceImpl implements ChallengeService {
 		return challengeEntity;
 	}
 
+	private ChallengeTo setPlayers(ChallengeTo challenge) {
+
+		PlayerTo sender = userService.findUserById(challenge.getWhitePlayer().getId());
+		PlayerTo receiver = userService.findUserById(challenge.getBlackPlayer().getId());
+
+		try {
+			if (!sender.equals(null)) {
+				challenge.setWhitePlayer(sender);
+			}
+			if (!receiver.equals(null)) {
+				challenge.setBlackPlayer(receiver);
+			}
+		} catch (NullPointerException e) {
+			throw new UserNotFoundException();
+		}
+
+		return challenge;
+	}
+
 	@Override
 	public boolean doesThisChallengeExist(ChallengeTo challenge) {
-		
+
 		return challengeDao.doesThisChallengeExist(challenge);
 	}
 }
