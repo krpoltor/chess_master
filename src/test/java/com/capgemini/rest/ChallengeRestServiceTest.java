@@ -1,4 +1,4 @@
-/*package com.capgemini.rest;
+package com.capgemini.rest;
 
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -28,11 +28,13 @@ import org.springframework.web.context.WebApplicationContext;
 
 import com.capgemini.chess.dataaccess.enums.ChallengeStatus;
 import com.capgemini.chess.rest.ChallengeRestService;
-import com.capgemini.chess.service.UserChallengeService;
+import com.capgemini.chess.service.ChallengeService;
+import com.capgemini.chess.service.UserService;
 import com.capgemini.chess.service.to.ChallengeTo;
+import com.capgemini.chess.service.to.PlayerTo;
 import com.capgemini.utils.FileUtils;
 
-*//**
+/**
  * Test class for testing {@link ChallengeRestService}<br>
  * Checklist:<br>
  * 1. Test getting every challenge from database.<br>
@@ -45,7 +47,7 @@ import com.capgemini.utils.FileUtils;
  * 
  * @author KRPOLTOR
  *
- *//*
+ */
 
 // bean creation exception for autowiring userChallengeService
 
@@ -56,7 +58,10 @@ import com.capgemini.utils.FileUtils;
 public class ChallengeRestServiceTest {
 
 	@Autowired
-	private UserChallengeService userChallengeService;
+	private ChallengeService challengeService;
+	
+	@Autowired
+	private UserService userSerive;
 
 	@Autowired
 	private WebApplicationContext wac;
@@ -65,24 +70,28 @@ public class ChallengeRestServiceTest {
 
 	@Before
 	public void setUp() {
-		Mockito.reset(userChallengeService);
+		Mockito.reset(challengeService);
 		this.mockMvc = MockMvcBuilders.webAppContextSetup(this.wac).build();
 	}
 
-	*//**
+	/**
 	 * Test for getting all challenges.
 	 * 
 	 * @throws Exception
-	 *//*
+	 */
 	@Ignore
 	@Test
 	public void testShouldGetAllChallenges() throws Exception {
 		// given:
 		Date testDate = new Date();
-		final ChallengeTo ChallengeTo1 = new ChallengeTo(0, 1, 2, testDate, testDate, ChallengeStatus.ACCEPTED);
+		PlayerTo whitePlayer = userSerive.findUserById(1L);
+		PlayerTo blackPlayer = userSerive.findUserById(2L);
+		
+		final ChallengeTo challengeTo = new ChallengeTo();
+		challengeTo.setId(1L);
 
 		// when
-		Mockito.when(userChallengeService.findAllChallenges()).thenReturn(Arrays.asList(ChallengeTo1));
+		Mockito.when(challengeService.findAllChallenges()).thenReturn(Arrays.asList(challengeTo));
 		ResultActions response = this.mockMvc//
 				.perform(get("/rest/challenges")//
 						.accept(MediaType.APPLICATION_JSON)//
@@ -91,19 +100,19 @@ public class ChallengeRestServiceTest {
 
 		// then
 		response.andExpect(status().isOk())//
-				.andExpect(jsonPath("[0].id").value(ChallengeTo1.getId()))
-				.andExpect(jsonPath("[0].whitePlayerId").value(ChallengeTo1.getWhitePlayerId()))
-				.andExpect(jsonPath("[0].blackPlayerId").value(ChallengeTo1.getBlackPlayerId()))
-				.andExpect(jsonPath("[0].startDate").value(ChallengeTo1.getStartDate()))
-				.andExpect(jsonPath("[0].endDate").value(ChallengeTo1.getEndDate()))
-				.andExpect(jsonPath("[0].status").value(ChallengeTo1.getStatus()));
+				.andExpect(jsonPath("[0].id").value(challengeTo.getId()))
+				.andExpect(jsonPath("[0].whitePlayer.id").value(challengeTo.getWhitePlayer().getId()))
+				.andExpect(jsonPath("[0].blackPlayer.id").value(challengeTo.getBlackPlayer().getId()))
+				.andExpect(jsonPath("[0].startDate").value(challengeTo.getStartDate()))
+				.andExpect(jsonPath("[0].endDate").value(challengeTo.getEndDate()))
+				.andExpect(jsonPath("[0].status").value(challengeTo.getStatus()));
 	}
 
-	*//**
+	/**
 	 * Test for getting all challenges by user.
 	 * 
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	@Ignore
 	public void testShouldGetAllUserChallenges() throws Exception {
@@ -111,7 +120,7 @@ public class ChallengeRestServiceTest {
 		Date testDate = new Date();
 		final ChallengeTo ChallengeTo1 = new ChallengeTo(0, 1, 2, testDate, testDate, ChallengeStatus.ACCEPTED);
 
-		Mockito.when(userChallengeService.findAllChallengesByUser(Mockito.anyInt()))
+		Mockito.when(challengeService.findAllChallengesByUser(Mockito.anyInt()))
 				.thenReturn(Arrays.asList(ChallengeTo1));
 		// when
 		ResultActions response = this.mockMvc//
@@ -129,18 +138,18 @@ public class ChallengeRestServiceTest {
 				.andExpect(jsonPath("[0].status").value(ChallengeTo1.getStatus()));
 	}
 
-	*//**
+	/**
 	 * Test for getting challenge by ID.
 	 * 
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	@Ignore
 	public void testShouldGetChallengeById() throws Exception {
 		// given:
 		Date testDate = new Date();
 		final ChallengeTo challengeTo = new ChallengeTo(0, 1, 2, testDate, testDate, ChallengeStatus.ACCEPTED);
-		Mockito.when(userChallengeService.findChallengeById(Mockito.anyInt())).thenReturn(challengeTo);
+		Mockito.when(challengeService.findChallengeById(Mockito.anyInt())).thenReturn(challengeTo);
 		// when
 		ResultActions response = this.mockMvc//
 				.perform(get("/rest/challenges/2")//
@@ -157,11 +166,11 @@ public class ChallengeRestServiceTest {
 				.andExpect(jsonPath("[0].status").value(challengeTo.getStatus()));
 	}
 
-	*//**
+	/**
 	 * Test for adding new challenge to database.
 	 * 
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	@Ignore
 	public void testShouldSaveChallenge() throws Exception {
@@ -178,11 +187,11 @@ public class ChallengeRestServiceTest {
 		response.andExpect(status().isCreated());
 	}
 
-	*//**
+	/**
 	 * Test for updating challenge in database.
 	 * 
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	@Ignore
 	public void testShouldUpdateBook() throws Exception {
@@ -191,7 +200,7 @@ public class ChallengeRestServiceTest {
 		File file = FileUtils.getFileFromClasspath("classpath:src/test/resorces/json/challengeToSave.json");
 		String json = FileUtils.readFileToString(file);
 		ChallengeTo challengeTo = new ChallengeTo(0, 1, 2, testDate, testDate, ChallengeStatus.ACCEPTED);
-		Mockito.when(userChallengeService.findChallengeById(Mockito.anyInt())).thenReturn(challengeTo);
+		Mockito.when(challengeService.findChallengeById(Mockito.anyInt())).thenReturn(challengeTo);
 		// when
 		ResultActions response = this.mockMvc//
 				.perform(put("/rest/challenges/1")//
@@ -208,19 +217,19 @@ public class ChallengeRestServiceTest {
 				.andExpect(jsonPath("[0].status").value(challengeTo.getStatus()));
 	}
 
-	*//**
+	/**
 	 * Test for deleting challenge by ID.
 	 * 
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	@Ignore
 	public void testShouldDeleteChallengeByID() throws Exception {
 		Date testDate = new Date();
 		ChallengeTo testBook = new ChallengeTo(0, 1, 2, testDate, testDate, ChallengeStatus.ACCEPTED);
 		// given
-		Mockito.when(userChallengeService.findChallengeById(Mockito.anyInt())).thenReturn(testBook);
-		Mockito.doNothing().when(userChallengeService).deleteChallengeById(Mockito.anyInt());
+		Mockito.when(challengeService.findChallengeById(Mockito.anyInt())).thenReturn(testBook);
+		Mockito.doNothing().when(challengeService).deleteChallengeById(Mockito.anyInt());
 		// when
 		ResultActions response = this.mockMvc//
 				.perform(delete("/rest/challenges/1")//
@@ -228,19 +237,19 @@ public class ChallengeRestServiceTest {
 						.contentType(MediaType.APPLICATION_JSON));
 		// then
 		response.andExpect(status().isNoContent());
-		Mockito.verify(userChallengeService, Mockito.times(1)).deleteChallengeById(Mockito.anyInt());
+		Mockito.verify(challengeService, Mockito.times(1)).deleteChallengeById(Mockito.anyInt());
 	}
 
-	*//**
+	/**
 	 * Test for deleting every challenge in database.
 	 * 
 	 * @throws Exception
-	 *//*
+	 */
 	@Test
 	@Ignore
 	public void testShouldDeleteEveryChallenge() throws Exception {
 		// given
-		Mockito.doNothing().when(userChallengeService).deleteAllChallenges();
+		Mockito.doNothing().when(challengeService).deleteAllChallenges();
 		// when
 		ResultActions response = this.mockMvc//
 				.perform(delete("/rest/challenges")//
@@ -248,6 +257,6 @@ public class ChallengeRestServiceTest {
 						.contentType(MediaType.APPLICATION_JSON));
 		// then
 		response.andExpect(status().isNoContent());
-		Mockito.verify(userChallengeService, Mockito.times(1)).deleteAllChallenges();
+		Mockito.verify(challengeService, Mockito.times(1)).deleteAllChallenges();
 	}
-}*/
+}

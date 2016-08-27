@@ -28,7 +28,7 @@ public class PlayerTo extends BasicTo{
 	@Override
 	public String toString() {
 		return "PlayerTo [login=" + login + ", password=" + password + ", name=" + name + ", surname=" + surname
-				+ ", email=" + email + ", aboutMe=" + aboutMe + ", lifeMotto=" + lifeMotto + ", statisticks="
+				+ ", email=" + email + ", aboutMe=" + aboutMe + ", lifeMotto=" + lifeMotto + ", statistics="
 				+ statistics + ", receiverChallenges=" + receiverChallenges + ", senderChallenges=" + senderChallenges
 				+ "]";
 	}

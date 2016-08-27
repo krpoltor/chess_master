@@ -44,7 +44,7 @@ public class StatisticsMapper {
 			statisticsEntity.setPlayerPoints(statisticsTO.getPlayerPoints());
 			statisticsEntity.setTiedGames(statisticsTO.getTiedGames());
 			statisticsEntity.setWinLoseRatio(statisticsTO.getWinLoseRatio());
-			statisticsEntity.setWonGames(statisticsEntity.getWonGames());
+			statisticsEntity.setWonGames(statisticsTO.getWonGames());
 			return statisticsEntity;
 		}
 		return null;

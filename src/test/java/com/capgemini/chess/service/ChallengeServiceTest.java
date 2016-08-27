@@ -54,7 +54,7 @@ public class ChallengeServiceTest {
 
 	@Autowired
 	protected EntityManager entityManager;
-	
+
 	private static Logger LOGGER = Logger.getLogger(ChallengeServiceTest.class.getName());
 
 	/**
@@ -89,7 +89,7 @@ public class ChallengeServiceTest {
 	 * Test for invoking creating new challenge.
 	 */
 	@Test
-	//@Transactional
+	// @Transactional
 	public void shouldCreateChallenge() {
 		// given
 		PlayerTo expectedWhitePlayer = userService.findUserById(4L);
@@ -174,7 +174,12 @@ public class ChallengeServiceTest {
 		ChallengeTo challengeFromDatabase = userChallengeService.findChallengeById(2L);
 		challengeToToSave.setId(2L);
 		// then
-		Assert.assertTrue(challengeToToSave.equals(challengeFromDatabase));
+		Assert.assertEquals(challengeToToSave.getId(),challengeFromDatabase.getId());
+		Assert.assertEquals(challengeToToSave.getStartDate(),challengeFromDatabase.getStartDate());
+		Assert.assertEquals(challengeToToSave.getEndDate(),challengeFromDatabase.getEndDate());
+		Assert.assertEquals(challengeToToSave.getWhitePlayer(),challengeFromDatabase.getWhitePlayer());
+		Assert.assertEquals(challengeToToSave.getBlackPlayer(),challengeFromDatabase.getBlackPlayer());
+		Assert.assertEquals(challengeToToSave.getStatus(),challengeFromDatabase.getStatus());
 	}
 
 	/**
