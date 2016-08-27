@@ -96,8 +96,6 @@ CREATE TABLE IF NOT EXISTS `chess`.`challenge` (
   `sender_id` BIGINT(20) NOT NULL,
   `game_id` BIGINT(20) NOT NULL,
   PRIMARY KEY (`id`),
-  UNIQUE INDEX `UK_3yeqjc4w5q5m5fcm0u5i4pxc6` (`receiver_id` ASC),
-  UNIQUE INDEX `UK_bvyk6ykgj3op4x54078t8315y` (`sender_id` ASC),
   INDEX `fk_challenge_game1_idx` (`game_id` ASC),
   CONSTRAINT `FK_3yeqjc4w5q5m5fcm0u5i4pxc6`
     FOREIGN KEY (`receiver_id`)

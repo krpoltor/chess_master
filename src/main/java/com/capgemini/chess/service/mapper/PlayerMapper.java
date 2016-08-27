@@ -7,18 +7,30 @@ import com.capgemini.chess.generated.entities.PlayerEntity;
 import com.capgemini.chess.service.to.PlayerTo;
 
 public class PlayerMapper {
-	
+
 	public static PlayerTo map(PlayerEntity playerEntity) {
 		if (playerEntity != null) {
 			PlayerTo playerTO = new PlayerTo();
-			playerTO.setAboutMe(playerEntity.getAboutMe());
-			playerTO.setEmail(playerEntity.getEmail());
+			// Basic To
 			playerTO.setId(playerEntity.getId());
-			playerTO.setLifeMotto(playerEntity.getLifeMotto());
+			playerTO.setVersion(playerEntity.getVersion());
+			playerTO.setCreatedAt(playerEntity.getCreatedAt());
+			playerTO.setModifiedAt(playerEntity.getModifiedAt());
+			// Player To
 			playerTO.setLogin(playerEntity.getLogin());
-			playerTO.setName(playerEntity.getName());
 			playerTO.setPassword(playerEntity.getPassword());
+			playerTO.setName(playerEntity.getName());
 			playerTO.setSurname(playerEntity.getSurname());
+			playerTO.setEmail(playerEntity.getEmail());
+			playerTO.setAboutMe(playerEntity.getAboutMe());
+			playerTO.setLifeMotto(playerEntity.getLifeMotto());
+			playerTO.setStatistics(StatisticsMapper.map(playerEntity.getStatistics()));
+			// Set<ChallengeTo> receiverChallenges = new
+			// HashSet<ChallengeTo>(0);
+			// playerTO.setReceiverChallenges(ChallengeMapper.map2TOs(playerEntity.getReceiverChallenges()));
+			// Set<ChallengeTo> senderChallenges = new HashSet<ChallengeTo>(0);
+			// playerTO.setSenderChallenges(ChallengeMapper.map2TOs(playerEntity.getReceiverChallenges()));
+
 			return playerTO;
 		}
 		return null;
@@ -27,32 +39,66 @@ public class PlayerMapper {
 	public static PlayerEntity map(PlayerTo playerTO) {
 		if (playerTO != null) {
 			PlayerEntity playerEntity = new PlayerEntity();
-			playerEntity.setAboutMe(playerTO.getAboutMe());
-			playerEntity.setEmail(playerTO.getEmail());
+			// Basic Entity
 			playerEntity.setId(playerTO.getId());
-			playerEntity.setLifeMotto(playerTO.getLifeMotto());
+			playerEntity.setVersion(playerTO.getVersion());
+			playerEntity.setCreatedAt(playerTO.getCreatedAt());
+			playerEntity.setModifiedAt(playerTO.getModifiedAt());
+			// Player Entity
 			playerEntity.setLogin(playerTO.getLogin());
-			playerEntity.setName(playerTO.getName());
 			playerEntity.setPassword(playerTO.getPassword());
+			playerEntity.setName(playerTO.getName());
 			playerEntity.setSurname(playerTO.getSurname());
+			playerEntity.setEmail(playerTO.getEmail());
+			playerEntity.setAboutMe(playerTO.getAboutMe());
+			playerEntity.setLifeMotto(playerTO.getLifeMotto());
+			playerEntity.setStatistics(StatisticsMapper.map(playerTO.getStatistics()));
+			// Set<ChallengeTo> receiverChallenges = new
+			// HashSet<ChallengeTo>(0);
+			// playerEntity.setReceiverChallenges(ChallengeMapper.map2TOs(playerTO.getReceiverChallenges()));
+			// Set<ChallengeTo> senderChallenges = new HashSet<ChallengeTo>(0);
+			// playerEntity.setSenderChallenges(ChallengeMapper.map2TOs(playerTO.getReceiverChallenges()));
 			return playerEntity;
 		}
 		return null;
 	}
-	
+
 	public static PlayerEntity update(PlayerEntity playerEntity, PlayerTo playerTO) {
 		if (playerTO != null && playerEntity != null) {
-			playerEntity.setAboutMe(playerTO.getAboutMe());
-			playerEntity.setEmail(playerTO.getEmail());
-			playerEntity.setId(playerTO.getId());
-			playerEntity.setLifeMotto(playerTO.getLifeMotto());
-			playerEntity.setName(playerTO.getName());
-			playerEntity.setPassword(playerTO.getPassword());
-			playerEntity.setSurname(playerTO.getSurname());
+			// Player Entity
+			if (!playerTO.getLogin().equals(null)) {
+				playerEntity.setLogin(playerTO.getLogin());
+			}
+			if (!playerTO.getPassword().equals(null)) {
+				playerEntity.setPassword(playerTO.getPassword());
+			}
+			if (!playerTO.getName().equals(null)) {
+				playerEntity.setName(playerTO.getName());
+			}
+			if (!playerTO.getSurname().equals(null)) {
+				playerEntity.setSurname(playerTO.getSurname());
+			}
+			if (!playerTO.getEmail().equals(null)) {
+				playerEntity.setEmail(playerTO.getEmail());
+			}
+			if (!playerTO.getAboutMe().equals(null)) {
+				playerEntity.setAboutMe(playerTO.getAboutMe());
+			}
+			if (!playerTO.getLifeMotto().equals(null)) {
+				playerEntity.setLifeMotto(playerTO.getLifeMotto());
+			}
+			if (!playerTO.getStatistics().equals(null)) {
+				playerEntity.setStatistics(StatisticsMapper.map(playerTO.getStatistics()));
+			}
+			// Set<ChallengeTo> receiverChallenges = new
+			// HashSet<ChallengeTo>(0);
+			// playerEntity.setReceiverChallenges(ChallengeMapper.map2TOs(playerTO.getReceiverChallenges()));
+			// Set<ChallengeTo> senderChallenges = new HashSet<ChallengeTo>(0);
+			// playerEntity.setSenderChallenges(ChallengeMapper.map2TOs(playerTO.getReceiverChallenges()));
 		}
 		return playerEntity;
 	}
-	
+
 	public static List<PlayerTo> map2TOs(List<PlayerEntity> playerEntities) {
 		return playerEntities.stream().map(PlayerMapper::map).collect(Collectors.toList());
 	}

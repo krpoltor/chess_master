@@ -23,14 +23,14 @@ public class BasicEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	private Long id;
-	private int version;
+	private Integer version;
 	private Date createdAt;
 	private Date modifiedAt;
 
 	public BasicEntity() {
 	}
 
-	public BasicEntity(Long id, int version, Date createdAt, Date modifiedAt) {
+	public BasicEntity(Long id, Integer version, Date createdAt, Date modifiedAt) {
 		super();
 		this.id = id;
 		this.version = version;
@@ -52,11 +52,11 @@ public class BasicEntity implements Serializable {
 
 	@Version
 	@Column(name = "version", nullable = false)
-	public int getVersion() {
+	public Integer getVersion() {
 		return version;
 	}
 
-	public void setVersion(int version) {
+	public void setVersion(Integer version) {
 		this.version = version;
 	}
 

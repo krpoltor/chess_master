@@ -13,7 +13,7 @@ public class PlayerTo extends BasicTo{
 	private String aboutMe;
 	private String lifeMotto;
 	
-	private StaticticsTo statistics;
+	private StatisticsTo statistics;
 	
 	private Set<ChallengeTo> receiverChallenges = new HashSet<ChallengeTo>(0);
 	private Set<ChallengeTo> senderChallenges = new HashSet<ChallengeTo>(0);
@@ -168,11 +168,11 @@ public class PlayerTo extends BasicTo{
 		this.lifeMotto = lifeMotto;
 	}
 
-	public StaticticsTo getStatistics() {
+	public StatisticsTo getStatistics() {
 		return statistics;
 	}
 
-	public void setStatistics(StaticticsTo statistics) {
+	public void setStatistics(StatisticsTo statistics) {
 		this.statistics = statistics;
 	}
 
@@ -193,7 +193,7 @@ public class PlayerTo extends BasicTo{
 	}
 
 	public PlayerTo(String login, String password, String name, String surname, String email, String aboutMe,
-			String lifeMotto, StaticticsTo statisticks, Set<ChallengeTo> receiverChallenges,
+			String lifeMotto, StatisticsTo statisticks, Set<ChallengeTo> receiverChallenges,
 			Set<ChallengeTo> senderChallenges) {
 		super();
 		this.login = login;

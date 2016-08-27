@@ -2,21 +2,21 @@ package com.capgemini.chess.service.to;
 
 import com.capgemini.chess.algorithms.data.enums.Level;
 
-public class StaticticsTo extends BasicTo {
+public class StatisticsTo extends BasicTo {
 
-	private int lostGames;
-	private int numberOfMatches;
+	private Integer lostGames;
+	private Integer numberOfMatches;
 	private Level playerLevel;
-	private int playerPoints;
-	private int tiedGames;
-	private float winLoseRatio;
-	private int wonGames;
+	private Integer playerPoints;
+	private Integer tiedGames;
+	private Float winLoseRatio;
+	private Integer wonGames;
 
-	public StaticticsTo() {
+	public StatisticsTo() {
 	}
 
-	public StaticticsTo(int lostGames, int numberOfMatches, Level playerLevel, int playerPoints, int tiedGames,
-			float winLoseRatio, int wonGames) {
+	public StatisticsTo(Integer lostGames, Integer numberOfMatches, Level playerLevel, Integer playerPoints, Integer tiedGames,
+			Float winLoseRatio, Integer wonGames) {
 		super();
 		this.lostGames = lostGames;
 		this.numberOfMatches = numberOfMatches;
@@ -27,19 +27,19 @@ public class StaticticsTo extends BasicTo {
 		this.wonGames = wonGames;
 	}
 
-	public int getLostGames() {
+	public Integer getLostGames() {
 		return lostGames;
 	}
 
-	public void setLostGames(int lostGames) {
+	public void setLostGames(Integer lostGames) {
 		this.lostGames = lostGames;
 	}
 
-	public int getNumberOfMatches() {
+	public Integer getNumberOfMatches() {
 		return numberOfMatches;
 	}
 
-	public void setNumberOfMatches(int numberOfMatches) {
+	public void setNumberOfMatches(Integer numberOfMatches) {
 		this.numberOfMatches = numberOfMatches;
 	}
 
@@ -51,35 +51,35 @@ public class StaticticsTo extends BasicTo {
 		this.playerLevel = playerLevel;
 	}
 
-	public int getPlayerPoints() {
+	public Integer getPlayerPoints() {
 		return playerPoints;
 	}
 
-	public void setPlayerPoints(int playerPoints) {
+	public void setPlayerPoints(Integer playerPoints) {
 		this.playerPoints = playerPoints;
 	}
 
-	public int getTiedGames() {
+	public Integer getTiedGames() {
 		return tiedGames;
 	}
 
-	public void setTiedGames(int tiedGames) {
+	public void setTiedGames(Integer tiedGames) {
 		this.tiedGames = tiedGames;
 	}
 
-	public float getWinLoseRatio() {
+	public Float getWinLoseRatio() {
 		return winLoseRatio;
 	}
 
-	public void setWinLoseRatio(float winLoseRatio) {
+	public void setWinLoseRatio(Float winLoseRatio) {
 		this.winLoseRatio = winLoseRatio;
 	}
 
-	public int getWonGames() {
+	public Integer getWonGames() {
 		return wonGames;
 	}
 
-	public void setWonGames(int wonGames) {
+	public void setWonGames(Integer wonGames) {
 		this.wonGames = wonGames;
 	}
 
@@ -105,7 +105,7 @@ public class StaticticsTo extends BasicTo {
 			return false;
 		if (getClass() != obj.getClass())
 			return false;
-		StaticticsTo other = (StaticticsTo) obj;
+		StatisticsTo other = (StatisticsTo) obj;
 		if (lostGames != other.lostGames)
 			return false;
 		if (numberOfMatches != other.numberOfMatches)

@@ -108,4 +108,12 @@ public interface ChallengeService {
 	 */
 	ChallengeEntity updateChallenge(ChallengeTo challenge);
 
+	/**
+	 * Checks if challenge is in database.
+	 * @param challenge
+	 * @return true when challenge exists in database,<br>
+	 * false otherwise
+	 */
+	boolean doesThisChallengeExist(ChallengeTo challenge);
+
 }

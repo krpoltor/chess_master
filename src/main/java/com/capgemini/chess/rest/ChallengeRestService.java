@@ -32,7 +32,7 @@ public class ChallengeRestService {
 
 	@Autowired
 	private ChallengeService challengeService;
-	
+
 	@Autowired
 	private UserService userService;
 
@@ -49,10 +49,18 @@ public class ChallengeRestService {
 	 */
 	@RequestMapping(value = "/rest/challenges", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ChallengeTo>> getChallenge() {
+
+		LOGGER.info("Finding every challenge.");
+
 		List<ChallengeTo> allChallenges = challengeService.findAllChallenges();
+
 		if (allChallenges.isEmpty()) {
+
+			LOGGER.info("Challenge table is empty!");
+
 			return new ResponseEntity<List<ChallengeTo>>(HttpStatus.NOT_FOUND);
 		}
+
 		return new ResponseEntity<List<ChallengeTo>>(allChallenges, HttpStatus.OK);
 	}
 
@@ -70,10 +78,16 @@ public class ChallengeRestService {
 	 */
 	@RequestMapping(value = "/rest/challenges/byUser/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ChallengeTo>> getUserChallenges(@PathVariable("userId") Long userId) {
+
+		LOGGER.info("Finding challenges of user with id: " + userId);
+
 		List<ChallengeTo> allUserChallenges = challengeService.findAllChallengesByUserId(userId);
+
 		if (allUserChallenges.isEmpty()) {
+
 			return new ResponseEntity<List<ChallengeTo>>(HttpStatus.NOT_FOUND);
 		}
+
 		return new ResponseEntity<List<ChallengeTo>>(allUserChallenges, HttpStatus.OK);
 	}
 
@@ -89,11 +103,18 @@ public class ChallengeRestService {
 	 */
 	@RequestMapping(value = "/rest/challenges/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ChallengeTo> getChallenge(@PathVariable("id") Long id) {
+
 		ChallengeTo challenge = challengeService.findChallengeById(id);
-		if (challenge.equals(null)) {
+
+		// TODO: Why generated equals isn't called?
+		// if (challenge.equals(null)) {
+		if (challenge == null) {
+
 			LOGGER.info("Challenge with id " + id + " not found");
+
 			return new ResponseEntity<ChallengeTo>(HttpStatus.NOT_FOUND);
 		}
+
 		return new ResponseEntity<ChallengeTo>(challenge, HttpStatus.OK);
 	}
 
@@ -110,20 +131,26 @@ public class ChallengeRestService {
 	public ResponseEntity<ChallengeTo> addChallenge(@RequestBody ChallengeTo challenge,
 			UriComponentsBuilder ucBuilder) {
 
-		if (challengeService.findAllChallenges().contains(challenge)) {
-			LOGGER.info("Challenge: " + challenge.toString() + " already exists!");
+		if (challengeService.doesThisChallengeExist(challenge)) {
+			LOGGER.warning("Challenge already exists!");
 			return new ResponseEntity<ChallengeTo>(HttpStatus.CONFLICT);
 		}
+
+		if (challenge.getWhitePlayer().getId().equals(challenge.getBlackPlayer().getId())) {
+			LOGGER.warning("Cannot challenge yourself! (White and black players id's are the same!)");
+			return new ResponseEntity<ChallengeTo>(HttpStatus.FORBIDDEN);
+		}
+
 		PlayerTo sender = userService.findUserById(challenge.getWhitePlayer().getId());
 		PlayerTo receiver = userService.findUserById(challenge.getBlackPlayer().getId());
-		
+
 		challenge.setWhitePlayer(sender);
 		challenge.setBlackPlayer(receiver);
-		
+
 		LOGGER.info("Creating challenge: " + challenge.toString());
 		challengeService.saveChallenge(challenge);
 		LOGGER.info("Challenge created");
-		entityManager.flush();
+
 		return new ResponseEntity<ChallengeTo>(challenge, HttpStatus.CREATED);
 	}
 
@@ -144,26 +171,27 @@ public class ChallengeRestService {
 	@RequestMapping(value = "/rest/challenges/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<ChallengeTo> updateChallenge(@PathVariable("id") Long id,
 			@RequestBody ChallengeTo challenge) {
-		ChallengeTo currentChallenge = challengeService.findChallengeById(id);
 
-		if (currentChallenge.equals(null)) {
+		// TODO: Why generated equals isn't called?
+
+		// if (challengeService.findChallengeById(id).equals(null)) {
+		if (challengeService.findChallengeById(id) == null) {
+
 			LOGGER.info("Challenge with id " + id + " not found");
+
 			return new ResponseEntity<ChallengeTo>(HttpStatus.NOT_FOUND);
 		}
-		
-		PlayerTo sender = userService.findUserById(challenge.getWhitePlayer().getId());
-		challenge.setWhitePlayer(sender);
-		PlayerTo receiver = userService.findUserById(challenge.getBlackPlayer().getId());
-		challenge.setBlackPlayer(receiver);
 
-		currentChallenge.setStatus(challenge.getStatus());
-		currentChallenge.setStartDate(challenge.getStartDate());
-		currentChallenge.setEndDate(challenge.getEndDate());
+		if (challenge.getWhitePlayer().getId().equals(challenge.getBlackPlayer().getId())) {
 
-		//challengeService.deleteChallengeById(id);
-		challengeService.updateChallenge(currentChallenge);
-		entityManager.flush();
-		return new ResponseEntity<ChallengeTo>(currentChallenge, HttpStatus.OK);
+			LOGGER.warning("Cannot challenge yourself! (White and black players id's are the same!)");
+
+			return new ResponseEntity<ChallengeTo>(HttpStatus.FORBIDDEN);
+		}
+
+		challengeService.updateChallenge(challenge);
+
+		return new ResponseEntity<ChallengeTo>(challenge, HttpStatus.OK);
 	}
 
 	/**
@@ -179,13 +207,19 @@ public class ChallengeRestService {
 	 */
 	@RequestMapping(value = "/rest/challenges/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<ChallengeTo> deleteChallenge(@PathVariable("id") Long id) {
+
 		LOGGER.info("Fetching & Deleting User with id " + id);
 		ChallengeTo challenge = challengeService.findChallengeById(id);
-		if (challenge.equals(null)) {
+
+		// TODO: Why generated equals isn't called?
+		// if (challenge.equals(null)) {
+		if (challenge == null) {
 			LOGGER.info("Unable to delete. challenge with id " + id + " not found");
 			return new ResponseEntity<ChallengeTo>(HttpStatus.NOT_FOUND);
 		}
+
 		challengeService.deleteChallengeById(id);
+
 		return new ResponseEntity<ChallengeTo>(HttpStatus.OK);
 	}
 
@@ -202,9 +236,11 @@ public class ChallengeRestService {
 	 */
 	@RequestMapping(value = "/rest/challenges", method = RequestMethod.DELETE)
 	public ResponseEntity<ChallengeTo> deleteAllChallenges() {
+
 		LOGGER.info("Deleting every challenge.");
 
 		challengeService.deleteAllChallenges();
+
 		return new ResponseEntity<ChallengeTo>(HttpStatus.OK);
 	}
 

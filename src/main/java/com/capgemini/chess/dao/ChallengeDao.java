@@ -3,6 +3,7 @@ package com.capgemini.chess.dao;
 import java.util.List;
 
 import com.capgemini.chess.generated.entities.ChallengeEntity;
+import com.capgemini.chess.service.to.ChallengeTo;
 import com.capgemini.chess.service.to.PlayerTo;
 
 public interface ChallengeDao extends Dao<ChallengeEntity, Long>{
@@ -27,5 +28,13 @@ public interface ChallengeDao extends Dao<ChallengeEntity, Long>{
 	 * @return - list of ChallengeEntity
 	 */
 	List<ChallengeEntity> findAllChallengesByUserId(Long userId);
+
+	/**
+	 * Checks if challenge is in database.
+	 * @param challenge
+	 * @return true when challenge exists in database,<br>
+	 * false otherwise
+	 */
+	boolean doesThisChallengeExist(ChallengeTo challenge);
 
 }

@@ -5,16 +5,14 @@ import java.util.Date;
 public class BasicTo {
 
 	private Long id;
-	private int version;
+	private Integer version;
 	private Date createdAt;
 	private Date modifiedAt;
 
 	public BasicTo() {
-		this.setCreatedAt(new Date());
-		this.setModifiedAt(new Date());
 	}
 
-	public BasicTo(Long id, int version, Date createdAt, Date modifiedAt) {
+	public BasicTo(Long id, Integer version, Date createdAt, Date modifiedAt) {
 		super();
 		this.id = id;
 		this.version = version;
@@ -30,11 +28,11 @@ public class BasicTo {
 		this.id = id;
 	}
 
-	public int getVersion() {
+	public Integer getVersion() {
 		return version;
 	}
 
-	public void setVersion(int version) {
+	public void setVersion(Integer version) {
 		this.version = version;
 	}
 

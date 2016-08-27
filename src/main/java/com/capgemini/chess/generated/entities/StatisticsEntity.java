@@ -18,19 +18,19 @@ public class StatisticsEntity extends BasicEntity implements java.io.Serializabl
 
 	private static final long serialVersionUID = 1L;
 
-	private int lostGames;
-	private int numberOfMatches;
+	private Integer lostGames;
+	private Integer numberOfMatches;
 	private Level playerLevel;
-	private int playerPoints;
-	private int tiedGames;
-	private float winLoseRatio;
-	private int wonGames;
+	private Integer playerPoints;
+	private Integer tiedGames;
+	private Float winLoseRatio;
+	private Integer wonGames;
 
 	public StatisticsEntity() {
 	}
 
-	public StatisticsEntity(int lostGames, int numberOfMatches, Level playerLevel, int playerPoints, int tiedGames,
-			float winLoseRatio, int wonGames) {
+	public StatisticsEntity(Integer lostGames, Integer numberOfMatches, Level playerLevel, Integer playerPoints, Integer tiedGames,
+			Float winLoseRatio, Integer wonGames) {
 		super();
 		this.lostGames = lostGames;
 		this.numberOfMatches = numberOfMatches;
@@ -42,20 +42,20 @@ public class StatisticsEntity extends BasicEntity implements java.io.Serializabl
 	}
 
 	@Column(name = "lost_games", nullable = false)
-	public int getLostGames() {
+	public Integer getLostGames() {
 		return this.lostGames;
 	}
 
-	public void setLostGames(int lostGames) {
+	public void setLostGames(Integer lostGames) {
 		this.lostGames = lostGames;
 	}
 
 	@Column(name = "number_of_matches", nullable = false)
-	public int getNumberOfMatches() {
+	public Integer getNumberOfMatches() {
 		return this.numberOfMatches;
 	}
 
-	public void setNumberOfMatches(int numberOfMatches) {
+	public void setNumberOfMatches(Integer numberOfMatches) {
 		this.numberOfMatches = numberOfMatches;
 	}
 
@@ -70,38 +70,38 @@ public class StatisticsEntity extends BasicEntity implements java.io.Serializabl
 	}
 
 	@Column(name = "player_points", nullable = false)
-	public int getPlayerPoints() {
+	public Integer getPlayerPoints() {
 		return this.playerPoints;
 	}
 
-	public void setPlayerPoints(int playerPoints) {
+	public void setPlayerPoints(Integer playerPoints) {
 		this.playerPoints = playerPoints;
 	}
 
 	@Column(name = "tied_games", nullable = false)
-	public int getTiedGames() {
+	public Integer getTiedGames() {
 		return this.tiedGames;
 	}
 
-	public void setTiedGames(int tiedGames) {
+	public void setTiedGames(Integer tiedGames) {
 		this.tiedGames = tiedGames;
 	}
 
 	@Column(name = "win_lose_ratio", nullable = false, precision = 12, scale = 0)
-	public float getWinLoseRatio() {
+	public Float getWinLoseRatio() {
 		return this.winLoseRatio;
 	}
 
-	public void setWinLoseRatio(float winLoseRatio) {
+	public void setWinLoseRatio(Float winLoseRatio) {
 		this.winLoseRatio = winLoseRatio;
 	}
 
 	@Column(name = "won_games", nullable = false)
-	public int getWonGames() {
+	public Integer getWonGames() {
 		return this.wonGames;
 	}
 
-	public void setWonGames(int wonGames) {
+	public void setWonGames(Integer wonGames) {
 		this.wonGames = wonGames;
 	}
 
