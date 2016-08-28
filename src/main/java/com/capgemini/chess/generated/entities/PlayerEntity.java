@@ -1,15 +1,11 @@
 package com.capgemini.chess.generated.entities;
 // Generated Aug 25, 2016 9:00:51 AM by Hibernate Tools 4.3.1.Final
 
-import java.util.HashSet;
-import java.util.Set;
-
 import javax.persistence.CascadeType;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.JoinColumn;
-import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.UniqueConstraint;
@@ -32,8 +28,8 @@ public class PlayerEntity extends BasicEntity implements java.io.Serializable {
 	private String password;
 	private String surname;
 	
-	private Set<ChallengeEntity> receiverChallenges = new HashSet<ChallengeEntity>(0);
-	private Set<ChallengeEntity> senderChallenges = new HashSet<ChallengeEntity>(0);
+	//private Set<ChallengeEntity> receiverChallenges = new HashSet<ChallengeEntity>(0);
+	//private Set<ChallengeEntity> senderChallenges = new HashSet<ChallengeEntity>(0);
 
 	public PlayerEntity() {
 	}
@@ -111,7 +107,7 @@ public class PlayerEntity extends BasicEntity implements java.io.Serializable {
 		this.surname = surname;
 	}
 
-	@OneToMany(fetch = FetchType.LAZY, mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
+/*	@OneToMany(fetch = FetchType.LAZY, mappedBy = "receiver", cascade = CascadeType.ALL, orphanRemoval = true)
 	public Set<ChallengeEntity> getReceiverChallenges() {
 		return this.receiverChallenges;
 	}
@@ -127,13 +123,15 @@ public class PlayerEntity extends BasicEntity implements java.io.Serializable {
 
 	public void setSenderChallenges(Set<ChallengeEntity> senderChallenges) {
 		this.senderChallenges = senderChallenges;
-	}
+	}*/
 
 	@Override
 	public String toString() {
 		return "PlayerEntity [statistics=" + statistics + ", aboutMe=" + aboutMe + ", email=" + email + ", lifeMotto="
-				+ lifeMotto + ", login=" + login + ", name=" + name + ", surname=" + surname + ", receiverChallenges="
-				+ receiverChallenges + ", senderChallenges=" + senderChallenges + "]";
+				+ lifeMotto + ", login=" + login + ", name=" + name + ", surname=" + surname + ","
+						+ ""
+						/*+ " receiverChallenges="
+				+ receiverChallenges + ", senderChallenges=" + senderChallenges*/ + "]";
 	}
 
 	@Override
@@ -146,8 +144,8 @@ public class PlayerEntity extends BasicEntity implements java.io.Serializable {
 		result = prime * result + ((login == null) ? 0 : login.hashCode());
 		result = prime * result + ((name == null) ? 0 : name.hashCode());
 		result = prime * result + ((password == null) ? 0 : password.hashCode());
-		result = prime * result + ((receiverChallenges == null) ? 0 : receiverChallenges.hashCode());
-		result = prime * result + ((senderChallenges == null) ? 0 : senderChallenges.hashCode());
+		/*result = prime * result + ((receiverChallenges == null) ? 0 : receiverChallenges.hashCode());
+		result = prime * result + ((senderChallenges == null) ? 0 : senderChallenges.hashCode());*/
 		result = prime * result + ((statistics == null) ? 0 : statistics.hashCode());
 		result = prime * result + ((surname == null) ? 0 : surname.hashCode());
 		return result;
@@ -192,7 +190,7 @@ public class PlayerEntity extends BasicEntity implements java.io.Serializable {
 				return false;
 		} else if (!password.equals(other.password))
 			return false;
-		if (receiverChallenges == null) {
+/*		if (receiverChallenges == null) {
 			if (other.receiverChallenges != null)
 				return false;
 		} else if (!receiverChallenges.equals(other.receiverChallenges))
@@ -201,7 +199,7 @@ public class PlayerEntity extends BasicEntity implements java.io.Serializable {
 			if (other.senderChallenges != null)
 				return false;
 		} else if (!senderChallenges.equals(other.senderChallenges))
-			return false;
+			return false;*/
 		if (statistics == null) {
 			if (other.statistics != null)
 				return false;
