@@ -1,5 +1,7 @@
 package com.capgemini.chess.service.to;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import com.capgemini.chess.algorithms.data.enums.Level;
 
 public class StatisticsTo extends BasicTo {
@@ -15,8 +17,8 @@ public class StatisticsTo extends BasicTo {
 	public StatisticsTo() {
 	}
 
-	public StatisticsTo(Integer lostGames, Integer numberOfMatches, Level playerLevel, Integer playerPoints, Integer tiedGames,
-			Float winLoseRatio, Integer wonGames) {
+	public StatisticsTo(Integer lostGames, Integer numberOfMatches, Level playerLevel, Integer playerPoints,
+			Integer tiedGames, Float winLoseRatio, Integer wonGames) {
 		super();
 		this.lostGames = lostGames;
 		this.numberOfMatches = numberOfMatches;
@@ -87,13 +89,13 @@ public class StatisticsTo extends BasicTo {
 	public int hashCode() {
 		final int prime = 31;
 		int result = super.hashCode();
-		result = prime * result + lostGames;
-		result = prime * result + numberOfMatches;
+		result = prime * result + ((lostGames == null) ? 0 : lostGames.hashCode());
+		result = prime * result + ((numberOfMatches == null) ? 0 : numberOfMatches.hashCode());
 		result = prime * result + ((playerLevel == null) ? 0 : playerLevel.hashCode());
-		result = prime * result + playerPoints;
-		result = prime * result + tiedGames;
-		result = prime * result + Float.floatToIntBits(winLoseRatio);
-		result = prime * result + wonGames;
+		result = prime * result + ((playerPoints == null) ? 0 : playerPoints.hashCode());
+		result = prime * result + ((tiedGames == null) ? 0 : tiedGames.hashCode());
+		result = prime * result + ((winLoseRatio == null) ? 0 : winLoseRatio.hashCode());
+		result = prime * result + ((wonGames == null) ? 0 : wonGames.hashCode());
 		return result;
 	}
 
@@ -106,28 +108,44 @@ public class StatisticsTo extends BasicTo {
 		if (getClass() != obj.getClass())
 			return false;
 		StatisticsTo other = (StatisticsTo) obj;
-		if (lostGames != other.lostGames)
+		if (lostGames == null) {
+			if (other.lostGames != null)
+				return false;
+		} else if (!lostGames.equals(other.lostGames))
 			return false;
-		if (numberOfMatches != other.numberOfMatches)
+		if (numberOfMatches == null) {
+			if (other.numberOfMatches != null)
+				return false;
+		} else if (!numberOfMatches.equals(other.numberOfMatches))
 			return false;
 		if (playerLevel != other.playerLevel)
 			return false;
-		if (playerPoints != other.playerPoints)
+		if (playerPoints == null) {
+			if (other.playerPoints != null)
+				return false;
+		} else if (!playerPoints.equals(other.playerPoints))
 			return false;
-		if (tiedGames != other.tiedGames)
+		if (tiedGames == null) {
+			if (other.tiedGames != null)
+				return false;
+		} else if (!tiedGames.equals(other.tiedGames))
 			return false;
-		if (Float.floatToIntBits(winLoseRatio) != Float.floatToIntBits(other.winLoseRatio))
+		if (winLoseRatio == null) {
+			if (other.winLoseRatio != null)
+				return false;
+		} else if (!winLoseRatio.equals(other.winLoseRatio))
 			return false;
-		if (wonGames != other.wonGames)
+		if (wonGames == null) {
+			if (other.wonGames != null)
+				return false;
+		} else if (!wonGames.equals(other.wonGames))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "StaticticsTo [lostGames=" + lostGames + ", numberOfMatches=" + numberOfMatches + ", playerLevel="
-				+ playerLevel + ", playerPoints=" + playerPoints + ", tiedGames=" + tiedGames + ", winLoseRatio="
-				+ winLoseRatio + ", wonGames=" + wonGames + "]";
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 }

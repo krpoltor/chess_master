@@ -169,7 +169,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 	}
 
 	@Override
-	public ChallengeEntity updateChallenge(ChallengeTo challenge) {
+	public ChallengeTo updateChallenge(ChallengeTo challenge) {
 
 		challenge = setPlayers(challenge);
 
@@ -183,9 +183,11 @@ public class ChallengeServiceImpl implements ChallengeService {
 
 		ChallengeEntity challengeEntity = ChallengeMapper.update(challengeEntityFromDatabase, challenge);
 
-		challengeDao.update(challengeEntity);
+		ChallengeEntity updatedChallenge = challengeDao.update(challengeEntity);
+		
+		ChallengeTo challengeTo = ChallengeMapper.map(updatedChallenge);
 
-		return challengeEntity;
+		return challengeTo;
 	}
 
 	private ChallengeTo setPlayers(ChallengeTo challenge) {
@@ -211,5 +213,10 @@ public class ChallengeServiceImpl implements ChallengeService {
 	public boolean doesThisChallengeExist(ChallengeTo challenge) {
 
 		return challengeDao.doesThisChallengeExist(challenge);
+	}
+
+	@Override
+	public boolean arePlayersIdTheSame(ChallengeTo challenge) {
+		return challenge.getWhitePlayer().getId().equals(challenge.getBlackPlayer().getId());
 	}
 }

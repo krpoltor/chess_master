@@ -104,9 +104,9 @@ public interface ChallengeService {
 	 * 
 	 * @param challenge
 	 *            - challenge to update.
-	 * @return ChallengeEntity
+	 * @return ChallengeTo
 	 */
-	ChallengeEntity updateChallenge(ChallengeTo challenge);
+	ChallengeTo updateChallenge(ChallengeTo challenge);
 
 	/**
 	 * Checks if challenge is in database.
@@ -115,5 +115,13 @@ public interface ChallengeService {
 	 * false otherwise
 	 */
 	boolean doesThisChallengeExist(ChallengeTo challenge);
+
+	/**
+	 * Checks if players id's are the same.
+	 * @param challenge
+	 * @return true when they are,<br>
+	 * false otherwise
+	 */
+	boolean arePlayersIdTheSame(ChallengeTo challenge);
 
 }

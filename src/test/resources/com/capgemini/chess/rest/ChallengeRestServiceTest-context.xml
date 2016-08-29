@@ -9,4 +9,17 @@
 	<bean class="org.mockito.Mockito" factory-method="mock">
 		<constructor-arg value="com.capgemini.chess.service.ChallengeService" />
 	</bean>
+
+	<bean class="org.mockito.Mockito" factory-method="mock">
+		<constructor-arg value="com.capgemini.chess.dao.ChallengeDao" />
+	</bean>
+	
+	<bean class="org.mockito.Mockito" factory-method="mock">
+		<constructor-arg value="com.capgemini.chess.service.UserService" />
+	</bean>
+
+	<bean class="org.mockito.Mockito" factory-method="mock">
+		<constructor-arg value="com.capgemini.chess.dao.UserDao" />
+	</bean>
+
 </beans>

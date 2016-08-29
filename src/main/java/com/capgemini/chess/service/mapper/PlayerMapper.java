@@ -25,11 +25,6 @@ public class PlayerMapper {
 			playerTO.setAboutMe(playerEntity.getAboutMe());
 			playerTO.setLifeMotto(playerEntity.getLifeMotto());
 			playerTO.setStatistics(StatisticsMapper.map(playerEntity.getStatistics()));
-			// Set<ChallengeTo> receiverChallenges = new
-			// HashSet<ChallengeTo>(0);
-			// playerTO.setReceiverChallenges(ChallengeMapper.map2TOs(playerEntity.getReceiverChallenges()));
-			// Set<ChallengeTo> senderChallenges = new HashSet<ChallengeTo>(0);
-			// playerTO.setSenderChallenges(ChallengeMapper.map2TOs(playerEntity.getReceiverChallenges()));
 
 			return playerTO;
 		}
@@ -53,11 +48,7 @@ public class PlayerMapper {
 			playerEntity.setAboutMe(playerTO.getAboutMe());
 			playerEntity.setLifeMotto(playerTO.getLifeMotto());
 			playerEntity.setStatistics(StatisticsMapper.map(playerTO.getStatistics()));
-			// Set<ChallengeTo> receiverChallenges = new
-			// HashSet<ChallengeTo>(0);
-			// playerEntity.setReceiverChallenges(ChallengeMapper.map2TOs(playerTO.getReceiverChallenges()));
-			// Set<ChallengeTo> senderChallenges = new HashSet<ChallengeTo>(0);
-			// playerEntity.setSenderChallenges(ChallengeMapper.map2TOs(playerTO.getReceiverChallenges()));
+
 			return playerEntity;
 		}
 		return null;
@@ -90,11 +81,6 @@ public class PlayerMapper {
 			if (!playerTO.getStatistics().equals(null)) {
 				playerEntity.setStatistics(StatisticsMapper.map(playerTO.getStatistics()));
 			}
-			// Set<ChallengeTo> receiverChallenges = new
-			// HashSet<ChallengeTo>(0);
-			// playerEntity.setReceiverChallenges(ChallengeMapper.map2TOs(playerTO.getReceiverChallenges()));
-			// Set<ChallengeTo> senderChallenges = new HashSet<ChallengeTo>(0);
-			// playerEntity.setSenderChallenges(ChallengeMapper.map2TOs(playerTO.getReceiverChallenges()));
 		}
 		return playerEntity;
 	}

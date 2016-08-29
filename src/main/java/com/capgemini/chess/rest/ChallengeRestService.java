@@ -3,8 +3,6 @@ package com.capgemini.chess.rest;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.persistence.EntityManager;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
@@ -16,7 +14,6 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.util.UriComponentsBuilder;
 
 import com.capgemini.chess.exceptions.ChallengeNotFoundException;
 import com.capgemini.chess.exceptions.UserNotFoundException;
@@ -32,9 +29,6 @@ public class ChallengeRestService {
 
 	@Autowired
 	private ChallengeService challengeService;
-
-	@Autowired
-	protected EntityManager entityManager;
 
 	/**
 	 * Finds all challenges. <br>
@@ -103,8 +97,6 @@ public class ChallengeRestService {
 
 		ChallengeTo challenge = challengeService.findChallengeById(id);
 
-		// TODO: Why generated equals isn't called?
-		// if (challenge.equals(null)) {
 		if (challenge == null) {
 
 			LOGGER.info("Challenge with id " + id + " not found");
@@ -121,11 +113,10 @@ public class ChallengeRestService {
 	 * 
 	 * @param challenge
 	 *            - challenge to add.
-	 * @param ucBuilder
-	 * @return headers and HttpStatus.<b>CREATED</b>.
+	 * @return ChallengeTo and HttpStatus.<b>CREATED</b>.
 	 */
 	@RequestMapping(value = "/rest/challenges", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ChallengeTo> addChallenge(@RequestBody ChallengeTo challenge, UriComponentsBuilder ucBuilder)
+	public ResponseEntity<ChallengeTo> addChallenge(@RequestBody ChallengeTo challenge)
 			throws UserNotFoundException {
 
 		if (challengeService.doesThisChallengeExist(challenge)) {
@@ -133,7 +124,7 @@ public class ChallengeRestService {
 			return new ResponseEntity<ChallengeTo>(HttpStatus.CONFLICT);
 		}
 
-		if (challenge.getWhitePlayer().getId().equals(challenge.getBlackPlayer().getId())) {
+		if (challengeService.arePlayersIdTheSame(challenge)) {
 			LOGGER.warning("Cannot challenge yourself! (White and black players id's are the same!)");
 			return new ResponseEntity<ChallengeTo>(HttpStatus.FORBIDDEN);
 		}
@@ -163,21 +154,13 @@ public class ChallengeRestService {
 	public ResponseEntity<ChallengeTo> updateChallenge(@PathVariable("id") Long id, @RequestBody ChallengeTo challenge)
 			throws UserNotFoundException, ChallengeNotFoundException {
 
-		// TODO: Why generated equals isn't called?
-
-		// if (challengeService.findChallengeById(id).equals(null)) {
 		if (challengeService.findChallengeById(id) == null) {
-
 			LOGGER.info("Challenge with id " + id + " not found");
 
 			throw new ChallengeNotFoundException();
-			
-			// TODO: Which version is better?
-			// return new ResponseEntity<ChallengeTo>(HttpStatus.NOT_FOUND);
 		}
 
-		if (challenge.getWhitePlayer().getId().equals(challenge.getBlackPlayer().getId())) {
-
+		if (challengeService.arePlayersIdTheSame(challenge)) {
 			LOGGER.warning("Cannot challenge yourself! (White and black players id's are the same!)");
 
 			return new ResponseEntity<ChallengeTo>(HttpStatus.CONFLICT);
@@ -202,11 +185,9 @@ public class ChallengeRestService {
 	@RequestMapping(value = "/rest/challenges/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<ChallengeTo> deleteChallenge(@PathVariable("id") Long id) {
 
-		LOGGER.info("Fetching & Deleting User with id " + id);
+		LOGGER.info("Fetching & Deleting challenge with id " + id);
 		ChallengeTo challenge = challengeService.findChallengeById(id);
 
-		// TODO: Why generated equals isn't called?
-		// if (challenge.equals(null)) {
 		if (challenge == null) {
 			LOGGER.info("Unable to delete. Challenge with id " + id + " not found");
 			return new ResponseEntity<ChallengeTo>(HttpStatus.NOT_FOUND);

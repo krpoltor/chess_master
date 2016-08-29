@@ -1,4 +1,67 @@
-{
+  {
     "id": 1,
-    "title": "FirstBook"
-}
+    "version": 0,
+    "createdAt": 1472037600000,
+    "modifiedAt": 1472037600000,
+    "game": {
+      "id": 1,
+      "version": 0,
+      "createdAt": 1472037600000,
+      "modifiedAt": 1472037600000
+    },
+    "whitePlayer": {
+      "id": 1,
+      "version": 0,
+      "createdAt": 1472037600000,
+      "modifiedAt": 1472037600000,
+      "login": "player1",
+      "password": "pass1",
+      "name": "name1",
+      "surname": "surname1",
+      "email": "email1",
+      "aboutMe": "aboutMe1",
+      "lifeMotto": "lifeMotto1",
+      "statistics": {
+        "id": 1,
+        "version": 0,
+        "createdAt": 1472037600000,
+        "modifiedAt": 1472037600000,
+        "lostGames": 1,
+        "numberOfMatches": 0,
+        "playerLevel": "NEWBIE",
+        "playerPoints": 0,
+        "tiedGames": 0,
+        "winLoseRatio": 0,
+        "wonGames": 0
+      }
+    },
+    "blackPlayer": {
+      "id": 2,
+      "version": 0,
+      "createdAt": 1472037600000,
+      "modifiedAt": 1472037600000,
+      "login": "player2",
+      "password": "pass2",
+      "name": "name2",
+      "surname": "surname2",
+      "email": "email2",
+      "aboutMe": "aboutMe2",
+      "lifeMotto": "lifeMotto2",
+      "statistics": {
+        "id": 2,
+        "version": 0,
+        "createdAt": 1472037600000,
+        "modifiedAt": 1472037600000,
+        "lostGames": 2,
+        "numberOfMatches": 0,
+        "playerLevel": "NEWBIE",
+        "playerPoints": 0,
+        "tiedGames": 0,
+        "winLoseRatio": 0,
+        "wonGames": 0
+      }
+    },
+    "startDate": 1472037600000,
+    "endDate": 1472901600000,
+    "status": "INIT"
+  }

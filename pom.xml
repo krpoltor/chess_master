@@ -65,6 +65,11 @@
 			<artifactId>ChessAlgorithmsMaven</artifactId>
 			<version>0.0.1-SNAPSHOT</version>
 		</dependency>
+		<dependency>
+			<groupId>commons-lang</groupId>
+			<artifactId>commons-lang</artifactId>
+			<version>2.5</version>
+		</dependency>
 	</dependencies>
 
 	<build>

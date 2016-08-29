@@ -4,8 +4,6 @@ import java.util.Date;
 import java.util.List;
 import java.util.logging.Logger;
 
-import javax.persistence.EntityManager;
-
 import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -51,9 +49,6 @@ public class ChallengeServiceTest {
 
 	@Autowired
 	private UserService userService;
-
-	@Autowired
-	protected EntityManager entityManager;
 
 	private static Logger LOGGER = Logger.getLogger(ChallengeServiceTest.class.getName());
 

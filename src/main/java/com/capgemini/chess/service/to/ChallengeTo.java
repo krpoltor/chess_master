@@ -2,6 +2,8 @@ package com.capgemini.chess.service.to;
 
 import java.util.Date;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import com.capgemini.chess.dataaccess.enums.ChallengeStatus;
 
 public class ChallengeTo extends BasicTo {
@@ -132,8 +134,7 @@ public class ChallengeTo extends BasicTo {
 
 	@Override
 	public String toString() {
-		return "ChallengeTo [game=" + game + ", whitePlayer=" + whitePlayer + ", blackPlayer=" + blackPlayer
-				+ ", startDate=" + startDate + ", endDate=" + endDate + ", status=" + status + "]";
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 }

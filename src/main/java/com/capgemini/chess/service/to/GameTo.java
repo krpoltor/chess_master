@@ -1,5 +1,7 @@
 package com.capgemini.chess.service.to;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 public class GameTo extends BasicTo {
 
 	public GameTo() {
@@ -7,9 +9,7 @@ public class GameTo extends BasicTo {
 
 	@Override
 	public String toString() {
-		return "GameTo [getId()=" + getId() + ", getVersion()=" + getVersion() + ", getCreatedAt()=" + getCreatedAt()
-				+ ", getModifiedAt()=" + getModifiedAt() + ", hashCode()=" + hashCode() + ", toString()="
-				+ super.toString() + ", getClass()=" + getClass() + "]";
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 }
