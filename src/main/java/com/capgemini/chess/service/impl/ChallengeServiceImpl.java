@@ -184,7 +184,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 		ChallengeEntity challengeEntity = ChallengeMapper.update(challengeEntityFromDatabase, challenge);
 
 		ChallengeEntity updatedChallenge = challengeDao.update(challengeEntity);
-		
+
 		ChallengeTo challengeTo = ChallengeMapper.map(updatedChallenge);
 
 		return challengeTo;

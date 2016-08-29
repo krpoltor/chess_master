@@ -25,7 +25,7 @@ public class ChallengeDaoImpl extends AbstractDao<ChallengeEntity, Long> impleme
 		Query query = //
 				entityManager.createQuery("DELETE FROM ChallengeEntity challenge"
 						+ "	WHERE "
-							+ "challenge.status = 'OVERDUE'");
+							+ "challenge.endDate < NOW()");
 		
 		int deletedCount = query.executeUpdate();
 	}
@@ -35,9 +35,9 @@ public class ChallengeDaoImpl extends AbstractDao<ChallengeEntity, Long> impleme
 		TypedQuery<ChallengeEntity> query = //
 				entityManager.createQuery("SELECT challenge FROM ChallengeEntity challenge"//
 						+ " WHERE " 
-							+ "(challenge.sender.id) = (:userId)"//
+							+ "(challenge.sender.id = :userId"//
 						+ " OR " 
-							+ "(challenge.receiver.id) = (:userId)"//
+							+ "challenge.receiver.id = :userId)"//
 						+ ")", ChallengeEntity.class);//
 		query.setParameter("userId", user.getId());
 		return query.getResultList();

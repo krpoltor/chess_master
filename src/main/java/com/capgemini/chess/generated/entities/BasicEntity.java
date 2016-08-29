@@ -14,8 +14,14 @@ import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 import javax.persistence.Version;
 
+import org.apache.commons.lang.builder.ToStringBuilder;
+
 import com.capgemini.chess.entity.listeners.BasicEntityListener;
 
+/**
+ * @author KRPOLTOR
+ *
+ */
 @MappedSuperclass
 @EntityListeners({ BasicEntityListener.class })
 public class BasicEntity implements Serializable {
@@ -87,7 +93,7 @@ public class BasicEntity implements Serializable {
 		result = prime * result + ((createdAt == null) ? 0 : createdAt.hashCode());
 		result = prime * result + ((id == null) ? 0 : id.hashCode());
 		result = prime * result + ((modifiedAt == null) ? 0 : modifiedAt.hashCode());
-		result = prime * result + version;
+		result = prime * result + ((version == null) ? 0 : version.hashCode());
 		return result;
 	}
 
@@ -115,15 +121,17 @@ public class BasicEntity implements Serializable {
 				return false;
 		} else if (!modifiedAt.equals(other.modifiedAt))
 			return false;
-		if (version != other.version)
+		if (version == null) {
+			if (other.version != null)
+				return false;
+		} else if (!version.equals(other.version))
 			return false;
 		return true;
 	}
 
 	@Override
 	public String toString() {
-		return "BasicEntity [id=" + id + ", version=" + version + ", createdAt=" + createdAt + ", modifiedAt="
-				+ modifiedAt + "]";
+		return ToStringBuilder.reflectionToString(this);
 	}
 
 }

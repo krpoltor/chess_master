@@ -75,10 +75,8 @@ public class ChallengeRestService {
 		List<ChallengeTo> allUserChallenges = challengeService.findAllChallengesByUserId(userId);
 
 		if (allUserChallenges.isEmpty()) {
-
 			return new ResponseEntity<List<ChallengeTo>>(HttpStatus.NOT_FOUND);
 		}
-
 		return new ResponseEntity<List<ChallengeTo>>(allUserChallenges, HttpStatus.OK);
 	}
 
@@ -98,12 +96,9 @@ public class ChallengeRestService {
 		ChallengeTo challenge = challengeService.findChallengeById(id);
 
 		if (challenge == null) {
-
 			LOGGER.info("Challenge with id " + id + " not found");
-
 			return new ResponseEntity<ChallengeTo>(HttpStatus.NOT_FOUND);
 		}
-
 		return new ResponseEntity<ChallengeTo>(challenge, HttpStatus.OK);
 	}
 
@@ -156,16 +151,13 @@ public class ChallengeRestService {
 
 		if (challengeService.findChallengeById(id) == null) {
 			LOGGER.info("Challenge with id " + id + " not found");
-
 			throw new ChallengeNotFoundException();
 		}
 
 		if (challengeService.arePlayersIdTheSame(challenge)) {
 			LOGGER.warning("Cannot challenge yourself! (White and black players id's are the same!)");
-
 			return new ResponseEntity<ChallengeTo>(HttpStatus.CONFLICT);
 		}
-
 		challengeService.updateChallenge(challenge);
 
 		return new ResponseEntity<ChallengeTo>(challenge, HttpStatus.OK);

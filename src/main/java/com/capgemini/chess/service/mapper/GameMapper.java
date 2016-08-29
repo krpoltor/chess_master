@@ -36,7 +36,7 @@ public class GameMapper {
 
 	public static GameEntity update(GameEntity gameEntity, GameTo gameTO) {
 		if (gameTO != null && gameEntity != null) {
-			
+
 		}
 		return gameEntity;
 	}

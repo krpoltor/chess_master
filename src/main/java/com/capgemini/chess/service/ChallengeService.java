@@ -42,9 +42,6 @@ public interface ChallengeService {
 	 */
 	ChallengeTo createChallenge(PlayerTo whitePlayer, PlayerTo blackPlayer);
 
-	// zwracanie challeneTO ktory zapisuje w bazie danych
-	// komentarz do klasy
-
 	/**
 	 * Finds all challenges in database.
 	 * 
