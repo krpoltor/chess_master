@@ -1,5 +1,5 @@
 angular.module('app.component1')
-    .controller('ListChallengesController', function($scope, ChallengesFactory) {
+    .controller('ListChallengesController',['$scope', 'ChallengesFactory', function($scope, ChallengesFactory) {
         'use strict';
 
         $scope.data = {
@@ -23,4 +23,4 @@ angular.module('app.component1')
             }
         });
 
-    });
+    }]);

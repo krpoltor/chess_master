@@ -1,29 +1,40 @@
 angular.module('app.component2')
-    .controller('ManageChallengesController', function($scope, PlayersFactory) {
+    .controller('ManageChallengesController', ['$scope', '$modal', '$route', 'LoginForModalService', 'ChallengesFactory', 'AuthenticatedService'
+    function($scope, $modal, $route, LoginForModalService, ChallengesFactory, AuthenticatedService) {
         'use strict';
 
         $scope.data = {
-            player: [],
-            loginForm: []
+            challenges: []
+
         };
 
-        $scope.login = function() {
+        $modal.open({
+            templateUrl: '/component-2/modal/login-dialog.tpl.html',
+            controller: 'LoginDialogController',
+            size: 'lg'
+        }).result.then(function(result) {
+            {
+                $scope.data.loginValue = LoginForModalService.login;
 
-            PlayersFactory.getPlayer($scope.data.fields.login).success(function(response) {
-                $scope.data.player = response;
+                ChallengesFactory.getPlayerChallenges($scope.data.loginValue).success(function(response) {
+                    $scope.data.challenges = response;
 
-            }).error(function() {
-                alert('Login or password incorrect!');
+                    for (var i = 0, len = $scope.data.challenges.length; i < len; i++) {
+                        var unixStartDate = $scope.data.challenges[i].startDate,
+                            unixEndDate = $scope.data.challenges[i].endDate,
+                            dateObject;
 
-            }).then(function() {
-                if ($scope.data.player.login === $scope.data.loginForm.login.$modelValue &&
-                    $scope.data.player.password === $scope.data.loginForm.password.$modelValue) {
-                    alert('Logged in!');
+                        dateObject = new Date(unixStartDate);
+                        $scope.data.challenges[i].startDate = dateObject.toUTCString();
 
-                } else {
-                    alert('Login or password incorrect!');
-                }
+                        dateObject = new Date(unixEndDate);
+                        $scope.data.challenges[i].endDate = dateObject.toUTCString();
 
-            });
-        };
-    });
+                    }
+                });
+
+            }
+
+        });
+
+    }]);

@@ -5,37 +5,24 @@
     <!-- process:include component-2/dialog-b/dialog-b-inner.html -->
     <!-- /process -->
     <section>
-      
-        <h2>Login</h2>
-
-        <form name="data.loginForm">
-            <p><b>Login:</b></p>
-            <div class="form-group"
-                 data-ng-class="{'has-error bg-danger': data.loginForm.login.$invalid}">
-                <input name="login"
-                     class="form-control"
-                     data-ng-required="true"
-                     type="text"
-                     data-ng-model="data.fields.login"/>
-            </div>
-            <p/>
-            <p><b>Password:</b></p>
-            <div class="form-group"
-                 data-ng-class="{'has-error bg-danger': data.loginForm.password.$invalid}">
-                <input name="password"
-                     class="form-control"
-                     data-ng-required="true"
-                     type="password"
-                     data-ng-model="data.fields.password" />
-            </div>
-        </form>
-
-        <button type="button"
-             id="loginButton"
-             class="btn btn-success"
-             data-ng-click="login()">
-  <span class="glyphicon glyphicon-log-in" aria-hidden="true"></span> Login</button>
-
+        <div data-ng-show="data.authenticated">
+            <table class="table table-hover">
+                <thead>
+                    <th>Status</th>
+                    <th>Opponent</th>
+                    <th>Send at</th>
+                    <th>Ending at</th>
+                </thead>
+                <tbody>
+                    <tr data-ng-repeat="challenge in data.challenges">
+                        <td data-ng-bind="challenge.status"></td>
+                        <td data-ng-bind="challenge.blackPlayer.login"></td>
+                        <td data-ng-bind="challenge.startDate"></td>
+                        <td data-ng-bind="challenge.endDate"></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     </section>
 </body>
 

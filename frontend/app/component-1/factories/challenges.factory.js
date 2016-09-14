@@ -8,6 +8,10 @@ angular.module('app.component1')
             return $http.get('http://localhost:8090/services/challenges');
         };
 
+        factory.getPlayerChallenges = function(login) {
+            return $http.get('http://localhost:8090/services/challenges/byLogin/' + login);
+        };
+
         return factory;
 
     }]);
