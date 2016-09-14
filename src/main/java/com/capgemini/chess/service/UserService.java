@@ -11,4 +11,11 @@ public interface UserService {
 	 */
 	public PlayerTo findUserById(Long id);
 	
+	/**
+	 * Find user by login.
+	 * @param id of a user.
+	 * @return PlayerTo
+	 */
+	public PlayerTo findUserByLogin(String login);
+	
 }

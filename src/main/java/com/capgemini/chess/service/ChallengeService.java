@@ -56,7 +56,7 @@ public interface ChallengeService {
 	 *            - User login.
 	 * @return List<ChallengeTo> with every challenge of the user.
 	 */
-	List<ChallengeTo> findAllChallengesByUser(String userName);
+	List<ChallengeTo> findAllChallengesByUser(String login);
 
 	/**
 	 * Finds challenge by its ID.

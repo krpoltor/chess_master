@@ -93,7 +93,7 @@ public class ChallengeRestServiceTest {
 		Mockito.when(challengeService.findAllChallenges()).thenReturn(Arrays.asList(challengeTo));
 
 		ResultActions response = this.mockMvc//
-				.perform(get("/rest/challenges")//
+				.perform(get("/services/challenges")//
 						.accept(MediaType.APPLICATION_JSON)//
 						.contentType(MediaType.APPLICATION_JSON)//
 						.content("1"));
@@ -122,7 +122,7 @@ public class ChallengeRestServiceTest {
 				.thenReturn(Arrays.asList(challengeTo));
 		// when
 		ResultActions response = this.mockMvc//
-				.perform(get("/rest/challenges/byUser/1")//
+				.perform(get("/services/challenges/byUserId/1")//
 						.accept(MediaType.APPLICATION_JSON)//
 						.contentType(MediaType.APPLICATION_JSON)//
 						.content("1"));
@@ -149,7 +149,7 @@ public class ChallengeRestServiceTest {
 		Mockito.when(challengeService.findChallengeById(Mockito.anyLong())).thenReturn(challengeTo);
 		// when
 		ResultActions response = this.mockMvc//
-				.perform(get("/rest/challenges/2")//
+				.perform(get("/services/challenges/2")//
 						.accept(MediaType.APPLICATION_JSON)//
 						.contentType(MediaType.APPLICATION_JSON)//
 						.content("1"));
@@ -175,7 +175,7 @@ public class ChallengeRestServiceTest {
 		String json = FileUtils.readFileToString(file);
 		// when
 		ResultActions response = this.mockMvc//
-				.perform(post("/rest/challenges")//
+				.perform(post("/services/challenges")//
 						.accept(MediaType.APPLICATION_JSON)//
 						.contentType(MediaType.APPLICATION_JSON)//
 						.content(json.getBytes()));
@@ -201,7 +201,7 @@ public class ChallengeRestServiceTest {
 		Mockito.when(challengeService.updateChallenge(Mockito.any(ChallengeTo.class))).thenReturn(challengeTo);
 		// when
 		ResultActions response = this.mockMvc//
-				.perform(put("/rest/challenges/1")//
+				.perform(put("/services/challenges/1")//
 						.accept(MediaType.APPLICATION_JSON)//
 						.contentType(MediaType.APPLICATION_JSON)//
 						.content(json.getBytes()));
@@ -224,7 +224,7 @@ public class ChallengeRestServiceTest {
 		Mockito.doNothing().when(challengeService).deleteChallengeById(Mockito.anyLong());
 		// when
 		ResultActions response = this.mockMvc//
-				.perform(delete("/rest/challenges/1")//
+				.perform(delete("/services/challenges/1")//
 						.accept(MediaType.APPLICATION_JSON)//
 						.contentType(MediaType.APPLICATION_JSON));
 		// then
@@ -244,7 +244,7 @@ public class ChallengeRestServiceTest {
 		Mockito.doNothing().when(challengeService).deleteAllChallenges();
 		// when
 		ResultActions response = this.mockMvc//
-				.perform(delete("/rest/challenges")//
+				.perform(delete("/services/challenges")//
 						.accept(MediaType.APPLICATION_JSON)//
 						.contentType(MediaType.APPLICATION_JSON));
 		// then
@@ -258,7 +258,7 @@ public class ChallengeRestServiceTest {
 		// given
 		// when
 		ResultActions response = this.mockMvc//
-				.perform(get("/rest/challenges/50")//
+				.perform(get("/services/challenges/50")//
 						.accept(MediaType.APPLICATION_JSON)//
 						.contentType(MediaType.APPLICATION_JSON)//
 						.content("1"));
@@ -274,7 +274,7 @@ public class ChallengeRestServiceTest {
 		Mockito.when(challengeService.findAllChallenges()).thenReturn(emptyList);
 		// when
 		ResultActions response = this.mockMvc//
-				.perform(get("/rest/challenges/")//
+				.perform(get("/services/challenges/")//
 						.accept(MediaType.APPLICATION_JSON)//
 						.contentType(MediaType.APPLICATION_JSON)//
 						.content("1"));
@@ -290,7 +290,7 @@ public class ChallengeRestServiceTest {
 		Mockito.when(challengeService.findAllChallengesByUserId(Mockito.anyLong())).thenReturn(emptyList);
 		// when
 		ResultActions response = this.mockMvc//
-				.perform(get("/rest/challenges/byUser/1")//
+				.perform(get("/services/challenges/byUser/1")//
 						.accept(MediaType.APPLICATION_JSON)//
 						.contentType(MediaType.APPLICATION_JSON)//
 						.content("1"));
@@ -307,7 +307,7 @@ public class ChallengeRestServiceTest {
 		Mockito.when(challengeService.doesThisChallengeExist(Mockito.any())).thenReturn(true);
 		// when
 		ResultActions response = this.mockMvc//
-				.perform(post("/rest/challenges")//
+				.perform(post("/services/challenges")//
 						.accept(MediaType.APPLICATION_JSON)//
 						.contentType(MediaType.APPLICATION_JSON)//
 						.content(json.getBytes()));
@@ -324,7 +324,7 @@ public class ChallengeRestServiceTest {
 		Mockito.when(challengeService.arePlayersIdTheSame(Mockito.any())).thenReturn(true);
 		// when
 		ResultActions response = this.mockMvc//
-				.perform(post("/rest/challenges")//
+				.perform(post("/services/challenges")//
 						.accept(MediaType.APPLICATION_JSON)//
 						.contentType(MediaType.APPLICATION_JSON)//
 						.content(json.getBytes()));
@@ -339,7 +339,7 @@ public class ChallengeRestServiceTest {
 		Mockito.doNothing().when(challengeService).deleteChallengeById(Mockito.anyLong());
 		// when
 		ResultActions response = this.mockMvc//
-				.perform(delete("/rest/challenges/1")//
+				.perform(delete("/services/challenges/1")//
 						.accept(MediaType.APPLICATION_JSON)//
 						.contentType(MediaType.APPLICATION_JSON));
 		// then
@@ -355,7 +355,7 @@ public class ChallengeRestServiceTest {
 		Mockito.when(challengeService.findChallengeById(Mockito.anyLong())).thenReturn(null);
 		// when
 		ResultActions response = this.mockMvc//
-				.perform(put("/rest/challenges/1")//
+				.perform(put("/services/challenges/1")//
 						.accept(MediaType.APPLICATION_JSON)//
 						.contentType(MediaType.APPLICATION_JSON)//
 						.content(json.getBytes()));
@@ -375,7 +375,7 @@ public class ChallengeRestServiceTest {
 		Mockito.when(challengeService.arePlayersIdTheSame(Mockito.any())).thenReturn(true);
 		// when
 		ResultActions response = this.mockMvc//
-				.perform(put("/rest/challenges/1")//
+				.perform(put("/services/challenges/1")//
 						.accept(MediaType.APPLICATION_JSON)//
 						.contentType(MediaType.APPLICATION_JSON)//
 						.content(json.getBytes()));

@@ -4,7 +4,6 @@ import java.util.List;
 
 import com.capgemini.chess.generated.entities.ChallengeEntity;
 import com.capgemini.chess.service.to.ChallengeTo;
-import com.capgemini.chess.service.to.PlayerTo;
 
 public interface ChallengeDao extends Dao<ChallengeEntity, Long>{
 
@@ -16,11 +15,11 @@ public interface ChallengeDao extends Dao<ChallengeEntity, Long>{
 	/**
 	 * Finds challenges of a user.
 	 * 
-	 * @param userId
-	 *            - ID of a user.
+	 * @param login
+	 *            - Login of a user.
 	 * @return - List<ChallngeTo> with user's challenges.
 	 */
-	List<ChallengeEntity> findAllChallengesByUser(String userName);
+	List<ChallengeEntity> findAllChallengesByUser(String login);
 
 	/**
 	 * Finds all challenges by user id.

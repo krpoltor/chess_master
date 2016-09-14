@@ -5,7 +5,7 @@ angular.module('app.component1')
         var factory = {};
 
         factory.getChallenges = function() {
-            return $http.get('http://localhost:8090/rest/challenges');
+            return $http.get('http://localhost:8090/services/challenges');
         };
 
         return factory;

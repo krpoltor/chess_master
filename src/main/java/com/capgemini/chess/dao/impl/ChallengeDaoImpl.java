@@ -30,15 +30,13 @@ public class ChallengeDaoImpl extends AbstractDao<ChallengeEntity, Long> impleme
 	}
 
 	@Override
-	public List<ChallengeEntity> findAllChallengesByUser(String userName) {
+	public List<ChallengeEntity> findAllChallengesByUser(String login) {
 		TypedQuery<ChallengeEntity> query = //
 				entityManager.createQuery("SELECT challenge FROM ChallengeEntity challenge"//
 						+ " WHERE " 
-							+ "(challenge.sender.login = :userName"//
-						+ " OR " 
-							+ "challenge.receiver.login = :userName)"//
+							+ "(challenge.sender.login = :login"//
 						+ ")", ChallengeEntity.class);//
-		query.setParameter("userName", userName);
+		query.setParameter("login", login);
 		return query.getResultList();
 	}
 

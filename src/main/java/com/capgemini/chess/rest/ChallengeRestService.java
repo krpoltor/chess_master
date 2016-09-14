@@ -19,12 +19,15 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.capgemini.chess.exceptions.ChallengeNotFoundException;
 import com.capgemini.chess.exceptions.UserNotFoundException;
 import com.capgemini.chess.service.ChallengeService;
+import com.capgemini.chess.service.UserService;
 import com.capgemini.chess.service.to.ChallengeTo;
+import com.capgemini.chess.service.to.PlayerTo;
 
 @Controller
 @ResponseBody
 @Transactional
 @CrossOrigin(origins = "http://localhost:9000")
+@RequestMapping(value = "/services")
 public class ChallengeRestService {
 
 	private static Logger LOGGER = Logger.getLogger(ChallengeRestService.class.getName());
@@ -32,15 +35,18 @@ public class ChallengeRestService {
 	@Autowired
 	private ChallengeService challengeService;
 
+	@Autowired
+	private UserService userService;
+
 	/**
 	 * Finds all challenges. <br>
-	 * Usage: <i>/rest/challenges</i> with RequestMethod.<b>GET</b>
+	 * Usage: <i>/services/challenges</i> with RequestMethod.<b>GET</b>
 	 * 
 	 * @return HttpStatus.<b>NOT_FOUND</b> when database is empty or <br>
 	 *         List<ChallengeTo> containing every challenge in database and
 	 *         <b>HttpStatus.OK</b>.
 	 */
-	@RequestMapping(value = "/rest/challenges", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/challenges", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ChallengeTo>> getChallenge() {
 
 		LOGGER.info("Finding every challenge.");
@@ -59,7 +65,7 @@ public class ChallengeRestService {
 
 	/**
 	 * Finds all challenges of the user. <br>
-	 * Usage: <i>/rest/challenges/byUserId/{userId}</i> with RequestMethod.
+	 * Usage: <i>/services/challenges/byUserId/{userId}</i> with RequestMethod.
 	 * <b>GET</b>
 	 * 
 	 * @param userId
@@ -69,7 +75,7 @@ public class ChallengeRestService {
 	 *         List<ChallengeTo> with given user challenges and HttpStatus.
 	 *         <b>OK</b>
 	 */
-	@RequestMapping(value = "/rest/challenges/byUserId/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/challenges/byUserId/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ChallengeTo>> getUserChallenges(@PathVariable("userId") Long userId) {
 
 		LOGGER.info("Finding challenges of user with id: " + userId);
@@ -81,11 +87,11 @@ public class ChallengeRestService {
 		}
 		return new ResponseEntity<List<ChallengeTo>>(allUserChallenges, HttpStatus.OK);
 	}
-	
+
 	/**
 	 * Finds all challenges of the user. <br>
-	 * Usage: <i>/rest/challenges/byUserName/{userName}</i> with RequestMethod.
-	 * <b>GET</b>
+	 * Usage: <i>/services/challenges/byLogin/{login}</i> with
+	 * RequestMethod. <b>GET</b>
 	 * 
 	 * @param userName
 	 *            - login of a user.
@@ -94,12 +100,12 @@ public class ChallengeRestService {
 	 *         List<ChallengeTo> with given user challenges and HttpStatus.
 	 *         <b>OK</b>
 	 */
-	@RequestMapping(value = "/rest/challenges/byUserName/{userName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<List<ChallengeTo>> getUserChallenges(@PathVariable("userName") String userName) {
+	@RequestMapping(value = "/challenges/byLogin/{login}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ChallengeTo>> getUserChallenges(@PathVariable("login") String login) {
 
-		LOGGER.info("Finding challenges of user with login: " + userName);
+		LOGGER.info("Finding challenges of user with login: " + login);
 
-		List<ChallengeTo> allUserChallenges = challengeService.findAllChallengesByUser(userName);
+		List<ChallengeTo> allUserChallenges = challengeService.findAllChallengesByUser(login);
 
 		if (allUserChallenges.isEmpty()) {
 			return new ResponseEntity<List<ChallengeTo>>(HttpStatus.NOT_FOUND);
@@ -108,8 +114,33 @@ public class ChallengeRestService {
 	}
 
 	/**
+	 * Finds user. <br>
+	 * Usage: <i>/services/challenges/byUserId/{userId}</i> with RequestMethod.
+	 * <b>GET</b>
+	 * 
+	 * @param userId
+	 *            - ID of a user.
+	 * @return HttpStatus.<b>NOT_FOUND</b> when user doesn't have challenges or
+	 *         <br>
+	 *         List<ChallengeTo> with given user challenges and HttpStatus.
+	 *         <b>OK</b>
+	 */
+	@RequestMapping(value = "/user/{login}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<PlayerTo> getUser(@PathVariable("login") String login) {
+
+		LOGGER.info("Finding user with login: " + login);
+
+		PlayerTo user = userService.findUserByLogin(login);
+
+		if (user == null) {
+			return new ResponseEntity<PlayerTo>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<PlayerTo>(user, HttpStatus.OK);
+	}
+
+	/**
 	 * Get challenge by ID. <br>
-	 * Usage: <i>/rest/challenges/{id}</i> with RequestMethod.<b>GET</b>
+	 * Usage: <i>/services/challenges/{id}</i> with RequestMethod.<b>GET</b>
 	 * 
 	 * @param id
 	 *            - challenge ID.
@@ -117,7 +148,7 @@ public class ChallengeRestService {
 	 *         <br>
 	 *         found ChallengeTo with HttpStatus.<b>OK</b>.
 	 */
-	@RequestMapping(value = "/rest/challenges/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/challenges/{id}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<ChallengeTo> getChallenge(@PathVariable("id") Long id) {
 
 		ChallengeTo challenge = challengeService.findChallengeById(id);
@@ -131,15 +162,14 @@ public class ChallengeRestService {
 
 	/**
 	 * Add new challenge to Database. <br>
-	 * Usage: <i>/rest/challenges</i> with RequestMethod.<b>POST</b>
+	 * Usage: <i>/services/challenges</i> with RequestMethod.<b>POST</b>
 	 * 
 	 * @param challenge
 	 *            - challenge to add.
 	 * @return ChallengeTo and HttpStatus.<b>CREATED</b>.
 	 */
-	@RequestMapping(value = "/rest/challenges", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ChallengeTo> addChallenge(@RequestBody ChallengeTo challenge)
-			throws UserNotFoundException {
+	@RequestMapping(value = "/challenges", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ChallengeTo> addChallenge(@RequestBody ChallengeTo challenge) throws UserNotFoundException {
 
 		if (challengeService.doesThisChallengeExist(challenge)) {
 			LOGGER.warning("Challenge already exists!");
@@ -162,7 +192,7 @@ public class ChallengeRestService {
 	 * Update challenge from Database.
 	 * 
 	 * <br>
-	 * Usage: <i>/rest/challenges/{id}</i> with RequestMethod.<b>PUT</b>
+	 * Usage: <i>/services/challenges/{id}</i> with RequestMethod.<b>PUT</b>
 	 * 
 	 * @param id
 	 *            - ID of challenge to update.
@@ -172,7 +202,7 @@ public class ChallengeRestService {
 	 *         found or <br>
 	 *         updated ChallengeTo with HttpStatus.<b>OK</b>.
 	 */
-	@RequestMapping(value = "/rest/challenges/{id}", method = RequestMethod.PUT)
+	@RequestMapping(value = "/challenges/{id}", method = RequestMethod.PUT)
 	public ResponseEntity<ChallengeTo> updateChallenge(@PathVariable("id") Long id, @RequestBody ChallengeTo challenge)
 			throws UserNotFoundException, ChallengeNotFoundException {
 
@@ -192,7 +222,7 @@ public class ChallengeRestService {
 
 	/**
 	 * Delete challenge by its ID. <br>
-	 * Usage: <i>/rest/challenges/{id}</i> with RequestMethod.<b>DELETE</b>
+	 * Usage: <i>/services/challenges/{id}</i> with RequestMethod.<b>DELETE</b>
 	 * 
 	 * @param id
 	 *            - ID of challenge to delete.
@@ -201,7 +231,7 @@ public class ChallengeRestService {
 	 *         HttpStatus.<b>NO_CONTENT</b> when challenge was successfully
 	 *         deleted.
 	 */
-	@RequestMapping(value = "/rest/challenges/{id}", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/challenges/{id}", method = RequestMethod.DELETE)
 	public ResponseEntity<ChallengeTo> deleteChallenge(@PathVariable("id") Long id) {
 
 		LOGGER.info("Fetching & Deleting challenge with id " + id);
@@ -221,14 +251,14 @@ public class ChallengeRestService {
 	 * Delete every challenge.
 	 * 
 	 * <br>
-	 * Usage: <i>/rest/challenges</i> with RequestMethod.<b>DELETE</b>
+	 * Usage: <i>/services/challenges</i> with RequestMethod.<b>DELETE</b>
 	 * 
 	 * @param id
 	 *            - ID of challenge to delete.
 	 * @return HttpStatus.<b>NO_CONTENT</b> when challenges were successfully
 	 *         deleted.
 	 */
-	@RequestMapping(value = "/rest/challenges", method = RequestMethod.DELETE)
+	@RequestMapping(value = "/challenges", method = RequestMethod.DELETE)
 	public ResponseEntity<ChallengeTo> deleteAllChallenges() {
 
 		LOGGER.info("Deleting every challenge.");

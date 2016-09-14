@@ -1,5 +1,6 @@
 package com.capgemini.chess.service.impl;
 
+import java.util.List;
 import java.util.logging.Logger;
 
 import javax.persistence.EntityManager;
@@ -33,4 +34,18 @@ public class UserServiceImpl implements UserService {
 
 		return foundUser;
 	}
+
+	@Override
+	public PlayerTo findUserByLogin(String login) {
+		LOGGER.info("Finding user with login: " + login);
+		List<PlayerTo> foundUsers = PlayerMapper.map2TOs(userProfileDao.findByLogin(login));
+		PlayerTo foundUser = null;
+		if (foundUsers.size() == 0) {
+			foundUser = null;
+		} else {
+			foundUser = foundUsers.get(0);
+		}
+		return foundUser;
+	}
+
 }

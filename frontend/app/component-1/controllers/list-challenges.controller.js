@@ -1,5 +1,5 @@
 angular.module('app.component1')
-    .controller('ManageChallengesController', function($scope, ChallengesFactory) {
+    .controller('ListChallengesController', function($scope, ChallengesFactory) {
         'use strict';
 
         $scope.data = {
