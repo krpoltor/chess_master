@@ -1,7 +1,31 @@
 <!DOCTYPE html>
 <html>
+
 <body>
-<h2>Hello from Dialog A!</h2>
-<img src="main/img/Koala.jpg"/>
+    <section>
+        <h2>Hello from Dialog A!</h2>
+
+        <table class="table table-hover">
+            <thead>
+                <th>Status</th>
+                <th>White set player</th>
+                <th>Black set player</th>
+                <th>Send at</th>
+                <th>Ending at</th>
+            </thead>
+            <tbody>
+                <tr data-ng-repeat="challenge in data.challenges">
+                    <!-- <td> {{ $index}} </td> -->
+                    <td data-ng-bind="challenge.status"></td>
+                    <td data-ng-bind="challenge.whitePlayer.login"></td>
+                    <td data-ng-bind="challenge.blackPlayer.login"></td>
+                    <td data-ng-bind="challenge.startDate"></td>
+                    <td data-ng-bind="challenge.endDate"></td>
+                </tr>
+            </tbody>
+        </table>
+
+    </section>
 </body>
+
 </html>

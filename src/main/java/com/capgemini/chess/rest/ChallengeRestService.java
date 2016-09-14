@@ -9,6 +9,7 @@ import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +24,7 @@ import com.capgemini.chess.service.to.ChallengeTo;
 @Controller
 @ResponseBody
 @Transactional
+@CrossOrigin(origins = "http://localhost:9000")
 public class ChallengeRestService {
 
 	private static Logger LOGGER = Logger.getLogger(ChallengeRestService.class.getName());
