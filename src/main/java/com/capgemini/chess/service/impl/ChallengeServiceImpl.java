@@ -135,9 +135,9 @@ public class ChallengeServiceImpl implements ChallengeService {
 	}
 
 	@Override
-	public List<ChallengeTo> findAllChallengesByUser(PlayerTo user) {
+	public List<ChallengeTo> findAllChallengesByUser(String userName) {
 
-		List<ChallengeTo> toResultList = ChallengeMapper.map2TOs(challengeDao.findAllChallengesByUser(user));
+		List<ChallengeTo> toResultList = ChallengeMapper.map2TOs(challengeDao.findAllChallengesByUser(userName));
 
 		return toResultList;
 	}

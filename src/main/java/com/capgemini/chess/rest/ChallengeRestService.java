@@ -59,7 +59,7 @@ public class ChallengeRestService {
 
 	/**
 	 * Finds all challenges of the user. <br>
-	 * Usage: <i>/rest/challenges/byUser/{userId}</i> with RequestMethod.
+	 * Usage: <i>/rest/challenges/byUserId/{userId}</i> with RequestMethod.
 	 * <b>GET</b>
 	 * 
 	 * @param userId
@@ -69,12 +69,37 @@ public class ChallengeRestService {
 	 *         List<ChallengeTo> with given user challenges and HttpStatus.
 	 *         <b>OK</b>
 	 */
-	@RequestMapping(value = "/rest/challenges/byUser/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	@RequestMapping(value = "/rest/challenges/byUserId/{userId}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ChallengeTo>> getUserChallenges(@PathVariable("userId") Long userId) {
 
 		LOGGER.info("Finding challenges of user with id: " + userId);
 
 		List<ChallengeTo> allUserChallenges = challengeService.findAllChallengesByUserId(userId);
+
+		if (allUserChallenges.isEmpty()) {
+			return new ResponseEntity<List<ChallengeTo>>(HttpStatus.NOT_FOUND);
+		}
+		return new ResponseEntity<List<ChallengeTo>>(allUserChallenges, HttpStatus.OK);
+	}
+	
+	/**
+	 * Finds all challenges of the user. <br>
+	 * Usage: <i>/rest/challenges/byUserName/{userName}</i> with RequestMethod.
+	 * <b>GET</b>
+	 * 
+	 * @param userName
+	 *            - login of a user.
+	 * @return HttpStatus.<b>NOT_FOUND</b> when user doesn't have challenges or
+	 *         <br>
+	 *         List<ChallengeTo> with given user challenges and HttpStatus.
+	 *         <b>OK</b>
+	 */
+	@RequestMapping(value = "/rest/challenges/byUserName/{userName}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<List<ChallengeTo>> getUserChallenges(@PathVariable("userName") String userName) {
+
+		LOGGER.info("Finding challenges of user with login: " + userName);
+
+		List<ChallengeTo> allUserChallenges = challengeService.findAllChallengesByUser(userName);
 
 		if (allUserChallenges.isEmpty()) {
 			return new ResponseEntity<List<ChallengeTo>>(HttpStatus.NOT_FOUND);

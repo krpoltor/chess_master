@@ -12,7 +12,6 @@ import org.springframework.stereotype.Component;
 import com.capgemini.chess.dao.ChallengeDao;
 import com.capgemini.chess.generated.entities.ChallengeEntity;
 import com.capgemini.chess.service.to.ChallengeTo;
-import com.capgemini.chess.service.to.PlayerTo;
 
 @Component
 public class ChallengeDaoImpl extends AbstractDao<ChallengeEntity, Long> implements ChallengeDao {
@@ -31,15 +30,15 @@ public class ChallengeDaoImpl extends AbstractDao<ChallengeEntity, Long> impleme
 	}
 
 	@Override
-	public List<ChallengeEntity> findAllChallengesByUser(PlayerTo user) {
+	public List<ChallengeEntity> findAllChallengesByUser(String userName) {
 		TypedQuery<ChallengeEntity> query = //
 				entityManager.createQuery("SELECT challenge FROM ChallengeEntity challenge"//
 						+ " WHERE " 
-							+ "(challenge.sender.id = :userId"//
+							+ "(challenge.sender.login = :userName"//
 						+ " OR " 
-							+ "challenge.receiver.id = :userId)"//
+							+ "challenge.receiver.login = :userName)"//
 						+ ")", ChallengeEntity.class);//
-		query.setParameter("userId", user.getId());
+		query.setParameter("userName", userName);
 		return query.getResultList();
 	}
 

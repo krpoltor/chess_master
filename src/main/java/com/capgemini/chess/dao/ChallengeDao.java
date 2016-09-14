@@ -20,7 +20,7 @@ public interface ChallengeDao extends Dao<ChallengeEntity, Long>{
 	 *            - ID of a user.
 	 * @return - List<ChallngeTo> with user's challenges.
 	 */
-	List<ChallengeEntity> findAllChallengesByUser(PlayerTo user);
+	List<ChallengeEntity> findAllChallengesByUser(String userName);
 
 	/**
 	 * Finds all challenges by user id.

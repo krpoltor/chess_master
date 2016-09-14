@@ -52,11 +52,11 @@ public interface ChallengeService {
 	/**
 	 * Finds all challenges of the user.
 	 * 
-	 * @param user
-	 *            - User.
+	 * @param userName
+	 *            - User login.
 	 * @return List<ChallengeTo> with every challenge of the user.
 	 */
-	List<ChallengeTo> findAllChallengesByUser(PlayerTo user);
+	List<ChallengeTo> findAllChallengesByUser(String userName);
 
 	/**
 	 * Finds challenge by its ID.
