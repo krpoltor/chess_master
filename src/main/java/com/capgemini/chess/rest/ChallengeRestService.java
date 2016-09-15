@@ -196,12 +196,12 @@ public class ChallengeRestService {
 	 *            - challenge to add.
 	 * @return ChallengeTo and HttpStatus.<b>CREATED</b>.
 	 */
-	@RequestMapping(value = "/challenge", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ChallengeTo> addChallengeByLogins(@RequestBody String whiteSetPlayerLogin, String blackSetPlayerLogin) throws UserNotFoundException {
+	@RequestMapping(value = "/challenge123", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ChallengeTo> addChallengeByLogins(@RequestBody String[] player) throws UserNotFoundException {
 
-		LOGGER.info("Creating challenge between: " + whiteSetPlayerLogin + " and " + blackSetPlayerLogin);
-		PlayerTo whitePlayer = userService.findUserByLogin(whiteSetPlayerLogin);
-		PlayerTo blackPlayer = userService.findUserByLogin(blackSetPlayerLogin);
+		LOGGER.info("Creating challenge between: " + player[0] + " and " + player[1]);
+		PlayerTo whitePlayer = userService.findUserByLogin(player[0]);
+		PlayerTo blackPlayer = userService.findUserByLogin(player[1]);
 		ChallengeTo challenge = challengeService.createChallenge(whitePlayer, blackPlayer);
 		LOGGER.info("Challenge created");
 

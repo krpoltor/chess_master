@@ -3,6 +3,11 @@ angular.module('app.component2')
         function($scope, $modalInstance, PlayersFactory, LoginForModalFactory, AuthenticatedFactory, CrudService) {
             'use strict';
 
+            var players = {
+              whitePlayer: '',
+              blackPlayer: ''
+            };
+
             $scope.data = {
                 loginForm: {
                     login: '',
@@ -16,7 +21,9 @@ angular.module('app.component2')
             $scope.data.loginValue = LoginForModalFactory.login;
 
             $scope.duel = function() {
-                CrudService.post($scope.data.loginValue, $scope.data.oponnent);
+              players.whitePlayer = $scope.data.loginValue;
+              players.blackPlayer = $scope.data.oponnent;
+                CrudService.post(players);
 
             };
 
