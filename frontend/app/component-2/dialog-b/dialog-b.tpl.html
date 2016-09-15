@@ -5,25 +5,49 @@
     <!-- process:include component-2/dialog-b/dialog-b-inner.html -->
     <!-- /process -->
     <section>
-        <div data-ng-show="isAuthenticated">
-        <!-- <div> -->
-            <table class="table table-hover">
-                <thead>
-                    <th>Status</th>
-                    <th>Opponent</th>
-                    <th>Send at</th>
-                    <th>Ending at</th>
-                </thead>
-                <tbody>
-                    <tr data-ng-repeat="challenge in data.challenges">
-                        <td data-ng-bind="challenge.status"></td>
-                        <td data-ng-bind="challenge.blackPlayer.login"></td>
-                        <td data-ng-bind="challenge.startDate"></td>
-                        <td data-ng-bind="challenge.endDate"></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
+        <h3 data-ng-if="!data.isAuthenticated">You need to be logged in to manage your challenges.</h3>
+        <div data-ng-if="data.isAuthenticated">
+            <div>
+                </p>
+                <button class="btn btn-info"
+                     data-ng-click="addChallenge()">
+                 <span
+                 class="glyphicon glyphicon-envelope"
+                 aria-hidden="true"></span>
+            Send new challenge</button>
+                <table class="table table-hover">
+                    <thead>
+                        <th>Status</th>
+                        <th>Opponent</th>
+                        <th>Send at</th>
+                        <th>Ending at</th>
+                        <th>Choose response</th>
+                    </thead>
+                    <tbody>
+                        <tr data-ng-repeat="challenge in data.challenges">
+                            <td data-ng-bind="challenge.status"></td>
+                            <td data-ng-bind="challenge.blackPlayer.login"></td>
+                            <td data-ng-bind="challenge.startDate"></td>
+                            <td data-ng-bind="challenge.endDate"></td>
+                            <td>
+                                <button class="btn btn-success"
+                                     data-ng-click="accept(this)"
+                                     data-ng-required="data.disableModification">
+                                 <span
+                                 class="glyphicon glyphicon-ok"
+                                 aria-hidden="true"></span>
+                              Accept</button>
+                                <button class="btn btn-danger"
+                                     data-ng-click="decline(this)">
+                                 <span
+                                 class="glyphicon glyphicon-remove"
+                                 aria-hidden="true"></span>
+                                Decline</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
     </section>
 </body>
 

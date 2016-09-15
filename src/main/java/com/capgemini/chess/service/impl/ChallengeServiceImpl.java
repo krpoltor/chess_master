@@ -65,7 +65,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 		ChallengeEntity entityToSave = ChallengeMapper.update(challengeFromDatabase, challengeTo);
 
 		challengeDao.update(entityToSave);
-	}
+	} 
 
 	@Override
 	public ChallengeTo createChallenge(PlayerTo whitePlayerTo, PlayerTo blackPlayerTo) {

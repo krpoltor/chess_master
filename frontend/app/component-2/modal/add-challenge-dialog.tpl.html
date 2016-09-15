@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+
+<head lang="en">
+    <meta charset="UTF-8">
+    <title></title>
+</head>
+
+<body>
+    <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="modal-title">Who would you like to challenge?</h3>
+        </div>
+        <div class="modal-body">
+            <form name="data.duelForm">
+                <p><b>Say his name:</b></p>
+                <div class="form-group"
+                     data-ng-class="{'has-error bg-danger': data.duelForm.oponnent.$invalid}">
+                    <input name="oponnent"
+                         class="form-control"
+                         data-ng-required="true"
+                         type="text"
+                         data-ng-model="data.oponnent" />
+                </div>
+            </form>
+        </div>
+        <div class="modal-footer ">
+            <button class="btn btn-success"
+                 data-ng-click="duel()">
+              <span class="glyphicon glyphicon-flash" aria-hidden="true"></span>
+              Login</button>
+        </div>
+    </div>
+</body>
+
+</html>

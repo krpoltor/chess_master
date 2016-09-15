@@ -15,7 +15,11 @@ insert into player (id,statistics_id,login,password,name,surname,email,about_me,
 
 
 insert into game (id,version, created_at, modified_at) values (1,0,'2016-08-24 13:20:00','2016-08-24 13:20:00')
+insert into game (id,version, created_at, modified_at) values (2,0,'2016-08-24 13:20:00','2016-08-24 13:20:00')
+insert into game (id,version, created_at, modified_at) values (3,0,'2016-08-24 13:20:00','2016-08-24 13:20:00')
 
+insert into challenge (id,sender_id, receiver_id, start_date, end_date, status, game_id, version, created_at, modified_at) values (1,1,2,'2016-08-24 13:20:00','2016-09-03 13:20:00','AWAITING_REPLY',1,0,'2016-08-24 13:20:00','2016-08-24 13:20:00');
+insert into challenge (id,sender_id, receiver_id, start_date, end_date, status, game_id, version, created_at, modified_at) values (2,1,4,'2016-08-24 13:20:00','2016-09-03 13:20:00','DECLINED',3,0,'2016-08-24 13:20:00','2016-08-24 13:20:00');
+insert into challenge (id,sender_id, receiver_id, start_date, end_date, status, game_id, version, created_at, modified_at) values (3,3,2,'2016-08-24 23:20:00','2016-09-03 13:20:00','ACCEPTED',2,0,'2016-08-24 13:20:00','2016-08-24 13:20:00');
 
-insert into challenge (id,sender_id, receiver_id, start_date, end_date, status, game_id, version, created_at, modified_at) values (1,1,2,'2016-08-24 13:20:00','2016-09-03 13:20:00','INIT',1,0,'2016-08-24 13:20:00','2016-08-24 13:20:00');
 

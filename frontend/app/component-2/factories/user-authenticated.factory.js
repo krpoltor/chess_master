@@ -3,15 +3,22 @@ angular.module('app.component2')
         'use strict';
 
         var data = {
-            isAuthenticated: ''
+            isAuthenticated: false,
+            isLogged: false
         };
 
         return {
-            getAuthenticated: function() {
+            getIsAuthenticated: function() {
                 return data.isAuthenticated;
             },
-            setAuthenticated: function(firstName) {
-                data.isAuthenticated = firstName;
+            setIsAuthenticated: function(state) {
+                data.isAuthenticated = state;
+            },
+            getIsLogged: function() {
+                return data.isLogged;
+            },
+            setIsLogged: function(state) {
+                data.isLogged = state;
             }
         };
 

@@ -114,7 +114,7 @@ public class ChallengeRestService {
 	}
 
 	/**
-	 * Finds user. <br>
+	 * Find user. <br>
 	 * Usage: <i>/services/challenges/byUserId/{userId}</i> with RequestMethod.
 	 * <b>GET</b>
 	 * 
@@ -183,6 +183,26 @@ public class ChallengeRestService {
 
 		LOGGER.info("Creating challenge: " + challenge.toString());
 		challengeService.saveChallenge(challenge);
+		LOGGER.info("Challenge created");
+
+		return new ResponseEntity<ChallengeTo>(challenge, HttpStatus.CREATED);
+	}
+	
+	/**
+	 * Add new challenge to Database based only on players' logins. <br>
+	 * Usage: <i>/services/challenges</i> with RequestMethod.<b>POST</b>
+	 * 
+	 * @param challenge
+	 *            - challenge to add.
+	 * @return ChallengeTo and HttpStatus.<b>CREATED</b>.
+	 */
+	@RequestMapping(value = "/challenge", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ChallengeTo> addChallengeByLogins(@RequestBody String whiteSetPlayerLogin, String blackSetPlayerLogin) throws UserNotFoundException {
+
+		LOGGER.info("Creating challenge between: " + whiteSetPlayerLogin + " and " + blackSetPlayerLogin);
+		PlayerTo whitePlayer = userService.findUserByLogin(whiteSetPlayerLogin);
+		PlayerTo blackPlayer = userService.findUserByLogin(blackSetPlayerLogin);
+		ChallengeTo challenge = challengeService.createChallenge(whitePlayer, blackPlayer);
 		LOGGER.info("Challenge created");
 
 		return new ResponseEntity<ChallengeTo>(challenge, HttpStatus.CREATED);
