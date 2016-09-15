@@ -27,7 +27,6 @@ angular.module('app.component2')
                         $modalInstance.close();
                         LoginForModalFactory.login = $scope.data.player.login;
                         $scope.isAuthenticated = true;
-                        alert('');
 
                     } else {
                         alert('Login or password incorrect!');
