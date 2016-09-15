@@ -1,10 +1,10 @@
 angular.module('app.component2')
-    .controller('LoginDialogController', ['$scope', '$modalInstance', 'PlayersFactory', 'LoginForModalService', 'AuthenticatedService',
-    function($scope, $modalInstance, PlayersFactory, LoginForModalService, AuthenticatedService) {
+    .controller('LoginDialogController',['$scope', '$modalInstance', 'PlayersFactory', 'LoginForModalFactory',
+    function($scope, $modalInstance, PlayersFactory, LoginForModalFactory) {
         'use strict';
 
-        $scope.data.loginValue = LoginForModalService.login;
-        $scope.data.authenticated = AuthenticatedService.authenticated;
+        $scope.loginValue = LoginForModalFactory.login;
+
 
         $scope.login = function() {
 
@@ -20,12 +20,18 @@ angular.module('app.component2')
                     alert('Logged in!');
 
                     $modalInstance.close();
-                    LoginForModalService.login = $scope.data.player.login;
+                    // AuthenticatedModalService.setAuthenticated(true);
+                    // AuthenticatedModalService.setLogin($scope.data.fields.login);
+                      LoginForModalFactory.login = $scope.data.player.login;
+                      alert('');
 
                 } else {
                     alert('Login or password incorrect!');
-                    // LoginForModalService.login(false);
+                    AuthenticatedModalService.setAuthenticated(false);
                 }
+
             });
         };
+
+
     }]);

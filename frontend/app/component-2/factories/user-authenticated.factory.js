@@ -1,5 +1,5 @@
 angular.module('app.component2')
-    .factory('AuthenticatedService', function() {
+    .factory('AuthenticatedFactory', function() {
         'use strict';
 
         return { authenticated: false };

@@ -49,7 +49,7 @@ public class ChallengeRestService {
 	@RequestMapping(value = "/challenges", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ChallengeTo>> getChallenge() {
 
-		LOGGER.info("Finding every challenge.");
+		LOGGER.info("Finding every challenge."); 
 
 		List<ChallengeTo> allChallenges = challengeService.findAllChallenges();
 
@@ -98,7 +98,7 @@ public class ChallengeRestService {
 	 * @return HttpStatus.<b>NOT_FOUND</b> when user doesn't have challenges or
 	 *         <br>
 	 *         List<ChallengeTo> with given user challenges and HttpStatus.
-	 *         <b>OK</b>
+	 *         <b>OK</b> 
 	 */
 	@RequestMapping(value = "/challenges/byLogin/{login}", method = RequestMethod.GET, produces = MediaType.APPLICATION_JSON_VALUE)
 	public ResponseEntity<List<ChallengeTo>> getUserChallenges(@PathVariable("login") String login) {

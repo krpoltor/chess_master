@@ -1,22 +1,25 @@
 angular.module('app.component2')
-    .controller('ManageChallengesController', ['$scope', '$modal', '$route', 'LoginForModalService', 'ChallengesFactory', 'AuthenticatedService'
-    function($scope, $modal, $route, LoginForModalService, ChallengesFactory, AuthenticatedService) {
+    .controller('ManageChallengesController', ['$scope', '$modal', '$route', 'LoginForModalFactory', 'ChallengesFactory',
+    function($scope, $modal, $route, LoginForModalFactory, ChallengesFactory) {
         'use strict';
 
         $scope.data = {
             challenges: []
 
+            // ,
+            // authenticated: false
         };
 
+        // if (!$scope.data.authenticated) {
         $modal.open({
             templateUrl: '/component-2/modal/login-dialog.tpl.html',
             controller: 'LoginDialogController',
             size: 'lg'
         }).result.then(function(result) {
             {
-                $scope.data.loginValue = LoginForModalService.login;
+                $scope.loginValue = LoginForModalFactory.login;
 
-                ChallengesFactory.getPlayerChallenges($scope.data.loginValue).success(function(response) {
+                ChallengesFactory.getPlayerChallenges($scope.loginValue).success(function(response) {
                     $scope.data.challenges = response;
 
                     for (var i = 0, len = $scope.data.challenges.length; i < len; i++) {
@@ -36,5 +39,15 @@ angular.module('app.component2')
             }
 
         });
+
+        // }
+
+
+
+        // $scope.data.authenticated = AuthenticatedModalService.getAuthenticated();
+
+        //$route.reload();
+
+
 
     }]);

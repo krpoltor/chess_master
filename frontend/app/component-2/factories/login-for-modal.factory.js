@@ -1,5 +1,5 @@
 angular.module('app.component2')
-    .factory('LoginForModalService', function() {
+    .factory('LoginForModalFactory', function() {
         'use strict';
 
         return { login: '' };
