@@ -16,8 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.capgemini.chess.exceptions.ChallengeExistsException;
 import com.capgemini.chess.exceptions.ChallengeNotFoundException;
 import com.capgemini.chess.exceptions.UserNotFoundException;
+import com.capgemini.chess.incoming.data.Players;
 import com.capgemini.chess.service.ChallengeService;
 import com.capgemini.chess.service.UserService;
 import com.capgemini.chess.service.to.ChallengeTo;
@@ -196,13 +198,21 @@ public class ChallengeRestService {
 	 *            - challenge to add.
 	 * @return ChallengeTo and HttpStatus.<b>CREATED</b>.
 	 */
-	@RequestMapping(value = "/challenge123", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
-	public ResponseEntity<ChallengeTo> addChallengeByLogins(@RequestBody String[] player) throws UserNotFoundException {
+	@RequestMapping(value = "/challenge", method = RequestMethod.POST, produces = MediaType.APPLICATION_JSON_VALUE)
+	public ResponseEntity<ChallengeTo> addChallengeByLogins(@RequestBody Players players) throws UserNotFoundException {
 
-		LOGGER.info("Creating challenge between: " + player[0] + " and " + player[1]);
-		PlayerTo whitePlayer = userService.findUserByLogin(player[0]);
-		PlayerTo blackPlayer = userService.findUserByLogin(player[1]);
-		ChallengeTo challenge = challengeService.createChallenge(whitePlayer, blackPlayer);
+		LOGGER.info("Creating challenge between: " + players.getWhitePlayer() + " and " + players.getBlackPlayer());
+		PlayerTo whitePlayer = userService.findUserByLogin(players.getWhitePlayer());
+		PlayerTo blackPlayer = userService.findUserByLogin(players.getBlackPlayer());
+		
+		ChallengeTo challenge = null;
+		try {
+			challenge = challengeService.createChallenge(whitePlayer, blackPlayer);
+		} catch (ChallengeExistsException e) {
+			//e.printStackTrace();
+			LOGGER.severe("Challenge not created!");
+			return new ResponseEntity<ChallengeTo>(challenge, HttpStatus.CONFLICT);
+		}
 		LOGGER.info("Challenge created");
 
 		return new ResponseEntity<ChallengeTo>(challenge, HttpStatus.CREATED);

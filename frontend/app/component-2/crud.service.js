@@ -1,16 +1,20 @@
 angular.module('app.component2')
-    .service('CrudService', ['$http', function($http) {
+    .service('CrudService', ['$http','$route', function($http,$route) {
         'use strict';
 
         this.post = function(players) {
             $http({
                 method: 'POST',
-                url: '/services/challenge123',
+                url: '/services/challenge',
                 data: players
             }).then(function successCallback(response) {
-                alert('SUCCEED ' + response.status + response);
+                // alert('SUCCEED ' + response);
+                // $route.reload();
             }, function errorCallback(response) {
-                alert('FAILED ' + response.status);
+                // alert('FAILED ' + response);
+                if (response.status == 409) {
+                    alert('Cannot challenge this player more then once at the same time!');
+                }
             });
         };
 

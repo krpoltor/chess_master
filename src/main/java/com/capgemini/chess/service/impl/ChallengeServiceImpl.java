@@ -13,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.capgemini.chess.dao.ChallengeDao;
 import com.capgemini.chess.dataaccess.enums.ChallengeStatus;
+import com.capgemini.chess.exceptions.ChallengeExistsException;
 import com.capgemini.chess.exceptions.ChallengeNotFoundException;
 import com.capgemini.chess.exceptions.UserNotFoundException;
 import com.capgemini.chess.generated.entities.ChallengeEntity;
@@ -23,7 +24,7 @@ import com.capgemini.chess.service.to.ChallengeTo;
 import com.capgemini.chess.service.to.PlayerTo;
 
 @Service
-@Transactional
+//@Transactional
 public class ChallengeServiceImpl implements ChallengeService {
 
 	private static int FOURTEEN_DAYS = 14;
@@ -65,7 +66,7 @@ public class ChallengeServiceImpl implements ChallengeService {
 		ChallengeEntity entityToSave = ChallengeMapper.update(challengeFromDatabase, challengeTo);
 
 		challengeDao.update(entityToSave);
-	} 
+	}
 
 	@Override
 	public ChallengeTo createChallenge(PlayerTo whitePlayerTo, PlayerTo blackPlayerTo) {
@@ -86,12 +87,21 @@ public class ChallengeServiceImpl implements ChallengeService {
 		newChallenge.setModifiedAt(new Date());
 		newChallenge.setStatus(ChallengeStatus.AWAITING_REPLY);
 
-		ChallengeEntity newChallengeEntity = ChallengeMapper.map(newChallenge);
+		if (doesThisChallengeExist(newChallenge)) {
+			
+			LOGGER.severe("Challenge between players already in database!");
+			throw new ChallengeExistsException();
 
-		challengeDao.save(newChallengeEntity);
+		} else {
+			ChallengeEntity newChallengeEntity = ChallengeMapper.map(newChallenge);
 
-		LOGGER.info("Challenge created.");
-		return newChallenge;
+			challengeDao.save(newChallengeEntity);
+
+			LOGGER.info("Challenge created.");
+			return newChallenge;
+
+		}
+
 	}
 
 	private Date addDaysToGivenDate(final Date startDate, final int numberOfDaysToAdd) {
